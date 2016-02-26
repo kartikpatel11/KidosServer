@@ -1,0 +1,50 @@
+
+/**
+ * Module dependencies.
+ */
+
+var express = require('express')
+  , routes = require('./routes')
+  , user = require('./routes/user')
+  , http = require('http')
+  , path = require('path')
+  , mongoose = require('mongoose');
+
+var app = express();
+
+// all environments
+app.set('port', process.env.PORT || 5222);
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
+app.use(express.favicon());
+app.use(express.logger('dev'));
+app.use(express.bodyParser());
+app.use(express.methodOverride());
+app.use(app.router);
+app.use(express.static(path.join(__dirname, 'public')));
+
+mongoose.connect('mongodb://localhost/kidosdb');
+
+// development only
+if ('development' == app.get('env')) {
+  app.use(express.errorHandler());
+}
+
+var api = require('./controllers/api.js');
+
+app.get('/', routes.index);
+app.get('/users', user.list);
+app.get('/listcategories', api.listCategories);
+app.get('/listcategories/:catId', api.categoryById);
+app.get('/download/:file(*)', api.downloadFile);
+app.get('/findnearbyactivitiesbycategory/:longitude/:latitude/:id', api.findnearbyactivitiesbycategory);
+app.get('/findnearbyactivities/:longitude/:latitude', api.findnearbyactivities);
+app.get('/findnearbyactivitiestype/:longitude/:latitude', api.findnearbyactivitiestype);
+app.get('/getactivitydetails/:activityid', api.getactivitydetails);
+app.get('/kidoswebgui/test', function(req,res){
+	res.send("hi, this is my first angularjs response");
+});
+
+http.createServer(app).listen(app.get('port'), function(){
+  console.log('Express server listening on port ' + app.get('port'));
+});

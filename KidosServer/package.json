@@ -1,0 +1,16 @@
+{
+  "name": "KidosServer",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "ejs": "*",
+    "express": "3.2.6",
+    "jinq": "^1.5.8",
+    "mime":"^1.3.4",
+    "mongoose": "^4.2.9"
+    		  
+  }
+}
