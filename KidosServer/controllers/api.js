@@ -27,7 +27,11 @@ exports.categoryById = (function(req,res){
 //'/download/:file(*)'
 exports.downloadFile = (function(req,res){
 	  var file = req.params.file
+<<<<<<< HEAD
 	    , path =  '/home/ec2-user/KidosServer/files/' + file;
+=======
+	    , path =  '/Users/Kartik/Documents/workspace/KidosServer/files/' + file;
+>>>>>>> c6af350e28616f4a0a89fd42799c2ecaddb754fb
 
 	  var mimetype = mime.lookup(file);
 
