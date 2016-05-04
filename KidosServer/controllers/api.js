@@ -2,7 +2,6 @@ var mongoose=require('mongoose'),
 Schema=mongoose.Schema;
 var fs = require('fs');
 var mime=require('mime');
-var jinqJs = require('jinq');
 var cat = require('../models/categorymaster.js');
 var activities = require('../models/activities.js');
 
@@ -27,7 +26,7 @@ exports.categoryById = (function(req,res){
 //'/download/:file(*)'
 exports.downloadFile = (function(req,res){
 	  var file = req.params.file
-	    , path =  '/Users/Kartik/Documents/workspace/KidosServer/files/' + file;
+	    , path =  '/home/ec2-user/KidosServer/files/' + file;
 
 	  var mimetype = mime.lookup(file);
 
