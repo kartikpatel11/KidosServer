@@ -30,6 +30,7 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+//used by kidos app
 var api = require('./controllers/api.js');
 
 app.get('/', routes.index);
@@ -44,6 +45,11 @@ app.get('/getactivitydetails/:activityid', api.getactivitydetails);
 app.get('/kidoswebgui/test', function(req,res){
 	res.send("hi, this is my first angularjs response");
 });
+
+//used by kidos web
+var webapi = require('./controllers/webapi.js');
+
+app.post('/registeractivity', webapi.registeractivity);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

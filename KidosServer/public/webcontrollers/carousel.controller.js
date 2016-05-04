@@ -1,4 +1,4 @@
-angular.module('KidosApp').controller('CarouselDemoCtrl', function ($scope) {
+angular.module('kidosApp').controller('CarouselDemoCtrl', function ($scope) {
   $scope.myInterval = 5000;
   $scope.noWrapSlides = false;
   var slides = $scope.slides = [];
@@ -12,6 +12,7 @@ angular.module('KidosApp').controller('CarouselDemoCtrl', function ($scope) {
     });
   };
   for (var i=1; i<6; i++) {
+    alert(i);
     $scope.addSlide(i);
   }
 });

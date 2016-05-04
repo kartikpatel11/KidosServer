@@ -1,56 +1,162 @@
-var kidosApp = angular.module('KidosApp',['ngAnimate','ui.bootstrap','ui.router']);
+var kidosApp = angular.module('kidosApp',['ui.bootstrap','ui.router']);
 
 	kidosApp.config(function($stateProvider, $urlRouterProvider) {
     
-    $urlRouterProvider.otherwise('/home');
-    
-    $stateProvider
+    $urlRouterProvider.otherwise('/');
         
-        .state('home', {
-            url: '/home',
-            templateUrl: 'carousel.html',
-            controller: 'CarouselDemoCtrl'
+
+        $stateProvider.state('/', {
+            url: '/',
+            templateUrl: 'kidoshome.html',
+            controller: 'KidosAppCtrl'
         })
         
-        .state('getapp', {
-        	url: '/getapp',
-        	templateUrl: 'getapp.html',
-        	controller: 'GetAppCtrl'
+
+        //KidosRegistration Links Starts
+        .state('signup', {
+            url: '/signup',
+            templateUrl: 'kidosregistration.html',
+            controller: 'KidosAppCtrl'
         
         })
+
         
-        .state('register', {
-            url: '/register',
-            templateUrl: 'register.html',
-            controller: 'RegisterCtrl'
+        .state('step1', {
+            url: '/signup#step1',
+            templateUrl: 'kidosregistration.html#step1',
+            controller: 'KidosAppCtrl'
+        
+        })
+
+        .state('step2', {
+            url: '/signup#step2',
+            templateUrl: 'kidosregistration.html#step2',
+            controller: 'KidosAppCtrl'
+        
+        })
+
+        .state('step3', {
+            url: '/signup#step3',
+            templateUrl: 'kidosregistration.html#step3',
+            controller: 'KidosAppCtrl'
+        
+        })
+
+        .state('complete', {
+            url: '/signup#complete',
+            templateUrl: 'kidosregistration.html#complete',
+            controller: 'KidosAppCtrl'
+        
+        })
+
+        //KidosRegistration Links Ends
+
+        $stateProvider.state('gallery', {
+            url: '/#gallery',
+            templateUrl: 'kidoshome.html#gallery',
+            controller: 'KidosAppCtrl'
+        })
+
+         $stateProvider.state('feedback', {
+            url: '/#feedback',
+            templateUrl: 'kidoshome.html#feedback',
+            controller: 'KidosAppCtrl'
         })
         
-        // nested states 
-        // each of these sections will have their own view
-        // url will be nested (/form/profile)
-        .state('register.profile', {
-            url: '/profile',
-            templateUrl: 'register-profile.html'
-        })
-        
-        // url will be /form/interests
-        .state('register.activities', {
-            url: '/activities',
-            templateUrl: 'register-activities.html'
-        })
-        
+   
+
       });
         
 
        
 
 
-kidosApp.controller('KidosAppCtrl', function($scope,$http) {
+kidosApp.controller('KidosAppCtrl', function($scope,$http,$location) {
   
-  $http.get("/kidoswebgui/test").success(function(response){
+ /* $http.get("/kidoswebgui/test").success(function(response){
   
   $scope.logo = "../images/kidos_logo.png";  
   $scope.message = response;
   });
-  
+  */
+
+   $scope.myInterval = 5000;
+  $scope.noWrapSlides = false;
+  var slides = $scope.slides = [];
+
+  $scope.addSlide = function(i) {
+    slides.push({
+     // image: '//placekitten.com/' + newWidth + '/300',
+        image: '../images/kidosweb'+i+'.jpeg',
+        //text: ['More','Extra','Lots of','Surplus'][slides.length % 4] + ' ' +
+       // ['Cats', 'Kittys', 'Felines', 'Cutes'][slides.length % 4]
+    });
+  };
+  for (var i=1; i<6; i++) {
+    $scope.addSlide(i);
+  }
+
+  $scope.template = {
+    "kidosjumbotron": "jumbotron.html",
+    "kidosfeedback": "feedback.html",
+    "kidosgallery": "gallery.html"
+  }
+
+
+
+  $scope.form = {};
+
+//used for activity details
+    $scope.daylist= [
+        {day:'Mon'},
+        {day:'Tue'},
+        {day:'Wed'},
+        {day:'Thu'},
+        {day:'Fri'},
+        {day:'Sat'},
+        {day:'Sun'}
+    ];
+
+    batches = 
+    [
+
+    ];
+
+     $scope.form= {
+        batches:batches
+    };
+
+    $scope.availablefeeunits = [
+        'Per Month','Per Session','Per Batch'];
+        
+
+    $scope.addBatch= function()
+    {
+         var seldays = [];
+        angular.forEach($scope.daylist, function(days){
+            if (days.selected) 
+                {
+                    seldays.push(days.day);
+                    //cleanup for next input
+                    days.selected=false;
+                }
+        });
+        
+        var panelbody=$scope.from + "-"+ $scope.to;
+        $scope.form.batches.push({days: seldays.toString(),time:panelbody});
+        //cleanup for next input
+        $scope.from =null;
+        $scope.to=null;
+    };
+
+
+
+
+  $scope.registerActivity = function () {
+
+    $http.post('http://localhost:5222/registeractivity', $scope.form).
+      success(function(data) {
+        $location.path('/');
+      }); 
+  };
 });
