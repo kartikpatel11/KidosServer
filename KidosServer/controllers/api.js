@@ -5,6 +5,7 @@ var mime=require('mime');
 var cat = require('../models/categorymaster.js');
 var activities = require('../models/activities.js');
 
+
 //'/listcategories'
 exports.listCategories = (function(req, res) {
 	console.log("In listCategories::")
@@ -112,6 +113,8 @@ exports.getactivitydetails = (function(req,res) {
 
 
 //'/findnearbyactivitiestype'
+/*
+
 exports.findnearbyactivitiestype = (function(req,res) {
 	
 	cat.find(function (err, docs) {
@@ -194,9 +197,65 @@ exports.findnearbyactivitiestype = (function(req,res) {
 		    
 	    
 	    
+}); */
+
+exports.findnearbyactivitiestype = (function(req,res) {
+	
+	
+	 var limit = req.query.limit || 50;
+	    var maxDistance = req.query.distance || 15000;
+
+	   // maxDistance /= 6371;
+	    
+	    var coords = [];
+	    coords[0] = req.params.longitude;
+	    coords[1] = req.params.latitude;
+
+	    activities.aggregate([
+	    	{
+	    		$geoNear: 
+	        	{
+	        		maxDistance: 15000,
+	        		near:  [72.86359049999999,19.1403155],
+	    			distanceField: "distance",
+	    			spherical: true
+	        	}
+	    	},
+        	{ 
+        		$group: 
+        		{
+        			_id: 
+        			{
+        				"_id":"$type._id",
+        				"catId":"$type.catId",
+        				"catName": "$type.catName",
+        				"catImg": "$type.catImg"
+        			},
+        			total: { $sum: 1  }
+        		}
+        	},
+	    	{ 
+        		$project: 
+        		{ 
+        			_id:"$_id._id",
+        			catId: "$_id.catId",
+        			catName: "$_id.catName",
+        			catImg: "$_id.catImg",
+        			total: 1
+        		} 
+        	}
+	    	
+        	
+	      
+	    ]).limit(limit).exec(function(err, activitydoc) {
+	      if (err) {
+	        return res.json(500, err);
+	      }
+	      res.json(activitydoc);
+	    }
+	);
+	
 });
-
-
 
 
 

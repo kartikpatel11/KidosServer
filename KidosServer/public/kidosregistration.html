@@ -175,8 +175,8 @@
 					    
 					    <div class="padding-top-10" id="map_canvas" style="width: 100%; height: 300px;"></div>
 					    <div class="row">
-					    	<div class="col-md-3"><input class="form-control input-sm" ng-model="form.loc.coordinates.latitude" id="latitude" type="text" placeholder="Lattitude"></div>
-					       	<div class="col-md-3"><input class="form-control input-sm" ng-model="form.loc.coordinates.longitude" id="longitude" type="text" placeholder="Longituide"></div>
+					    	<div class="col-md-3"><input class="form-control input-sm" ng-model="form.latitude" id="latitude" type="text" placeholder="Lattitude"></div>
+					       	<div class="col-md-3"><input class="form-control input-sm" ng-model="form.longitude" id="longitude" type="text" placeholder="Longitude"></div>
 					    </div>
 					
 
@@ -200,7 +200,9 @@
                         </div>
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" class="form-control" ng-model="form.type" id="activitytype" placeholder="Cricket, Football etc..">
+                                <!--input type="text" class="form-control" ng-model="form.type" id="activitytype" placeholder="Cricket, Football etc.."-->
+                                <select ng-model="form.type" ng-options="category.catName for category in categories track by category._id">
+                                </select>
                             </div>
                             <div class="col-md-8">
                                 <textarea class="form-control" rows="3" ng-model="form.description" id="activitydesc" placeholder="Description"></textarea>
@@ -270,7 +272,10 @@
 							  		 </div>
 							  		 	<div class='panel-collapse collapse in'>
 							  		 	<div class='panel-body' >
-							  		 		 <b>Days : </b>{{batch.days}}<br/><b>Time : </b>{{batch.time}}
+
+ 
+							  		 		 <b>Days : </b><span ng-repeat="days in batch.days">{{days}}{{$last ? '' : ', '}}</span></b>
+                                             <br/><b>Time : </b>{{batch.starttime}} - {{batch.endtime}}
 								
 							  		 	</div>
 							  		 </div>
@@ -304,7 +309,7 @@
                             
                     </ul>    
 				</div>
-				<span>{{ form | json }}</span>
+				<!--<span>{{ form | json }}</span>-->
             </div>
         </form>
     </div>

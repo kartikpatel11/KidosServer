@@ -128,7 +128,7 @@ kidosApp.controller('KidosAppCtrl', function($scope,$http,$location) {
 
     $scope.availablefeeunits = [
         'Per Month','Per Session','Per Batch'];
-        
+
 
     $scope.addBatch= function()
     {
@@ -142,8 +142,8 @@ kidosApp.controller('KidosAppCtrl', function($scope,$http,$location) {
                 }
         });
         
-        var panelbody=$scope.from + "-"+ $scope.to;
-        $scope.form.batches.push({days: seldays.toString(),time:panelbody});
+       // var panelbody=$scope.from + "-"+ $scope.to;
+        $scope.form.batches.push({days: seldays,starttime:$scope.from, endtime:$scope.to});
         //cleanup for next input
         $scope.from =null;
         $scope.to=null;
@@ -154,9 +154,18 @@ kidosApp.controller('KidosAppCtrl', function($scope,$http,$location) {
 
   $scope.registerActivity = function () {
 
-    $http.post('http://localhost:5222/registeractivity', $scope.form).
+    $http.post('http://localhost:8080/registeractivity', $scope.form).
       success(function(data) {
         $location.path('/');
       }); 
   };
+
+
+  //fetch activity type
+  $scope.categories = [];
+
+    $http.get('http://localhost:8080/listCategories').
+        success(function(data){
+            $scope.categories=data;
+    });
 });
