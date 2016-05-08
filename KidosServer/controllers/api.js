@@ -5,6 +5,8 @@ var mime=require('mime');
 var cat = require('../models/categorymaster.js');
 var activities = require('../models/activities.js');
 
+var maxDistance = 5000000;
+var limit = 100;
 
 //'/listcategories'
 exports.listCategories = (function(req, res) {
@@ -46,17 +48,16 @@ exports.downloadFile = (function(req,res){
 
 //'/findnearbyactivitiesbycategory'
 exports.findnearbyactivitiesbycategory = (function(req,res) {
-	    var limit = req.query.limit || 10;
-	    var maxDistance = req.query.distance || 15000;
-
+	    
+	    
 	    var coords = [];
-	    coords[0] = req.params.longitude;
-	    coords[1] = req.params.latitude;
-	   // maxDistance /= 6371;
+	    coords[0] = parseFloat(req.params.longitude);
+	    coords[1] = parseFloat(req.params.latitude);
+	  
 	    var input_id = req.params.id;
 	    
 	     activities.find({
-		    	"type": input_id,
+		    	"type._id": input_id,
 		    	loc: {
 		    		$near: 
 		        	{
@@ -76,11 +77,8 @@ exports.findnearbyactivitiesbycategory = (function(req,res) {
 
 //'/findnearbyactivities'
 exports.findnearbyactivities = (function(req,res) {
-	    var limit = req.query.limit || 10;
-	    var maxDistance = req.query.distance || 15000;
-
-	   // maxDistance /= 6371;
-
+	    
+	    
 	    var coords = [];
 	    coords[0] = req.params.longitude;
 	    coords[1] = req.params.latitude;
@@ -202,21 +200,17 @@ exports.findnearbyactivitiestype = (function(req,res) {
 exports.findnearbyactivitiestype = (function(req,res) {
 	
 	
-	 var limit = req.query.limit || 50;
-	    var maxDistance = req.query.distance || 15000;
-
-	   // maxDistance /= 6371;
-	    
+	 	    
 	    var coords = [];
-	    coords[0] = req.params.longitude;
-	    coords[1] = req.params.latitude;
+	    coords[0] = parseFloat(req.params.longitude);
+	    coords[1] = parseFloat(req.params.latitude);
 
 	    activities.aggregate([
 	    	{
 	    		$geoNear: 
 	        	{
-	        		maxDistance: 15000,
-	        		near:  [72.86359049999999,19.1403155],
+	        		maxDistance: maxDistance,
+	        		near:  coords,
 	    			distanceField: "distance",
 	    			spherical: true
 	        	}
