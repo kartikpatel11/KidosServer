@@ -1,0 +1,10 @@
+{"_id":{"$oid":"5663da2f21b9136ec50ca09f"},"catId":1,"catImg":"ic_drawing.png","catName":"Drawing"}
+{"_id":{"$oid":"5663da4921b9136ec50ca0a0"},"catId":2,"catImg":"ic_sketting.png","catName":"Sketting"}
+{"_id":{"$oid":"5663da5921b9136ec50ca0a1"},"catId":3,"catImg":"ic_chess.png","catName":"Chess"}
+{"_id":{"$oid":"5663da6121b9136ec50ca0a2"},"catId":4,"catImg":"ic_football.png","catName":"Football"}
+{"_id":{"$oid":"5663da6a21b9136ec50ca0a3"},"catId":5,"catImg":"ic_cricket.png","catName":"Cricket"}
+{"_id":{"$oid":"5663da7121b9136ec50ca0a4"},"catId":6,"catImg":"ic_tennis.png","catName":"Tennis"}
+{"_id":{"$oid":"5663da7d21b9136ec50ca0a5"},"catId":7,"catImg":"ic_basketball.png","catName":"Basketball"}
+{"_id":{"$oid":"5663da8f21b9136ec50ca0a6"},"catId":8,"catImg":"ic_dancing.png","catName":"Dancing"}
+{"_id":{"$oid":"5663daae21b9136ec50ca0a7"},"catId":9,"catImg":"ic_yoga.png","catName":"Yoga"}
+{"_id":{"$oid":"5663dab721b9136ec50ca0a8"},"catId":10,"catImg":"ic_swimming.png","catName":"Swimming"}
