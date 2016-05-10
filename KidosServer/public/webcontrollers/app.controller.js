@@ -154,7 +154,7 @@ kidosApp.controller('KidosAppCtrl', function($scope,$http,$location) {
 
   $scope.registerActivity = function () {
 
-    $http.post('http://localhost:8080/registeractivity', $scope.form).
+    $http.post('http://www.kidos.co.in/registeractivity', $scope.form).
       success(function(data) {
         $location.path('/');
       }); 
@@ -164,7 +164,7 @@ kidosApp.controller('KidosAppCtrl', function($scope,$http,$location) {
   //fetch activity type
   $scope.categories = [];
 
-    $http.get('http://localhost:8080/listCategories').
+    $http.get('http://www.kidos.co.in/listCategories').
         success(function(data){
             $scope.categories=data;
     });
