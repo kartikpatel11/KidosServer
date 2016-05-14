@@ -50,6 +50,7 @@ app.get('/kidoswebgui/test', function(req,res){
 var webapi = require('./controllers/webapi.js');
 
 app.post('/registeractivity', webapi.registeractivity);
+app.get('/sign', webapi.sign);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

@@ -122,8 +122,14 @@ kidosApp.controller('KidosAppCtrl', function($scope,$http,$location) {
 
     ];
 
+    images =
+    [
+        
+    ];
+
      $scope.form= {
-        batches:batches
+        batches:batches,
+        images:images
     };
 
     $scope.availablefeeunits = [
@@ -149,8 +155,11 @@ kidosApp.controller('KidosAppCtrl', function($scope,$http,$location) {
         $scope.to=null;
     };
 
-
-
+    $scope.addimages = function(name, address)
+    {
+        $scope.form.images.push({filename: name, url: address});
+        
+    };
 
   $scope.registerActivity = function () {
 

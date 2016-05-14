@@ -2,32 +2,7 @@
 <html>
 <head>
 	<title>Registration</title>
-	<!--meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport" />
-
-	<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
-	<script src="js/angular.js"></script>
-	
-
-
-	<link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" rel="stylesheet" />
-	<link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" rel="stylesheet" />
-	<link rel="stylesheet" href="stylesheets/style.css"/>
-	
-	<script src="js/tabpanel.js"></script>
-	<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js" ></script>
-	<script type="text/javascript">$.widget.bridge('uitooltip', $.ui.tooltip);</script> <!- to resolve conflict between bootstrap and angular js tooltip ->
-	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-	
-	
-    <script type="text/javascript" src="js/googlemap.js"></script-->
-
-
-	
-
-	
-	
-	<script src="js/tabpanel.js"></script>
+		<script src="js/tabpanel.js"></script>
 	
     <script type="text/javascript" src="js/googlemap.js"></script>
 
@@ -292,23 +267,75 @@
 
                 <div class="tab-pane" role="tabpanel" id="complete">
                     <div class="complete">
-               			 <div class="fileinput fileinput-new" data-provides="fileinput">
-  							<div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;"></div>
-	  						<div>
-		    					<span class="btn btn-default btn-file">
-		    						<span class="fileinput-new">Select image</span>
-		    						<span class="fileinput-exists">Change</span>
-		    						<input type="file" name="...">
-		    					</span>
-		    					<a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
-					  		</div>
-						</div>
-					</div>
+                         <div class="row padding-top-10">
+                            <div class="col-md-2">
+                                <label for="fileselect">Please select an image</label> 
+                            </div>
+                            <div class="col-md-3">
+                                <input type="file" id="fileselect"/>
+
+                            </div>
+                        </div>
+                    <div class="row padding-top-10">    
+                        <div class="panel-group" id="accordion">
+                            <div class='col-md-3 padding-top-5' ng-repeat="image in form.images">
+                                        <div class='gallery'>
+                                            <div class="img-wrap">
+                                                <img ng-src="{{image.url}}" class="img-responsive center-block"/>
+                                            </div>
+                                        </div>
+                                    
+                            </div>
+                        </div>
+                    </div>
+
+
+    <script>
+    function upload(file, signed_request, url, done) {
+      var xhr = new XMLHttpRequest()
+      xhr.open("PUT", signed_request)
+      xhr.setRequestHeader('x-amz-acl', 'public-read')
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          done()
+        }
+      }
+
+      xhr.send(file)
+    }
+
+    function sign_request(file, done) {
+      var xhr = new XMLHttpRequest()
+      xhr.open("GET", "/sign?file_name=" + file.name + "&file_type=" + file.type)
+
+      xhr.onreadystatechange = function() {
+        if(xhr.readyState === 4 && xhr.status === 200) {
+          var response = JSON.parse(xhr.responseText)
+          done(response)
+        }
+      }
+
+      xhr.send()
+    }
+
+    document.getElementById("fileselect").onchange = function() {
+      var file = document.getElementById("fileselect").files[0]
+      if (!file) return
+
+      sign_request(file, function(response) {
+        upload(file, response.signed_request, response.url, function() {
+          angular.element(document.getElementById('from')).scope().$apply(angular.element(document.getElementById('from')).scope().addimages(file.name,response.url));
+          
+        })
+      })
+    }
+    </script>
 					<ul class="list-inline pull-right padding-top-10">
                             <li><button type="button" class="btn btn-default" ng-click="registerActivity()">Submit</button></li>
                             
                     </ul>    
 				</div>
+            </div>
 				<!--<span>{{ form | json }}</span>-->
             </div>
         </form>
