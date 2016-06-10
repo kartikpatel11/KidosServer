@@ -279,10 +279,14 @@
                     <div class="row padding-top-10">    
                         <div class="panel-group" id="accordion">
                             <div class='col-md-3 padding-top-5' ng-repeat="image in form.images">
-                                        <div class='gallery'>
+                                        <div class='gallery' height="100" width="50">
                                             <div class="img-wrap">
-                                                <img ng-src="{{image.url}}" class="img-responsive center-block"/>
+                                                <span class="close">&times;</span>
+                                                <img ng-src="{{image.imgurl}}" class="img-responsive center-block" data-id="{{image.name}}"/>
                                             </div>
+                                            <div>
+                                            	<label><input type="radio" ng-model="image.primaryind" value="{{image.primaryind}} name="primaryimggroup">Profile Image</label>
+                                        	</div>
                                         </div>
                                     
                             </div>
@@ -291,6 +295,11 @@
 
 
     <script>
+    $('.img-wrap .close').on('click', function() {
+        var id = $(this).closest('.img-wrap').find('img').data('id');
+        alert('remove picture: ' + id);
+    });
+
     function upload(file, signed_request, url, done) {
       var xhr = new XMLHttpRequest()
       xhr.open("PUT", signed_request)
@@ -336,7 +345,7 @@
                     </ul>    
 				</div>
             </div>
-				<!--<span>{{ form | json }}</span>-->
+				<span>{{ form | json }}</span>
             </div>
         </form>
     </div>

@@ -5,6 +5,8 @@ var fs = require('fs');
 var mime=require('mime');
 var cat = require('../models/categorymaster.js');
 var activities = require('../models/activities.js');
+var user = require('../models/user.js');
+
 
 
 var AWS_ACCESS_KEY = 'AKIAIU5OIVUAWPDG5LOA';
@@ -20,42 +22,49 @@ exports.registeractivity = (function(req,res){
 	location[0]= parseFloat(req.body.longitude);
 	location[1]= parseFloat(req.body.latitude);
 	
-	var activity= new activities ({
-		
-			//activityId:10,
-			name: req.body.name,
-			type: req.body.type,
-		//	firstname: req.body.firstname, //new
-		//	lastname: req.body.lastname, //new
-		//	emailid: req.body.emailid, //new
-		//	password: req.body.password, //new
-		//	image: {type:String},
-		//	rating: {type: Number},
-			loc: {
-				type: "Point",
-				coordinates: location
-			},
-			addressline1: req.body.addressline1,
-			landmark: req.body.landmark,
-			contacts: req.body.contacts,
-			description: req.body.description,
-			area:req.body.area,
-			pincode: req.body.pincode,
-			city: req.body.city,
-			state: req.body.state,
-			fees: req.body.fees,
-			unit:req.body.unit,
-			age: req.body.age,
-			batches: req.body.batches
+	
+	var users= new user({
+		firstname: req.body.firstname,
+	    lastname: req.body.lastname,
+	    emailid: req.body.emailid,
+	    password: req.body.password
 	});
 	
-	console.log("about to store activity="+activity);
-	
-	activity.save(function (err, activity) {
-	    if (err) { console.log( err); }
-	    //res.json(201, activity);
-	  });
-	
+	users.save(function (err, users) {
+	    if (err) { console.log( err); return;}
+	  
+		var activity= new activities ({
+			
+				name: req.body.name,
+				type: req.body.type,
+				userid: users.userid,
+				images: req.body.images ,
+			//	rating: {type: Number},
+				loc: {
+					type: "Point",
+					coordinates: location
+				},
+				addressline1: req.body.addressline1,
+				landmark: req.body.landmark,
+				contacts: req.body.contacts,
+				description: req.body.description,
+				area:req.body.area,
+				pincode: req.body.pincode,
+				city: req.body.city,
+				state: req.body.state,
+				fees: req.body.fees,
+				unit:req.body.unit,
+				age: req.body.age,
+				batches: req.body.batches
+		});
+		
+		console.log("about to store activity="+activity);
+		
+		activity.save(function (err, activity) {
+		    if (err) { console.log( err); }
+		    //res.json(201, activity);
+		  });
+		});
 	});
 
 exports.sign = (function(req,res) {

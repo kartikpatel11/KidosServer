@@ -155,9 +155,9 @@ kidosApp.controller('KidosAppCtrl', function($scope,$http,$location) {
         $scope.to=null;
     };
 
-    $scope.addimages = function(name, address)
+    $scope.addimages = function(name,address)
     {
-        $scope.form.images.push({filename: name, url: address});
+        $scope.form.images.push({name: name, imgurl: address});
         
     };
 

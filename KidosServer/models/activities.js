@@ -7,7 +7,11 @@ var activitycounter = require('../models/activitycounter.js');
 var activitiesSchema= new Schema({
 	activityId: {type:Number},
 	name: {type:String, required:true},
-	image: {type:String},
+	images: [{
+		primaryimg: {type:String},
+		imgurl: {type:String}
+	}],
+	userid: {type: Number},
 	rating: {type: Number},
 	loc: {
 		 "type": {"type": String},           
