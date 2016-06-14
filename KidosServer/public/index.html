@@ -36,7 +36,7 @@
 
 </head>
 <body ng-controller="KidosAppCtrl">
-	<nav class="navbar navbar-inverse navbar-fixed-top" id="my-navbar">
+	<nav class="navbar navbar-inverse navbar-fixed-top navbar-default" id="my-navbar">
 		<div class="container">
 			<div class="navbar-header">
 				<a href ui-sref="/" class="navbar-brand">Kidos</a>
@@ -58,15 +58,15 @@
                 			<b class="caret"></b>
              			</a>
              			<div class="dropdown-menu">
-               				<form style="margin: 0px" accept-charset="UTF-8" action="/sessions" method="post">
+               				<form style="margin: 0px" accept-charset="UTF-8" method="post">
                					<div class="form-inline">
                						<input name="utf8" type="hidden" value="&#x2713;" />
                						<input name="authenticity_token" type="hidden" value="4L/A2ZMYkhTD3IiNDMTuB/fhPRvyCNGEsaZocUUpw40=" />
                					</div>
 		                 		<fieldset class='textbox' style="padding:10px">
-				                   <input style="margin-top: 8px" type="text" placeholder="Username" />
-				                   <input style="margin-top: 8px" type="password" placeholder="Passsword" />
-				                   <input style="margin-top: 8px"  class="btn-primary" name="commit" type="submit" value="Log In" />
+				                   <input style="margin-top: 8px" type="text" placeholder="Email ID" ng-model="loginform.emailid"/>
+				                   <input style="margin-top: 8px" type="password" placeholder="Passsword" ng-model="loginform.password" />
+				                   <input style="margin-top: 8px"  class="btn-primary" name="commit" type="submit" value="Log In" ng-click="loginService()"/>
 				                 </fieldset>
                				</form>
                			</div>
