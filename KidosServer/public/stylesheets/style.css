@@ -454,3 +454,7 @@ span.round-tab:hover {
 .img-wrap:hover .close {
     opacity: 1;
 }   
+
+.dropdown-backdrop{
+    position: static;
+}
