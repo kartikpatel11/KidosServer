@@ -40,9 +40,17 @@
 		<div class="container">
 			<div class="navbar-header">
 				<a href ui-sref="/" class="navbar-brand">Kidos</a>
+				   <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#navbarHeaderCollapse">
+				     <span class="sr-only">Toggle navigation</span>
+				     <span class="icon-bar"></span>
+				     <span class="icon-bar"></span>
+				     <span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				   </button>
 			</div>
 			
-			<div class="collapse navbar-collapse">
+			<div class="collapse navbar-collapse" id="navbarHeaderCollapse">
 				<ul class="nav navbar-nav">
 					<li><a href ui-sref="gallery">Gallery</a>
 					<li><a href ui-sref="feedback">Feedback</a>
