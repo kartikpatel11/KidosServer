@@ -529,7 +529,7 @@ header {
   height: 40vh;
 }
 
-.title {
+.mytitle {
   position: absolute;
   top: 30%;
   left: 50%;
@@ -537,26 +537,36 @@ header {
   color: white;
   text-align: center;
 }
-h1 {
+.myh1 {
   text-transform: uppercase;
   margin: 0;
   font-size: 3rem;
   white-space: nowrap;
 }
-h2 {
+.myh2 {
   font-size: 2rem;
 }
-p {
-position: absolute; 
+.myp1 {
+position: relative; 
    top: 100%; 
-   left: 0; 
+  align:center; 
    width: 100%; 
   
   margin: 0;
   font-size: 1.3rem;
 }
 
-main {
+.myp2 {
+position: relative; 
+   top: 130%; 
+  align:center; 
+   width: 100%; 
+  
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.mymain {
   max-width: 500px;
   margin: 20px auto;
 }
