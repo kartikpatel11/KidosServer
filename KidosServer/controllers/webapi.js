@@ -13,6 +13,37 @@ var AWS_ACCESS_KEY = 'AKIAIU5OIVUAWPDG5LOA';
 var AWS_SECRET_KEY = '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';
 var S3_BUCKET = 'kidosbucket';
 
+
+//loginservice
+exports.loginservice = (function(req,res){
+	
+	console.log("in loginservice-params: "+JSON.stringify(req.body));
+	var email= req.body.emailid;
+	var pass= req.body.password;
+	
+	
+	 user.find({ emailid: email, password: pass }).exec(function (err, docs) {
+		 console.log("in loginservice-params: first query output"+JSON.stringify(docs));
+		 if(docs!=null)
+		 {
+			 
+			 var user=docs[0].toObject().userid;
+			 console.log("userid="+user);
+			 activities.find({ userid: user }, function (err, docs) {
+				    res.json(docs);
+			 });
+			 
+	     }
+		 else
+		 {
+			 res.status(500).json({ error: "Invalid Email ID/Password" }); 
+		 }
+        // res.json(docs);
+     });
+	
+});
+
+
 //registeractivity
 exports.registeractivity = (function(req,res){
 	

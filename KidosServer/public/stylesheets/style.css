@@ -85,7 +85,7 @@ input
 
 /* BASIC STYLINGS
 ============================================================================= */
-body                            { padding-top:20px; }
+body                            { padding-top:50px; }
 pre                             { margin-bottom:20px; }
 
 /* form styling */
@@ -458,3 +458,106 @@ span.round-tab:hover {
 .dropdown-backdrop{
     position: static;
 }
+
+.rating {
+    color: #a9a9a9;
+    margin: 0;
+    padding: 0;
+}
+ul.rating {
+    display: inline-block;
+}
+.rating li {
+    list-style-type: none;
+    display: inline-block;
+    padding: 1px;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+}
+.rating .filled {
+    color: orange;
+}
+
+.numberCircle {
+    border-radius: 60%;
+    behavior: url(PIE.htc); /* remove if you don't care about IE8 */
+
+    width: 60px;
+    height: 60px;
+    padding: 8px;
+
+    background: #fff;
+    border: 2px solid green;
+    color: green;
+    text-align: center;
+
+    font: 32px Arial, sans-serif;
+    font-weight: bolder
+}
+
+
+.panel-right {
+  border: 0.05em solid lightgray;
+  border-radius: 0.25em 0.25em;
+  margin-top: -0.2em;
+  padding: 0.3em;
+  font-size: 0.9em;
+  float: right;
+}
+ 
+  .panel-title a,
+  .panel-title a:active,
+  .panel-title a:visited {
+    text-decoration: none;
+  }
+
+@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,900);
+
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+header {
+  background: 
+    linear-gradient(
+      rgba(0, 0, 0, 0.5),
+      rgba(0, 0, 0, 0.5)
+    ),
+    url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/cheese-curds.jpg);
+  background-size: cover;
+  height: 40vh;
+}
+
+.title {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-align: center;
+}
+h1 {
+  text-transform: uppercase;
+  margin: 0;
+  font-size: 3rem;
+  white-space: nowrap;
+}
+h2 {
+  font-size: 2rem;
+}
+p {
+position: absolute; 
+   top: 100%; 
+   left: 0; 
+   width: 100%; 
+  
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+main {
+  max-width: 500px;
+  margin: 20px auto;
+}
+

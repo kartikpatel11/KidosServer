@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Welcome</title>
+	<link href="stylesheets/simple-sidebar.css" rel="stylesheet">
+	<link href="stylesheets/xeditable.css" rel="stylesheet">
+
+</head>
+<body>
+<script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+    </script>
+ <div id="wrapper">
+   <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+             </li>
+           <li class="active"><a href="#"><span class="glyphicon glyphicon-home"></span>  Class Details</a></li>
+    <li><a href="#"><span class="glyphicon glyphicon-earphone"></span>  Contact Details</a></li>  
+    <li><a href="#"><span class="glyphicon glyphicon-list"></span>  Activity Details</a></li>
+    <li><a href="#"><span class="glyphicon glyphicon-map-marker"></span>  Location Details</a></li>
+    <li><a href="#"><span class="glyphicon glyphicon-camera"></span>  Images</a></li>
+    <li><a href="#"><span class="glyphicon glyphicon-comment"></span>  User Reviews</a></li>
+    <li><a href="#"><span class="glyphicon glyphicon-signal"></span>  Statistics</a></li>
+              </ul>
+        </div>    
+        		<header>
+  <div class="title">
+    <h1>Ninja Judo Classes</h1>
+    	<p id="text" class="numberCircle">4</p>
+		<p id="text" star-rating rating-value="getSelectedRating(4)" max="getSelectedRating(5)" />
+		<p id="text" align="right" style="color:white">14 Reviews</p>
+	
+  </div>
+</header>          
+ 		<div id="page-content-wrapper">
+ 
+            <!-- div class="container-fluid">
+             <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
+				<div class="row">
+					<div class="col-md-12" align="right" >
+							<div class="numberCircle">4</div>
+						</div>
+				 	</div>	
+				 	<div class="row">
+				 		<div class="col-md-12" align="right">
+				 			<div star-rating rating-value="getSelectedRating(4)" max="getSelectedRating(5)" />
+				 		</div>
+				 	</div>
+				 <div class="row">
+				 	<div class="col-md-12" align="right">
+				 		<div align="right" style="color:blue">14 Reviews</div>
+					</div>
+				</div>
+			</div-->
+			
+			<!--  class details -->
+			<section>
+		      <div class="page-header" id="classdetails">
+		       <h3> <a href="#"><span class="glyphicon glyphicon-home"></span>  Class Details</a></h3>
+		      </div>
+		   	<div class="row">
+		   		<div class="col-md-2">
+			   		<label for="welcomeform.name">Class Name</label>
+			   	</div>
+			   	<div class="col-md-4">
+					<a href="#" editable-text="welcomeform.name">{{ welcomeform.name || "Ninja Judo Classes" }}</a>
+				</div>
+				<div class="col-md-2">
+			   		<label for="welcomeform.name">Category</label>
+			   	</div>
+			   	<div class="col-md-4">
+					<a href="#" editable-text="welcomeform.category">{{ welcomeform.category || "Karate" }}</a>
+				</div>
+				
+			</div>
+			<div class="row">
+		   		<div class="col-md-2">
+			   		<label for="welcomeform.address">Address</label>
+			   	</div>
+			   	<div class="col-md-4">
+					<a href="#" editable-text="welcomeform.address">{{ welcomeform.address || "C-101, RNA Heights, Opposite Oberoi Splendor, JVLR" }}</a>
+				</div>
+			</div>
+			
+			<div class="row">
+		   		<div class="col-md-2">
+			   		<label for="welcomeform.area">Area/Locality</label>
+			   	</div>
+			   	<div class="col-md-4">
+					<a href="#" editable-text="welcomeform.area">{{ welcomeform.area || "Andheri(E)" }}</a>
+				</div>
+				<div class="col-md-2">
+			   		<label for="welcomeform.city">City</label>
+			   	</div>
+			   	<div class="col-md-4">
+					<a href="#" editable-text="welcomeform.city">{{ welcomeform.city || "Mumbai" }}</a>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2">
+			   		<label for="welcomeform.state">State</label>
+			   	</div>
+			   	<div class="col-md-4">
+					<a href="#" editable-text="welcomeform.state">{{ welcomeform.state || "Maharashtra" }}</a>
+				</div>
+				<div class="col-md-2">
+			   		<label for="welcomeform.area">Pincode</label>
+			   	</div>
+			   	<div class="col-md-4">
+					<a href="#" editable-text="welcomeform.pincode">{{ welcomeform.pincode || "400090" }}</a>
+				</div>
+			</div>
+			
+			</section>
+			
+			<!-- contact details -->
+			<section>
+		      <div class="page-header" id="contactdetails">
+		    <h3> <a href="#"><span class="glyphicon glyphicon-earphone"></span>  Contact Details</a></h3>
+		      </div>
+		   	<div class="row">
+		   		<div class="col-md-2">
+			   		<label for="welcomeform.phno">Phone Number</label>
+			   	</div>
+			   	<div class="col-md-4">
+					<a href="#" editable-text="welcomeform.phno">{{ welcomeform.phno || "+919820742767" }}</a>
+				</div>
+				<div class="col-md-2">
+			   		<label for="welcomeform.altphno">Alternate Phone Number</label>
+			   	</div>
+			   	<div class="col-md-4">
+					<a href="#" editable-text="welcomeform.altphno">{{ welcomeform.altphno || "+912240159782" }}</a>
+				</div>
+			</div>
+			<div class="row">
+		   		<div class="col-md-2">
+			   		<label for="welcomeform.mobno">Mobile Number</label>
+			   	</div>
+			   	<div class="col-md-4">
+					<a href="#" editable-text="welcomeform.mobno">{{ welcomeform.mobno || "+919920686286" }}</a>
+				</div>
+				<div class="col-md-2">
+			   		<label for="welcomeform.website">Website</label>
+			   	</div>
+			   	<div class="col-md-4">
+					<a href="#" editable-text="welcomeform.website">{{ welcomeform.website || "www.ninjajudoclasses.com" }}</a>
+				</div>
+			</div>
+			<div class="row">
+		   		<div class="col-md-2">
+			   		<label for="welcomeform.facebook">Facebook</label>
+			   	</div>
+			   	<div class="col-md-4">
+					<a href="#" editable-text="welcomeform.facebook">{{ welcomeform.facebook || "www.facebook.com/ninjajudoclasses" }}</a>
+				</div>
+				<div class="col-md-2">
+			   		<label for="welcomeform.twitter">Twitter</label>
+			   	</div>
+			   	<div class="col-md-4">
+					<a href="#" editable-text="welcomeform.twitter">{{ welcomeform.twitter || "www.twitter.com/#ninjajudoclasses" }}</a>
+				</div>
+			</div>
+		</section>
+
+		<!-- Activity details -->
+			<section>
+		      <div class="page-header" id="activitydetails">
+		    <h3> <a href="#"><span class="glyphicon glyphicon-list"></span>  Activity Details</a></h3>
+		      </div>
+		   	<div class="row">
+		   		<div class="col-md-2">
+			   		<label for="welcomeform.desc">Description</label>
+			   	</div>
+			   	<div class="col-md-9">
+					<a href="#" editable-textarea="welcomeform.desc" e-rows="7" e-cols="40" wrap="hard">
+					    <pre>{{ welcomeform.desc || 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\n The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using Content here, content here,\n making it look like readable English.' }}</pre>
+					  </a>
+				</div>
+			</div>
+			<div class="row">
+		   		<div class="col-md-2">
+			   		<label for="welcomeform.fees">Fees</label>
+			   	</div>
+			   	<div class="col-md-4">
+					<a href="#" editable-text="welcomeform.fees">{{ welcomeform.fees || "10000" }}</a>
+					<a href="#" editable-text="welcomeform.unit">{{ welcomeform.unit || "Per Month" }}</a>
+				</div>
+				<div class="col-md-2">
+			   		<label for="welcomeform.minagelimit">Age Limit</label>
+			   	</div>
+			   	<div class="col-md-2">
+					<a href="#" editable-text="welcomeform.minagelimit">{{ welcomeform.minage || "5" }}</a>
+					<label> to </label>
+					<a href="#" editable-text="welcomeform.maxagelimit">{{ welcomeform.maxage || "15" }}</a>
+					<label> years </label>
+				</div>
+			</div>
+		</section>
+		
+		<!-- Location details -->
+			<section>
+		      <div class="page-header" id="locationdetails">
+		    <h3> <a href="#"><span class="glyphicon glyphicon-map-marker"></span>  Location Details</a></h3>
+		      </div>
+		   <div class="row">
+				<div class="col-md-2">
+			   		<label for="welcomeform.landmark">Landmark</label>
+			   	</div>
+			   	<div class="col-md-4">
+					<a href="#" editable-text="welcomeform.landmark">{{ welcomeform.landmark || "RNA Heights" }}</a>
+				</div>
+			</div>
+		</section>
+		
+		<!-- Images  -->
+			<section>
+		      <div class="page-header" id="images">
+		    <h3> <a href="#"><span class="glyphicon glyphicon-camera"></span>  Images</a></h3>
+		      </div>
+		   <div class="row">
+				<div class="col-md-2">
+			   		<label for="welcomeform.landmark">Landmark</label>
+			   	</div>
+			   	<div class="col-md-4">
+					<a href="#" editable-text="welcomeform.landmark">{{ welcomeform.landmark || "RNA Heights" }}</a>
+				</div>
+			</div>
+		</section>
+		
+				<!-- Reviews  -->
+			<section>
+		      <div class="page-header" id="reviews">
+		    <h3> <a href="#"><span class="glyphicon glyphicon-comment"></span>  User Reviews</a></h3>
+		      </div>
+		   <div class="row">
+				<div class="col-md-2">
+			   		<label for="welcomeform.landmark">Landmark</label>
+			   	</div>
+			   	<div class="col-md-4">
+					<a href="#" editable-text="welcomeform.landmark">{{ welcomeform.landmark || "RNA Heights" }}</a>
+				</div>
+			</div>
+		</section>
+	</div>
+		
+		
+</div>
+		
+</body>
+</html>

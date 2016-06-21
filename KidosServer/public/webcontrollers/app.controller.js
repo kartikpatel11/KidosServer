@@ -1,4 +1,8 @@
-var kidosApp = angular.module('kidosApp',['ui.bootstrap','ui.router']);
+var kidosApp = angular.module('kidosApp',['ui.bootstrap','ui.router','xeditable']);
+
+	kidosApp.run(function(editableOptions) {
+  		editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
+	});
 
 	kidosApp.config(function($stateProvider, $urlRouterProvider) {
     
@@ -17,6 +21,14 @@ var kidosApp = angular.module('kidosApp',['ui.bootstrap','ui.router']);
             url: '/signup',
             templateUrl: 'kidosregistration.html',
             controller: 'KidosAppCtrl'
+        
+        })
+        
+         //Kidos welcome login page  Starts
+        .state('welcome', {
+            url: '/welcome',
+            templateUrl: 'kidoswelcome.html',
+            controller: 'KidosWelcomeCtrl'
         
         })
 
@@ -104,6 +116,39 @@ kidosApp.controller('KidosAppCtrl', function($scope,$http,$location) {
 
 
 
+  //Generic Modal launch
+ /* function launchDialogs(which,data){
+    var dlg = null;
+    switch(which){
+        
+      // Error Dialog
+      case 'error':
+        dlg = $dialogs.error(data);
+        break;
+        
+     // Wait / Progress Dialog
+      case 'wait':
+        dlg = $dialogs.wait(msgs[i++],progress);
+        fakeProgress();
+        break;
+        
+      // Notify Dialog
+      case 'notify':
+        dlg = $dialogs.notify('Something Happened!','Something happened that I need to tell you.');
+        break;
+        
+      // Confirm Dialog
+      case 'confirm':
+        dlg = $dialogs.confirm('Please Confirm','Is this awesome or what?');
+        dlg.result.then(function(btn){
+          $scope.confirmed = 'You thought this quite awesome!';
+        },function(btn){
+          $scope.confirmed = 'Shame on you for not thinking this is awesome!';
+        });
+        break;
+    	};
+    };*/
+
   $scope.form = {};
 
 //used for activity details
@@ -163,18 +208,110 @@ kidosApp.controller('KidosAppCtrl', function($scope,$http,$location) {
 
   $scope.registerActivity = function () {
 
-    $http.post('http://www.kidos.co.in/registeractivity', $scope.form).
+   
+     $http.post('http://www.kidos.co.in/registeractivity', $scope.form).
       success(function(data) {
         $location.path('/');
       }); 
   };
 
 
+ $scope.welcomeform={};
+ $scope.loginService = function () {
+
+	  $http.post('http://www.kidos.co.in/loginservice', $scope.loginform).
+      success(function(data) {
+      	$scope.welcomeform=data;
+      	alert("2"+ JSON.stringify($scope.welcomeform));
+        $location.path('/welcome');
+      }) 
+      .error(function(data, status, headers, config) {
+        console.error(data);
+        if(status === 500) {
+           alert(data.error);
+           // launchDialogs('error',data.error);
+        }
+  });
+
+};
+
   //fetch activity type
   $scope.categories = [];
 
-    $http.get('http://www.kidos.co.in/listCategories').
+   
+     $http.get('http://www.kidos.co.in/listCategories').
         success(function(data){
             $scope.categories=data;
     });
+    
+    
+  
+
+});
+
+kidosApp.filter('range', function() {
+  return function(val, range) {
+    range = parseInt(range);
+    for (var i=0; i<range; i++)
+      val.push(i);
+    return val;
+  };
+});
+
+kidosApp.controller('KidosWelcomeCtrl', ['$scope', function ($scope) {
+
+$scope.rating = 0;
+    $scope.ratingcount = [40,23,55,11,0];
+
+    $scope.getSelectedRating = function (rating) {
+        console.log(rating);
+        return rating;
+    };
+    
+    $scope.getRatingCount = function (rating) {
+    	return $scope.ratingcount[rating-1];
+    }
+
+}]);
+
+
+
+kidosApp.directive('starRating', function () {
+    return {
+        restrict: 'A',
+        template: '<ul class="rating">' +
+            '<li ng-repeat="star in stars" ng-class="star" ng-click="toggle($index)">' +
+            '\u2605' +
+            '</li>' +
+            '</ul>',
+        scope: {
+            ratingValue: '=',
+            max: '=',
+            onRatingSelected: '&'
+        },
+        link: function (scope, elem, attrs) {
+
+            var updateStars = function () {
+                scope.stars = [];
+                for (var i = 0; i < scope.max; i++) {
+                    scope.stars.push({
+                        filled: i < scope.ratingValue
+                    });
+                }
+                };
+
+            scope.toggle = function (index) {
+                scope.ratingValue = index + 1;
+                scope.onRatingSelected({
+                    rating: index + 1
+                });
+            };
+
+            scope.$watch('ratingValue', function (oldVal, newVal) {
+                if (newVal) {
+                    updateStars();
+                }
+            });
+        }
+    }
 });
