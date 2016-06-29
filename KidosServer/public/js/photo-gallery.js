@@ -26,7 +26,76 @@ $(document).ready(function(){
 		
 		
 		
-   });	
+   });
+	
+	$('li span').on('click',function(){
+		var index = $(this).parent().hide();
+		
+		
+	});
+	
+	$('#remove').on('click', function(){
+		//var i=0;
+		var total = $('ul.row li').length; 
+		for(i=0;i<total;i++)
+		{
+			var sp= $('ul.row li')[i].getElementsByTagName('span');
+			sp[0].style.visibility="visible";
+		};
+		$('#remove').hide();
+		$('#add').hide();
+		$('#ok').show();
+		$('#cancel').show();
+		
+	});
+	
+	$('#cancel').on('click', function(){
+		
+		var total = $('ul.row li').length; 
+		for(i=0;i<total;i++)
+		{
+			//$('ul.row li').show();
+			var sp= $('ul.row li')[i].getElementsByTagName('span');
+			sp[0].style.visibility="hidden";
+			sp[0].parent().show();
+		};
+		
+		$('#remove').show();
+		$('#add').show();
+		$('#ok').hide();
+		$('#cancel').hide();
+		
+	});
+	
+	
+	$('#ok').on('click', function(){
+		
+		var total = $('ul.row li').length; 
+		for(i=0;i<total;i++)
+		{
+			var sp= $('ul.row li')[i].getElementsByTagName('span');
+			sp[0].style.visibility="hidden";
+		};
+		
+		var deletelist=[];
+		for(i=0;i<total;i++)
+		{
+			if($('ul.row li')[i].style.display==="none")
+			{
+				var img=$('ul.row li')[i].getElementsByTagName('img');
+				deletelist.push(img[0].src);
+				$('ul.row li')[i].remove();
+				total=total-1;
+			}
+			
+		};
+		
+		$('#remove').show();
+		$('#add').show();
+		$('#ok').hide();
+		$('#cancel').hide();
+		
+	});
 })
         
          
