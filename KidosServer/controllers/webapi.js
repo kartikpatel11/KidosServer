@@ -30,7 +30,7 @@ exports.loginservice = (function(req,res){
 			 var user=docs[0].toObject().userid;
 			 console.log("userid="+user);
 			 activities.find({ userid: user }, function (err, docs) {
-				    res.json(docs);
+				    res.json(docs[0]);
 			 });
 			 
 	     }

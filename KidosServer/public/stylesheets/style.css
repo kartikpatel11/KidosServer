@@ -2,6 +2,9 @@
     padding-top:10px; 
 }
 
+.margin-left-20 { 
+    margin-left:100px; 
+}
 .padding-top-5 { 
     padding-top:5px; 
 }
@@ -731,4 +734,30 @@ body.modal-open div.modal-backdrop {
     line-height: 10px;
     visibility:hidden;
 }
+
+.editable-checklist label {
+ padding:0px;
+ margin:0px;
+}
+
+.editable-checklist label input[type=checkbox]
+{
+   width: 10%;
+   vertical-align: middle;
+}
+
+.fabSpeedDialdemoBasicUsage .text-capitalize {
+  text-transform: capitalize; }
+.fabSpeedDialdemoBasicUsage .md-fab:hover, .fabSpeedDialdemoBasicUsage .md-fab.md-focused {
+  background-color: #000 !important; }
+.fabSpeedDialdemoBasicUsage p.note {
+  font-size: 1.2rem; }
+.fabSpeedDialdemoBasicUsage .lock-size {
+  min-width: 300px;
+  min-height: 300px;
+  width: 300px;
+  height: 300px;
+  margin-left: auto;
+  margin-right: auto; }
+
 

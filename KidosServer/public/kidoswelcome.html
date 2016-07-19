@@ -8,6 +8,10 @@
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 	<script src="//netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	<script src="js/photo-gallery.js"></script>
+	<script type="text/javascript" src="js/googlemap.js"></script>
+	
+	 
+	
 	
 </head>
  <style>
@@ -90,7 +94,7 @@
         </div>    
         <header>
 			  <div class="mytitle">
-			    <h1 class=myh1" editable-text="welcomeform.name">{{ welcomeform.name || "Ninja Judo Classes" }}</h1>
+			    <h1 class=myh1" editable-text="me().name">{{ me().name|| "No Value"}}</h1>
 			    	<!-- p class="numberCircle">4</p-->
 					<p class="myp1" star-rating rating-value="getSelectedRating(4)" max="getSelectedRating(5)" />
 					<p class="myp2" style="color:white">14 Reviews</p>
@@ -98,26 +102,8 @@
 			  </div>
 		</header>          
  		<div id="page-content-wrapper">
- 
-            <!-- div class="container-fluid">
-             <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
-				<div class="row">
-					<div class="col-md-12" align="right" >
-							<div class="numberCircle">4</div>
-						</div>
-				 	</div>	
-				 	<div class="row">
-				 		<div class="col-md-12" align="right">
-				 			<div star-rating rating-value="getSelectedRating(4)" max="getSelectedRating(5)" />
-				 		</div>
-				 	</div>
-				 <div class="row">
-				 	<div class="col-md-12" align="right">
-				 		<div align="right" style="color:blue">14 Reviews</div>
-					</div>
-				</div>
-			</div-->
-			
+
+	
 			<!--  class details -->
 			<section>
 		      <div class="page-header" id="classdetails">
@@ -125,54 +111,57 @@
 		      </div>
 		   	<div class="row">
 		   		<div class="col-md-2">
-			   		<label for="welcomeform.name">Class Name</label>
+			   		<label for="me().name">Class Name</label>
 			   	</div>
 			   	<div class="col-md-4">
-					<a href="#" editable-text="welcomeform.name">{{ welcomeform.name || "Ninja Judo Classes" }}</a>
+					<a href="#" editable-text="me().name">{{ me().name|| "No Value"}}</a>
 				</div>
 				<div class="col-md-2">
-			   		<label for="welcomeform.name">Category</label>
+			   		<label for="me().type.catName">Category</label>
 			   	</div>
+			   	
 			   	<div class="col-md-4">
-					<a href="#" editable-text="welcomeform.category">{{ welcomeform.category || "Karate" }}</a>
+  					<a href="#" editable-select="me().type" e-ng-options="category.catName for category in categorylist track by category._id">
+    					{{ me().type.catName|| "No Value"}}
+  					</a>
 				</div>
-				
+		
 			</div>
 			<div class="row">
 		   		<div class="col-md-2">
-			   		<label for="welcomeform.address">Address</label>
+			   		<label for="me().addressline1">Address</label>
 			   	</div>
 			   	<div class="col-md-4">
-					<a href="#" editable-text="welcomeform.address">{{ welcomeform.address || "C-101, RNA Heights, Opposite Oberoi Splendor, JVLR" }}</a>
+					<a href="#" editable-text="me().addressline1">{{ me().addressline1|| "No Value"}}</a>
 				</div>
 			</div>
 			
 			<div class="row">
 		   		<div class="col-md-2">
-			   		<label for="welcomeform.area">Area/Locality</label>
+			   		<label for="me().area">Area/Locality</label>
 			   	</div>
 			   	<div class="col-md-4">
-					<a href="#" editable-text="welcomeform.area">{{ welcomeform.area || "Andheri(E)" }}</a>
+					<a href="#" editable-text="me().area">{{ me().area|| "No Value"}}</a>
 				</div>
 				<div class="col-md-2">
-			   		<label for="welcomeform.city">City</label>
+			   		<label for="me().city">City</label>
 			   	</div>
 			   	<div class="col-md-4">
-					<a href="#" editable-text="welcomeform.city">{{ welcomeform.city || "Mumbai" }}</a>
+					<a href="#" editable-text="me().city">{{ me().city|| "No Value"}}</a>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-md-2">
-			   		<label for="welcomeform.state">State</label>
+			   		<label for="me().state">State</label>
 			   	</div>
 			   	<div class="col-md-4">
-					<a href="#" editable-text="welcomeform.state">{{ welcomeform.state || "Maharashtra" }}</a>
+					<a href="#" editable-text="me().state">{{ me().state|| "No Value"}}</a>
 				</div>
 				<div class="col-md-2">
-			   		<label for="welcomeform.area">Pincode</label>
+			   		<label for="me().area">Pincode</label>
 			   	</div>
 			   	<div class="col-md-4">
-					<a href="#" editable-text="welcomeform.pincode">{{ welcomeform.pincode || "400090" }}</a>
+					<a href="#" editable-text="me().pincode">{{ me().pincode|| "No Value"}}</a>
 				</div>
 			</div>
 			
@@ -185,44 +174,44 @@
 		      </div>
 		   	<div class="row">
 		   		<div class="col-md-2">
-			   		<label for="welcomeform.phno">Phone Number</label>
+			   		<label for="me().phno">Phone Number</label>
 			   	</div>
 			   	<div class="col-md-4">
-					<a href="#" editable-text="welcomeform.phno">{{ welcomeform.phno || "+919820742767" }}</a>
+					<a href="#" editable-text="me().contacts.phno">{{ me().contacts.phno|| "No Value"}}</a>
 				</div>
 				<div class="col-md-2">
-			   		<label for="welcomeform.altphno">Alternate Phone Number</label>
+			   		<label for="me().altphno">Alternate Phone Number</label>
 			   	</div>
 			   	<div class="col-md-4">
-					<a href="#" editable-text="welcomeform.altphno">{{ welcomeform.altphno || "+912240159782" }}</a>
+					<a href="#" editable-text="me().contacts.altphno">{{ me().contacts.altphno|| "No Value"}}</a>
 				</div>
 			</div>
 			<div class="row">
 		   		<div class="col-md-2">
-			   		<label for="welcomeform.mobno">Mobile Number</label>
+			   		<label for="me().mobno">Mobile Number</label>
 			   	</div>
 			   	<div class="col-md-4">
-					<a href="#" editable-text="welcomeform.mobno">{{ welcomeform.mobno || "+919920686286" }}</a>
+					<a href="#" editable-text="me().contacts.mobno">{{ me().contacts.mobno|| "No Value"}}</a>
 				</div>
 				<div class="col-md-2">
-			   		<label for="welcomeform.website">Website</label>
+			   		<label for="me().website">Website</label>
 			   	</div>
 			   	<div class="col-md-4">
-					<a href="#" editable-text="welcomeform.website">{{ welcomeform.website || "www.ninjajudoclasses.com" }}</a>
+					<a href="#" editable-text="me().website">{{ me().website|| "www."}}</a>
 				</div>
 			</div>
 			<div class="row">
 		   		<div class="col-md-2">
-			   		<label for="welcomeform.facebook">Facebook</label>
+			   		<label for="me().facebook">Facebook</label>
 			   	</div>
 			   	<div class="col-md-4">
-					<a href="#" editable-text="welcomeform.facebook">{{ welcomeform.facebook || "www.facebook.com/ninjajudoclasses" }}</a>
+					<a href="#" editable-text="me().facebook">{{ me().facebook||"www.facebook.com/"}}</a>
 				</div>
 				<div class="col-md-2">
-			   		<label for="welcomeform.twitter">Twitter</label>
+			   		<label for="me().twitter">Twitter</label>
 			   	</div>
 			   	<div class="col-md-4">
-					<a href="#" editable-text="welcomeform.twitter">{{ welcomeform.twitter || "www.twitter.com/#ninjajudoclasses" }}</a>
+					<a href="#" editable-text="me().twitter">{{ me().twitter||"www.twitter.com/"}}</a>
 				</div>
 			</div>
 		</section>
@@ -234,32 +223,70 @@
 		      </div>
 		   	<div class="row">
 		   		<div class="col-md-2">
-			   		<label for="welcomeform.desc">Description</label>
+			   		<label for="me().desc">Description</label>
 			   	</div>
 			   	<div class="col-md-9">
-					<a href="#" editable-textarea="welcomeform.desc" e-rows="7" e-cols="40" wrap="hard">
-					    <pre>{{ welcomeform.desc || 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\n The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using Content here, content here,\n making it look like readable English.' }}</pre>
+					<a href="#" editable-textarea="me().description" e-rows="7" e-cols="40" wrap="hard">
+					    <pre>{{ me().description || "No Value" }}</pre>
 					  </a>
 				</div>
 			</div>
 			<div class="row">
 		   		<div class="col-md-2">
-			   		<label for="welcomeform.fees">Fees</label>
+			   		<label for="me().fees">Fees</label>
 			   	</div>
 			   	<div class="col-md-4">
-					<a href="#" editable-text="welcomeform.fees">{{ welcomeform.fees || "10000" }}</a>
-					<a href="#" editable-text="welcomeform.unit">{{ welcomeform.unit || "Per Month" }}</a>
+					<a href="#" editable-text="me().fees">{{ me().fees || 0}}</a>
+					<a href="#" editable-text="me().unit">{{ me().unit || "per month"}}</a>
 				</div>
 				<div class="col-md-2">
-			   		<label for="welcomeform.minagelimit">Age Limit</label>
+			   		<label for="me().age.min">Age Limit</label>
 			   	</div>
 			   	<div class="col-md-2">
-					<a href="#" editable-text="welcomeform.minagelimit">{{ welcomeform.minage || "5" }}</a>
+					<a href="#" editable-text="me().age.from">{{ me().age.from || 0 }}</a>
 					<label> to </label>
-					<a href="#" editable-text="welcomeform.maxagelimit">{{ welcomeform.maxage || "15" }}</a>
+					<a href="#" editable-text="me().age.to">{{ me().age.to || 99}}</a>
 					<label> years </label>
 				</div>
 			</div>
+		
+			<div class="row">
+				<div class="col-md-2">&nbsp;
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-md-2">
+					<label for="me().batches">Batches</label>
+				</div>
+			</div>
+			<div class="row" style="margin-left:17%;margin-right:8%;">
+			 <table class="table table-hover table-condensed">
+			    <thead class=".table-warning" style="font-weight: bold">
+			      <td style="width:45%">Days</td>
+			      <td style="width:20%">Start Time</td>
+			      <td style="width:20%">End Time</td>
+			      <td style="width:15%">&nbsp;</td>
+			    </thead>
+			    <tr ng-repeat="batch in me().batches">
+			    	<td style="vertical-align:middle;">
+			    		<a href="#" editable-checklist="batch.days" e-ng-options="nday.day for nday in daylist">
+    						{{ showdays(batch) }}
+  						</a>
+  					</td>
+  					<td style="vertical-align:middle;">
+  						<a href="#" editable-text ="me().batches[$index].starttime" >{{batch.starttime || 'Not set' }}</a>
+  					</td>
+  					<td style="vertical-align:middle;">
+  						<a href="#" editable-text ="me().batches[$index].endtime" >{{batch.endtime || ' Not set' }}</a>
+  					</td>
+			    	<td style="white-space: nowrap">
+			          <button class="btn btn-danger" ng-click="removeBatch($index)">Delete</button>
+			      </td>	
+			</table>
+			<button class="btn btn-success" ng-click="addBatch()">Add Batch</button>
+			</div>			
+
 		</section>
 		
 		<!-- Location details -->
@@ -269,11 +296,20 @@
 		      </div>
 		   <div class="row">
 				<div class="col-md-2">
-			   		<label for="welcomeform.landmark">Landmark</label>
+			   		<label for="me().landmark">Landmark</label>
 			   	</div>
-			   	<div class="col-md-4">
-					<a href="#" editable-text="welcomeform.landmark">{{ welcomeform.landmark || "RNA Heights" }}</a>
+			   	<div class="col-md-8">
+					<!-- a href="#" editable-text="me().landmark" id="address">{{ me().landmark|| "No Value"}}</a-->
+					<input class="form-control input-md padding-top-5" ng-model="me().landmark" id="address"> 
 				</div>
+			</div>
+			<div class="row">
+				 <div id="map_canvas" style="margin-left:2%; width: 90%; height: 300px;"></div>
+					    <div class="row">
+					    	<div class="col-md-3"><input class="form-control input-sm" ng-model="me().loc.coordinates[0]" id="latitude" type="text" placeholder="Latitude"></div>
+					       	<div class="col-md-3"><input  class="form-control input-sm" ng-model="me().loc.coordinates[1]" id="longitude" type="text" placeholder="Longitude"></div>
+					    </div>
+					   
 			</div>
 		</section>
 		
@@ -293,7 +329,14 @@
 			  		
 			  </div>
 
- 		<ul class="row">
+		<ul class="row">
+			<li class="col-lg-2 col-md-2 col-sm-3 col-xs-4" ng-repeat="image in me().images">
+				    <span class="closebtn">&times;</span>
+                <img class="img-responsive" ng-src="{{image.imgurl}}">
+            </li>
+            
+		</ul>
+ 		<!-- ul class="row">
             <li class="col-lg-2 col-md-2 col-sm-3 col-xs-4">
                 <span class="closebtn">&times;</span>
                 <img class="img-responsive" src="images/photodune-174908-rocking-the-night-away-xs.jpg">
@@ -391,7 +434,7 @@
             <span class="closebtn" >&times;</span>
                 <img class="img-responsive" src="images/photodune-682990-online-search-xs.jpg">
             </li>
-          </ul> 
+          </ul--> 
           
          	<div  class="page-header">
 		      	<h4> User Photos</h4>
@@ -428,7 +471,8 @@
   	</section>
 	</div>
 		
-		
+ 	
+	{{me()|json}}	
 </div>
 
 				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

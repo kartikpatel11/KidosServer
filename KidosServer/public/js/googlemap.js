@@ -22,13 +22,12 @@ function initialize(){
   });
         
 }
-
   
 $(document).ready(function() { 
   
-  initialize();
+	initialize();
 
-  google.maps.event.addDomListener(window, 'load', initialize);     
+	google.maps.event.addDomListener(window, 'load', initialize);     
           
   $(function() {
     $("#address").autocomplete({
@@ -65,6 +64,10 @@ $(document).ready(function() {
     });
   });
   
+  
+  
+  
+  
   //Add a listener to the marker for reverse geocoding
   google.maps.event.addListener(marker, 'drag', function() {
     geocoder.geocode({'latLng': marker.getPosition()}, function(results, status) {
@@ -77,4 +80,7 @@ $(document).ready(function() {
       }
     });
   }); 
+  
 });
+
+

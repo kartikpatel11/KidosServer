@@ -3,6 +3,40 @@ var kidosApp = angular.module('kidosApp',['ui.bootstrap','ui.router','xeditable'
 	kidosApp.run(function(editableOptions) {
   		editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
 	});
+	
+	kidosApp.service('kidosSharedProperties', ['$http','$q', function ($http,$q) {
+        var welcomeform={};
+        
+        var deferObject;
+        
+        this.getWelcomeForm = function() {
+        	return welcomeform;
+        };
+        
+        this.setWelcomeForm = function(data) {
+        	welcomeform=data;
+        }
+        
+    	this.getCategoryPromise = function() {
+    		var promise=$http.get('http://localhost:8080/listCategories'),
+    		deferObject =  deferObject || $q.defer();
+        		
+        		 promise.then(
+                  // OnSuccess function
+                  function(answer){
+                    // This code will only run if we have a successful promise.
+                    deferObject.resolve(answer);
+                  },
+                  // OnFailure function
+                  function(reason){
+                    // This code will only run if we have a failed promise.
+                    deferObject.reject(reason);
+                  });
+ 
+           return deferObject.promise;
+        	}
+     }]);
+	
 
 	kidosApp.config(function($stateProvider, $urlRouterProvider) {
     
@@ -78,12 +112,10 @@ var kidosApp = angular.module('kidosApp',['ui.bootstrap','ui.router','xeditable'
    
 
       });
-        
-
-       
+     
 
 
-kidosApp.controller('KidosAppCtrl', function($scope,$http,$location) {
+kidosApp.controller('KidosAppCtrl', function($scope,$http,$location,kidosSharedProperties) {
   
  /* $http.get("/kidoswebgui/test").success(function(response){
   
@@ -91,6 +123,7 @@ kidosApp.controller('KidosAppCtrl', function($scope,$http,$location) {
   $scope.message = response;
   });
   */
+
 
    $scope.myInterval = 5000;
   $scope.noWrapSlides = false;
@@ -209,20 +242,21 @@ kidosApp.controller('KidosAppCtrl', function($scope,$http,$location) {
   $scope.registerActivity = function () {
 
    
-     $http.post('http://www.kidos.co.in/registeractivity', $scope.form).
+     $http.post('http://localhost:8080/registeractivity', $scope.form).
       success(function(data) {
         $location.path('/');
       }); 
   };
 
 
- $scope.welcomeform={};
+ 
  $scope.loginService = function () {
 
-	  $http.post('http://www.kidos.co.in/loginservice', $scope.loginform).
+	  $http.post('http://localhost:8080/loginservice', $scope.loginform).
       success(function(data) {
-      	$scope.welcomeform=data;
-      	alert("2"+ JSON.stringify($scope.welcomeform));
+      	kidosSharedProperties.setWelcomeForm(data);
+      	//var d=[{"name":"hello world"}];
+      	//kidosSharedProperties.setWelcomeForm(d);
         $location.path('/welcome');
       }) 
       .error(function(data, status, headers, config) {
@@ -236,14 +270,19 @@ kidosApp.controller('KidosAppCtrl', function($scope,$http,$location) {
 };
 
   //fetch activity type
-  $scope.categories = [];
+  var categoryPromise = kidosSharedProperties.getCategoryPromise();
 
-   
-     $http.get('http://www.kidos.co.in/listCategories').
-        success(function(data){
-            $scope.categories=data;
-    });
-    
+	categoryPromise.then(
+        // OnSuccess function
+        function(answer) {
+     	  $scope.categorylist = answer.data;
+        },
+        // OnFailure function
+        function(reason) {
+          
+        }
+   );
+
     
   
 
@@ -258,7 +297,32 @@ kidosApp.filter('range', function() {
   };
 });
 
-kidosApp.controller('KidosWelcomeCtrl', ['$scope', function ($scope) {
+kidosApp.controller('KidosWelcomeCtrl', [ '$scope', 'kidosSharedProperties', function ($scope, kidosSharedProperties) {
+
+//$scope.welcomeform= {name:"heloworld"};
+
+$scope.me=kidosSharedProperties.getWelcomeForm;
+
+
+$scope.daylist= [
+        {day:'Mon'},
+        {day:'Tue'},
+        {day:'Wed'},
+        {day:'Thu'},
+        {day:'Fri'},
+        {day:'Sat'},
+        {day:'Sun'}
+    ];
+    
+$scope.showdays = function(batch) {
+    var selected = [];
+    angular.forEach($scope.daylist, function(d) { 
+      if (batch.days.indexOf(d.day) >= 0) {
+        selected.push(d.day);
+      }
+    });
+    return selected.length ? selected.join(', ') : 'Not set';
+  };
 
 $scope.rating = 0;
     $scope.ratingcount = [40,23,55,11,0];
@@ -272,7 +336,72 @@ $scope.rating = 0;
     	return $scope.ratingcount[rating-1];
     }
 
-}]);
+
+$scope.initializeWithValues = function(longstr,latstr) {
+	  
+	        // obtain the attribues of each marker
+	        var lat = parseFloat(latstr);
+	        var lng = parseFloat(longstr);
+
+	        var myLatlng = new google.maps.LatLng(lat, lng);
+	        var options = {
+	        	    zoom: 16,
+	        	    center: myLatlng,    
+	        	    mapTypeId: google.maps.MapTypeId.ROADMAP // ROADMAP | SATELLITE | HYBRID | TERRAIN
+	        	  };
+	        	        
+	        	  map = new google.maps.Map(document.getElementById("map_canvas"), options);
+	        	        
+	        	  //GEOCODER
+	        	  geocoder = new google.maps.Geocoder();
+	        	        
+	        	  marker = new google.maps.Marker({
+	        	    map: map,
+	        	    position:myLatlng,
+	        	    draggable: true
+	        	  });
+	        	 
+	    }
+
+	if($scope.me().loc!=null)
+	{
+		
+			$scope.initializeWithValues($scope.me().loc.coordinates[0],$scope.me().loc.coordinates[1]);
+	}
+	
+	
+	$scope.removeBatch=function(index) {
+	
+		$scope.me().batches.splice(index,1);
+	}
+	
+	$scope.addBatch = function() {
+    $scope.inserted = {
+      days: [],
+      starttime: '',
+      endtime: '' 
+    };
+    $scope.me().batches.push($scope.inserted);
+  };
+	
+	
+ var categoryPromise = kidosSharedProperties.getCategoryPromise();
+
+	categoryPromise.then(
+        // OnSuccess function
+        function(answer) {
+          $scope.categorylist = answer.data;
+        },
+        // OnFailure function
+        function(reason) {
+          
+        }
+  	 );
+
+
+	}]);
+
+    
 
 
 

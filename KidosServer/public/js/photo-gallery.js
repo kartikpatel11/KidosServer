@@ -29,6 +29,7 @@ $(document).ready(function(){
    });
 	
 	$('li span').on('click',function(){
+		alert("about to hide");
 		var index = $(this).parent().hide();
 		
 		
@@ -54,10 +55,10 @@ $(document).ready(function(){
 		var total = $('ul.row li').length; 
 		for(i=0;i<total;i++)
 		{
-			//$('ul.row li').show();
+			$('ul.row li').show();
 			var sp= $('ul.row li')[i].getElementsByTagName('span');
 			sp[0].style.visibility="hidden";
-			sp[0].parent().show();
+			//sp[0].parent().show();
 		};
 		
 		$('#remove').show();
