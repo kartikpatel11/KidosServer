@@ -1,6 +1,7 @@
-$(document).ready(function(){        
-	$('li img').on('click',function(){
-		
+$(document).ready(function(){    
+	
+	$("#imglist").on("click", "img", function() {
+	//$('li img').on('click',function(){
 		var src = $(this).attr('src');
 		var img = '<img src="' + src + '" class="img-responsive"/>';
 		
@@ -28,7 +29,8 @@ $(document).ready(function(){
 		
    });
 	
-	$('li span').on('click',function(){
+	$("#imglist").on("click", "span", function() {
+//	$('li span').on('click',function(){
 		alert("about to hide");
 		var index = $(this).parent().hide();
 		

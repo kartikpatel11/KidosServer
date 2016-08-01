@@ -760,4 +760,39 @@ body.modal-open div.modal-backdrop {
   margin-left: auto;
   margin-right: auto; }
 
+.center-modal {
+    position: fixed;
+    top: 25%;
+    left: 18.5%;
+    z-index: 1050;
+    width: 80%;
+    height: 80%;
+    margin-left: -10%;
+}
 
+.modal-header{
+    background-color: #3498db;
+    color: white;
+    font-size:17px;
+	
+}
+.modal-body{
+    text-align:center;
+    font-size:15px;
+   font-family: sans-serif;
+
+}
+
+.modal-input{
+	margin-top: 12px;
+	font-family: sans-serif !important;
+	text-align: center;
+	width: 40%
+}
+
+.modal-footer{
+    margin-top: 0;
+    margin: 0;
+    background-color: transparent;
+    text-align: center;
+}

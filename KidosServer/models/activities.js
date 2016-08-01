@@ -6,7 +6,9 @@ var activitycounter = require('../models/activitycounter.js');
 
 var activitiesSchema= new Schema({
 	activityId: {type:Number},
-	name: {type:String, required:true},
+	name: {type:String},
+	OTP: {type:Number},
+	activityStatus: {type: Number, required:true},
 	images: [{
 		primaryimg: {type:String},
 		imgurl: {type:String}
@@ -24,7 +26,7 @@ var activitiesSchema= new Schema({
 		mobno: {"type": String}
 	},
 	description: {type: String},
-	addressline1: {type: String, required:true},
+	addressline1: {type: String},
 	addressline2: {type: String},
 	landmark: {type: String},
 	area:{type: String},
@@ -65,5 +67,9 @@ activitiesSchema.pre('save', function(next) {
         next();
     })
 });
+
+activitiesSchema.statics.findAndModify = function (query, sort, doc, options, callback) {
+	  return this.collection.findAndModify(query, sort, doc, options, callback);
+	};
 
 module.exports = mongoose.model('activities', activitiesSchema);

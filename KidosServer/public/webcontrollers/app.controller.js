@@ -9,6 +9,27 @@ var kidosApp = angular.module('kidosApp',['ui.bootstrap','ui.router','xeditable'
         
         var deferObject;
         
+        var modalInstance;
+        
+        this.setModalInstance = function(modalObj)
+        {
+        	modalInstance=modalObj;
+        };
+        
+        this.getmodalInstance = function()
+        {
+        	if(modalInstance)
+        		return modalInstance;
+        	else
+        		return null;
+        }
+        
+        this.closeModal = function()
+        {
+        	modalInstance.close('success');
+        };
+        
+        
         this.getWelcomeForm = function() {
         	return welcomeform;
         };
@@ -45,6 +66,13 @@ var kidosApp = angular.module('kidosApp',['ui.bootstrap','ui.router','xeditable'
 
         $stateProvider.state('/', {
             url: '/',
+            templateUrl: 'kidoshome.html',
+            controller: 'KidosAppCtrl'
+        })
+        
+        //kidos authenticate user
+        $stateProvider.state('auth', {
+            url: '/auth',
             templateUrl: 'kidoshome.html',
             controller: 'KidosAppCtrl'
         })
@@ -115,15 +143,9 @@ var kidosApp = angular.module('kidosApp',['ui.bootstrap','ui.router','xeditable'
      
 
 
-kidosApp.controller('KidosAppCtrl', function($scope,$http,$location,kidosSharedProperties) {
-  
- /* $http.get("/kidoswebgui/test").success(function(response){
-  
-  $scope.logo = "../images/kidos_logo.png";  
-  $scope.message = response;
-  });
-  */
 
+kidosApp.controller('KidosAppCtrl', function($scope,$http,$location,$modal,kidosSharedProperties) {
+  
 
    $scope.myInterval = 5000;
   $scope.noWrapSlides = false;
@@ -131,10 +153,7 @@ kidosApp.controller('KidosAppCtrl', function($scope,$http,$location,kidosSharedP
 
   $scope.addSlide = function(i) {
     slides.push({
-     // image: '//placekitten.com/' + newWidth + '/300',
         image: '../images/kidosweb'+i+'.jpeg',
-        //text: ['More','Extra','Lots of','Surplus'][slides.length % 4] + ' ' +
-       // ['Cats', 'Kittys', 'Felines', 'Cutes'][slides.length % 4]
     });
   };
   for (var i=1; i<6; i++) {
@@ -149,38 +168,6 @@ kidosApp.controller('KidosAppCtrl', function($scope,$http,$location,kidosSharedP
 
 
 
-  //Generic Modal launch
- /* function launchDialogs(which,data){
-    var dlg = null;
-    switch(which){
-        
-      // Error Dialog
-      case 'error':
-        dlg = $dialogs.error(data);
-        break;
-        
-     // Wait / Progress Dialog
-      case 'wait':
-        dlg = $dialogs.wait(msgs[i++],progress);
-        fakeProgress();
-        break;
-        
-      // Notify Dialog
-      case 'notify':
-        dlg = $dialogs.notify('Something Happened!','Something happened that I need to tell you.');
-        break;
-        
-      // Confirm Dialog
-      case 'confirm':
-        dlg = $dialogs.confirm('Please Confirm','Is this awesome or what?');
-        dlg.result.then(function(btn){
-          $scope.confirmed = 'You thought this quite awesome!';
-        },function(btn){
-          $scope.confirmed = 'Shame on you for not thinking this is awesome!';
-        });
-        break;
-    	};
-    };*/
 
   $scope.form = {};
 
@@ -255,8 +242,7 @@ kidosApp.controller('KidosAppCtrl', function($scope,$http,$location,kidosSharedP
 	  $http.post('http://localhost:8080/loginservice', $scope.loginform).
       success(function(data) {
       	kidosSharedProperties.setWelcomeForm(data);
-      	//var d=[{"name":"hello world"}];
-      	//kidosSharedProperties.setWelcomeForm(d);
+      	
         $location.path('/welcome');
       }) 
       .error(function(data, status, headers, config) {
@@ -266,6 +252,8 @@ kidosApp.controller('KidosAppCtrl', function($scope,$http,$location,kidosSharedP
            // launchDialogs('error',data.error);
         }
   });
+  
+  
 
 };
 
@@ -283,7 +271,15 @@ kidosApp.controller('KidosAppCtrl', function($scope,$http,$location,kidosSharedP
         }
    );
 
-    
+    if($location.path().indexOf('auth') > -1 && kidosSharedProperties.getmodalInstance()==null) {
+    		 kidosSharedProperties.setModalInstance(
+    		 	$modal.open({
+    				templateUrl: '../kidosauth.html',
+					controller: 'KidosAuthCtrl',
+					windowClass: 'center-modal',
+					scope: $scope
+				}));
+		};
   
 
 });
@@ -296,6 +292,73 @@ kidosApp.filter('range', function() {
     return val;
   };
 });
+
+
+
+kidosApp.controller('KidosAuthCtrl', [ '$scope', '$http', '$location','kidosSharedProperties', function ($scope,$http,$location, kidosSharedProperties) {
+
+	$scope.activatebtndisabled=true;
+	$scope.otpmsg=false;
+	
+	//OTP button variables
+	$scope.generateOTPtxt="Generate OTP";
+	$scope.otppending=true;
+	
+	//Auth Button variables
+	$scope.authstarted=false;
+	
+	$scope.autherr=false;
+	
+	
+	$scope.generateOTP = function() {
+	
+			
+			$scope.activatebtndisabled=false;
+			$scope.generateOTPtxt="Re-Generate OTP";
+			$scope.otppending=false;
+			$scope.otpmsg=false;
+			
+			$scope.authstarted=false;
+			$scope.autherr=false; 		
+			$http.post('http://localhost:8080/generateOTP', $scope.authform).
+      success(function(data) {
+      		$scope.otpmsg=true;
+       		
+      	});
+      	//temp
+      	$scope.otpmsg=true;
+      };
+      
+      $scope.authenticateUser =function() {
+    
+     	$scope.activatebtndisabled=true;
+     	$scope.otpmsg=false;
+     	$scope.authstarted=true; 
+     
+     	$scope.authStatusTxt="Verifying credentials, Please wait";
+     	 
+     	$http.post('http://localhost:8080/authenticateuser', $scope.authform).
+      success(function(data) {
+      		$scope.otpsent=false;
+      		
+      		kidosSharedProperties.closeModal();
+      		//open kidoswelcome page with activity details
+      		kidosSharedProperties.setWelcomeForm(data);
+      		
+      		$location.path('/welcome');
+       		
+      	})
+      .error(function (error, status){
+      	$scope.activatebtndisabled=false;
+      	$scope.authstarted=false; 
+      	
+      	$scope.autherr=true;
+      	$scope.authStatusTxt="Ouch!! wrong OTP , Please check";
+      	}); 
+			
+	}; 
+}]);
+
 
 kidosApp.controller('KidosWelcomeCtrl', [ '$scope', 'kidosSharedProperties', function ($scope, kidosSharedProperties) {
 

@@ -48,7 +48,9 @@ app.get('/kidoswebgui/test', function(req,res){
 
 //used by kidos web
 var webapi = require('./controllers/webapi.js');
-
+app.get('/sendactivationtext', webapi.sendactivationtext);
+app.post('/generateOTP', webapi.generateOTP);
+app.post('/authenticateuser', webapi.authenticateuser);
 app.post('/registeractivity', webapi.registeractivity);
 app.post('/loginservice', webapi.loginservice);
 app.get('/sign', webapi.sign);
