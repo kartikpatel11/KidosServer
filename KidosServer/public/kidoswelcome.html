@@ -1,16 +1,19 @@
-<!DOCTYPE html>
 <html>
 <head>
 	<title>Welcome</title>
+	
 	<link href="stylesheets/simple-sidebar.css" rel="stylesheet">
 	<link href="stylesheets/xeditable.css" rel="stylesheet">
-	
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-	<script src="//netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="stylesheets/kc.fab.css"/>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>
+        
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.css">
+	  <!-- script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	  
+    
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script-->
 	<script src="js/photo-gallery.js"></script>
 	<script type="text/javascript" src="js/googlemap.js"></script>
-	
-	 
 	
 	
 </head>
@@ -21,8 +24,7 @@
       }
       ul li {     
           list-style:none;
-          margin-bottom:25px;           
-      }
+        }
       ul li img {
           cursor: pointer;
       }
@@ -67,6 +69,9 @@
 
 
 <body>
+        <div class="kc_fab_wrapper" >
+
+        </div>
 <script>
 
     $("#menu-toggle").click(function(e) {
@@ -75,9 +80,10 @@
     });
     
     
-   
     
     </script>
+    
+
  	<div id="wrapper">
    		<div id="sidebar-wrapper">
             <ul class="sidebar-nav">
@@ -94,7 +100,7 @@
         </div>    
         <header>
 			  <div class="mytitle">
-			    <h1 class=myh1" editable-text="me().name">{{ me().name|| "No Value"}}</h1>
+			    <h1 class="myh1 editablefield" editable-text="me().name">{{ me().name|| "No Value"}}</h1>
 			    	<!-- p class="numberCircle">4</p-->
 					<p class="myp1" star-rating rating-value="getSelectedRating(4)" max="getSelectedRating(5)" />
 					<p class="myp2" style="color:white">14 Reviews</p>
@@ -324,11 +330,31 @@
 			      		<button type="button" id="remove" class="btn btn-danger btn-xs pull-right" style="margin:2px">Remove <span class="glyphicon glyphicon-trash"></span></button>
 			      		<button type="button" id="cancel" class="btn btn-warning btn-xs pull-right" style="display: none;margin:2px">Cancel <span class="glyphicon glyphicon-remove"></span></button>
 						<button type="button" id="ok" class="btn btn-success btn-xs pull-right" style="display: none;margin:2px">OK <span class="glyphicon glyphicon-ok"></span></button>
-					  	<button type="button" id="add" class="btn btn-primary btn-xs pull-right" style="margin:2px">Add <span class="glyphicon glyphicon-plus"></span></button>&nbsp;
-						</div>
+					  	<label id="add" class="btn btn-primary btn-xs pull-right btn-file" style="margin:2px">
+    						Add  <span class="glyphicon glyphicon-plus"></span><input type="file" style="display: none;" onchange="angular.element(this).scope().addChanged(this)">
+						</label>
+					</div>
 			  		
 			  </div>
-
+		
+			<div class="row">
+				<div id="progressrow">
+					<div class="col-md-10">
+						<div class="progress">
+						  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0"
+						  aria-valuemin="0" aria-valuemax="100" style="width:0%">
+						  	<span id="progresstext">0%</span>
+						 </div>
+					  </div>
+					 </div>
+					  <div class="col-md-2">
+						<button type="button" class="btn btn-danger btn-xs btn-round btn-margin"><span class="glyphicon glyphicon-remove" ng-click="abortupload()"></span></button>  	
+					  </div>
+				</div>
+			</div>	
+			<script>
+					$('#progressrow').hide();
+			</script>
 		<ul class="row" id="imglist">
 			<li class="col-lg-2 col-md-2 col-sm-3 col-xs-4" ng-repeat="image in me().images">
 				    <span class="closebtn">&times;</span>
@@ -371,7 +397,15 @@
   	</section>
 	</div>
 		
- 	
+		
+ 	<script>
+		 		$('.fab').hover(function () {
+		    $(this).toggleClass('active');
+		});
+		$(function () {
+		  $('[data-toggle="tooltip"]').tooltip()
+		})
+ 	</script>
 	{{me()|json}}	
 </div>
 
@@ -383,6 +417,71 @@
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div>
+    
+        <script src="js/kc.fab.js"></script>
+        <script>
+            $(document).ready(function(){
+                var links = [
+                    {
+                        "bgcolor":"#EF4130",
+                        "icon":"<i class='fa fa-check'></i>"
+                    },
+                    {
+                        "url":"http://www.example.com",
+                        "bgcolor":"red",
+                        "color":"#fffff",
+                        "icon":"<i class='fa fa-remove'></i>",
+                        "target":"_blank"
+                    },
+                    {
+                        "url":"http://www.example.com",
+                        "bgcolor":"green",
+                        "color":"white",
+                        "icon":"<i class='fa fa-save'></i>"
+                    }
+                ]
+                $('.kc_fab_wrapper').kc_fab(links);
+            })
+        </script>
+    
+        	    	<!-- div class="container">
+	<div class="row">
+		        <div id="inbox">
+          <div class="fab btn-group show-on-hover dropup">
+              <div data-toggle="tooltip" data-placement="left" title="Compose" style="margin-left: 42px;">
+          <button type="button" class="btn btn-danger btn-io dropdown-toggle" data-toggle="dropdown">
+            <span class="fa-stack fa-2x">
+                <i class="fa fa-circle fa-stack-2x fab-backdrop"></i>
+                <i class="fa fa-plus fa-stack-1x fa-inverse fab-primary"></i>
+                <i class="fa fa-pencil fa-stack-1x fa-inverse fab-secondary"></i>
+            </span>
+          </button></div>
+          <ul class="dropdown-menu dropdown-menu-right" role="menu">
+            <li><a href="#" data-toggle="tooltip" data-placement="left" title="Coffee"><i class="fa fa-coffee"></i></a></li>
+            <li><a href="#" data-toggle="tooltip" data-placement="left" title="LiveChat"><i class="fa fa-comments-o"></i></a></li>
+            <li><a href="#" data-toggle="tooltip" data-placement="left" title="Reminders"><i class="fa fa-hand-o-up"></i></a></li>
+            <li><a href="#" data-toggle="tooltip" data-placement="left" title="Invites"><i class="fa fa-ticket"></i></a></li>
+          </ul>
+        </div>
+        </div>
+	</div>
+</div>
+
+ <div class="navbar navbar-primary navbar-fixed-bottom" id="footer">
+    <div class="container">
+   <div class="col-md-5">&nbsp;</div>
+   <div class="col-md-3 text-center">
+    <div class=" navbar-btn btn-success btn ">
+      <span class="glyphicon glyphicon-floppy-disk"></span> Save</div>
+    
+      <div class="navbar-btn btn-danger btn ">
+      <span class="glyphicon glyphicon-remove"></span> Cancel</div>
+    </div>
+    </div>
+    
+    
+  </div-->
 </body>
+
 
 </html>

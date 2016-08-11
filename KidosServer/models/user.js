@@ -10,7 +10,9 @@ var userSchema = new Schema({
     firstname: String,
     lastname: String,
     emailid: String,
-    password: String
+    password: String,
+    OTP: Number,
+    nickname: String
 });
 
 userSchema.pre('save', function(next) {
@@ -23,6 +25,10 @@ userSchema.pre('save', function(next) {
         next();
     })
 });
+
+userSchema.statics.findAndModify = function (query, sort, doc, options, callback) {
+	  return this.collection.findAndModify(query, sort, doc, options, callback);
+	};
 
 
 module.exports = mongoose.model('user', userSchema);

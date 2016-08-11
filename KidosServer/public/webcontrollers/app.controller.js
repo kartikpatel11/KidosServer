@@ -11,8 +11,21 @@ var kidosApp = angular.module('kidosApp',['ui.bootstrap','ui.router','xeditable'
         
         var modalInstance;
         
+        var passresetOTPModalInstance;
+        
+        this.setPassResetModalInstance= function(modalObj)
+        {
+        	if(passresetOTPModalInstance!=null)
+        		passresetOTPModalInstance.close('success');
+        		
+        	passresetOTPModalInstance=modalObj;
+        };
+        
         this.setModalInstance = function(modalObj)
         {
+        	if(modalInstance!=null)
+        		modalInstance.close('success');
+        		
         	modalInstance=modalObj;
         };
         
@@ -29,6 +42,10 @@ var kidosApp = angular.module('kidosApp',['ui.bootstrap','ui.router','xeditable'
         	modalInstance.close('success');
         };
         
+        this.openModal = function()
+        {
+        	modalInstance.open();
+        };
         
         this.getWelcomeForm = function() {
         	return welcomeform;
@@ -36,6 +53,10 @@ var kidosApp = angular.module('kidosApp',['ui.bootstrap','ui.router','xeditable'
         
         this.setWelcomeForm = function(data) {
         	welcomeform=data;
+        }
+        
+         this.clearWelcomeForm = function() {
+        	welcomeform={};
         }
         
     	this.getCategoryPromise = function() {
@@ -77,6 +98,19 @@ var kidosApp = angular.module('kidosApp',['ui.bootstrap','ui.router','xeditable'
             controller: 'KidosAppCtrl'
         })
         
+        //kidos password reset otp
+        $stateProvider.state('passresetotp', {
+            url: '/passresetotp',
+            templateUrl: 'kidoshome.html',
+            controller: 'KidosAppCtrl'
+        })        
+        
+        //kidos password reset
+        $stateProvider.state('passwordreset', {
+            url: '/passwordreset',
+            templateUrl: 'kidoshome.html',
+            controller: 'KidosAppCtrl'
+        })   
 
         //KidosRegistration Links Starts
         .state('signup', {
@@ -91,6 +125,13 @@ var kidosApp = angular.module('kidosApp',['ui.bootstrap','ui.router','xeditable'
             url: '/welcome',
             templateUrl: 'kidoswelcome.html',
             controller: 'KidosWelcomeCtrl'
+        
+        })
+        
+        .state('signout', {
+            url: '/signout',
+            templateUrl: 'kidoshome.html',
+            controller: 'KidosAppCtrl'
         
         })
 
@@ -144,7 +185,7 @@ var kidosApp = angular.module('kidosApp',['ui.bootstrap','ui.router','xeditable'
 
 
 
-kidosApp.controller('KidosAppCtrl', function($scope,$http,$location,$modal,kidosSharedProperties) {
+kidosApp.controller('KidosAppCtrl', function($scope,$http,$location,$modal,$state,kidosSharedProperties) {
   
 
    $scope.myInterval = 5000;
@@ -232,23 +273,34 @@ kidosApp.controller('KidosAppCtrl', function($scope,$http,$location,$modal,kidos
      $http.post('http://localhost:8080/registeractivity', $scope.form).
       success(function(data) {
         $location.path('/');
-      }); 
+      });
+       
   };
 
-
+ $scope.name='';
  
  $scope.loginService = function () {
-
+	
+	  $scope.loginStatusTxt='';
+	  $scope.loginerr=false;
+	  
 	  $http.post('http://localhost:8080/loginservice', $scope.loginform).
       success(function(data) {
       	kidosSharedProperties.setWelcomeForm(data);
-      	
+      	$scope.name=data.nickname;
+      	$('#menu2').show();
+      		$('#menu1').hide();
+      		
+      	  $scope.loginerr=true;
+      	  $("#loginmenu").dropdown("toggle");
+      	 // $(".dropdown-menu").hide();
         $location.path('/welcome');
       }) 
       .error(function(data, status, headers, config) {
         console.error(data);
         if(status === 500) {
-           alert(data.error);
+        	
+            $scope.loginStatusTxt=data.msg;
            // launchDialogs('error',data.error);
         }
   });
@@ -271,15 +323,81 @@ kidosApp.controller('KidosAppCtrl', function($scope,$http,$location,$modal,kidos
         }
    );
 
-    if($location.path().indexOf('auth') > -1 && kidosSharedProperties.getmodalInstance()==null) {
-    		 kidosSharedProperties.setModalInstance(
-    		 	$modal.open({
-    				templateUrl: '../kidosauth.html',
+//open modal registration window
+
+	$scope.openAuthModalWindow =  function(resetind)
+	{
+		
+		var mymodal=$modal.open({
+    		 		templateUrl: '../kidosauth.html',
 					controller: 'KidosAuthCtrl',
 					windowClass: 'center-modal',
+					scope: $scope,
+					resolve: {
+      					resetind: function(){
+          				return resetind;
+      					}
+    				}
+				});
+				
+		mymodal.result.catch(function() {
+    			$('#register').blur();
+    			$state.go('/');
+		});	
+ 		kidosSharedProperties.setModalInstance(mymodal);
+			
+				
+	};
+	
+//open modal pass reset window
+
+	$scope.openAuthPassResetOTPModalWindow = function()
+	{
+	
+		var mymodal=$modal.open({
+    		 		templateUrl: '../kidospasswordresetotp.html',
+					controller: 'KidosPassResetCtrl',
+					windowClass: 'center-modal',
 					scope: $scope
-				}));
-		};
+				});
+				
+		mymodal.result.catch(function() {
+    			$('#passreset').blur();
+    			$state.go('/');
+		});	
+ 		kidosSharedProperties.setPassResetModalInstance(mymodal);
+	
+	};
+	
+//open signout modal window
+	$scope.openSignoutModalWindow = function()
+	{
+	
+		kidosSharedProperties.clearWelcomeForm();
+		$modal.open({
+    		 		templateUrl: '../kidossignout.html',
+					windowClass: 'center-modal',
+					scope: $scope
+				});
+		$('#menu1").show();
+		$('#menu2").hide();
+	}	
+	
+
+
+    if($location.path().indexOf('auth') > -1) {
+    			$scope.openAuthModalWindow();
+	};
+	
+	if($location.path().indexOf('passresetotp') > -1) {
+    			$scope.openAuthPassResetOTPModalWindow();
+	};
+	if($location.path().indexOf('passwordreset') > -1) {
+				$scope.openAuthModalWindow(1);
+	};
+		if($location.path().indexOf('signout') > -1) {
+				$scope.openSignoutModalWindow();
+	};
   
 
 });
@@ -294,9 +412,34 @@ kidosApp.filter('range', function() {
 });
 
 
+kidosApp.controller('KidosPassResetCtrl', [ '$scope', '$http', '$location','kidosSharedProperties', function ($scope,$http,$location, kidosSharedProperties) {
 
-kidosApp.controller('KidosAuthCtrl', [ '$scope', '$http', '$location','kidosSharedProperties', function ($scope,$http,$location, kidosSharedProperties) {
+	$scope.passresetotpsucess=false;
+	$scope.passresetotperr=false;
+	
+	$scope.generatePasswordResetOTP = function()
+	{
+		$http.post('http://localhost:8080/generatePasswordResetOTP', $scope.passresetform).
+      success(function(data) {
+      		$scope.msg = data.msg;
+      		$scope.passresetotpsucess=true;
+       		
+      	}).error(function(data, status, headers, config) {
+       		 console.error(data);
+        	if(status === 500) {
+        		$scope.msg = data.msg;
+        		$scope.passresetotperr=true;
+        	}
+        });
+	};
 
+}]);
+
+
+kidosApp.controller('KidosAuthCtrl', [ '$scope', '$http', '$location','resetind', 'kidosSharedProperties', function ($scope,$http,$location,resetind, kidosSharedProperties) {
+
+	
+	
 	$scope.activatebtndisabled=true;
 	$scope.otpmsg=false;
 	
@@ -306,61 +449,92 @@ kidosApp.controller('KidosAuthCtrl', [ '$scope', '$http', '$location','kidosShar
 	
 	//Auth Button variables
 	$scope.authstarted=false;
+	$scope.activatebtntext="Activate Account";
 	
 	$scope.autherr=false;
 	
+	if(resetind==1)
+	{
+		$scope.resetind=resetind;
+		$scope.activatebtndisabled=false;
+		$scope.activatebtntext="Reset Password";
+	}
 	
 	$scope.generateOTP = function() {
 	
-			
+	
+						
 			$scope.activatebtndisabled=false;
 			$scope.generateOTPtxt="Re-Generate OTP";
 			$scope.otppending=false;
 			$scope.otpmsg=false;
 			
 			$scope.authstarted=false;
-			$scope.autherr=false; 		
+			$scope.autherr=false; 
+					
 			$http.post('http://localhost:8080/generateOTP', $scope.authform).
       success(function(data) {
       		$scope.otpmsg=true;
        		
-      	});
-      	//temp
-      	$scope.otpmsg=true;
+      	}).error(function(data, status, headers, config) {
+       		 console.error(data);
+        	if(status === 500) {
+        		$scope.autherr=true; 
+           		$scope.authStatusTxt = data.msg;
+        	}
+        });
+
       };
       
       $scope.authenticateUser =function() {
     
      	$scope.activatebtndisabled=true;
      	$scope.otpmsg=false;
-     	$scope.authstarted=true; 
+     	$scope.authstarted=true;
+     	$scope.url=''; 
+     	$scope.path='';
      
-     	$scope.authStatusTxt="Verifying credentials, Please wait";
-     	 
-     	$http.post('http://localhost:8080/authenticateuser', $scope.authform).
+     	if(resetind==0)
+     	{
+     		$scope.authStatusTxt="Verifying credentials, Please wait";
+	     	$scope.url='http://localhost:8080/authenticateuser';
+	     	$scope.path='welcome/';
+	     }
+	     else
+	     {
+	    	$scope.authStatusTxt="Resetting credentials, Please wait";
+	     	$scope.url='http://localhost:8080/resetpassword';
+	     	
+	     } 
+	     	$http.post($scope.url, $scope.authform).
       success(function(data) {
       		$scope.otpsent=false;
       		
-      		kidosSharedProperties.closeModal();
-      		//open kidoswelcome page with activity details
-      		kidosSharedProperties.setWelcomeForm(data);
-      		
-      		$location.path('/welcome');
-       		
+      		if(resetind==0)
+      		{
+      			kidosSharedProperties.closeModal();
+      			//open kidoswelcome page with activity details
+      			kidosSharedProperties.setWelcomeForm(data);
+      			$location.path($scope.path);
+       		}
+       		else
+       		{
+       			$scope.authStatusTxt=data.msg;
+       		}
       	})
-      .error(function (error, status){
+      .error(function (data, status, headers, config){
       	$scope.activatebtndisabled=false;
       	$scope.authstarted=false; 
       	
       	$scope.autherr=true;
-      	$scope.authStatusTxt="Ouch!! wrong OTP , Please check";
+      	$scope.authStatusTxt=data.msg;
       	}); 
 			
 	}; 
 }]);
 
 
-kidosApp.controller('KidosWelcomeCtrl', [ '$scope', 'kidosSharedProperties', function ($scope, kidosSharedProperties) {
+kidosApp.controller('KidosWelcomeCtrl', [ '$scope', '$http', 'kidosSharedProperties', function ($scope, $http, kidosSharedProperties) {
 
 //$scope.welcomeform= {name:"heloworld"};
 
@@ -446,6 +620,122 @@ $scope.initializeWithValues = function(longstr,latstr) {
     };
     $scope.me().batches.push($scope.inserted);
   };
+	
+	
+	$scope.addimagedetails = function(name,address)
+    {
+    	$scope.me().images.push({name: name, imgurl: address});
+        
+    };
+    
+
+	
+	$scope.addChanged=function(element) {
+		
+         var file = element.files[0];
+			
+			sign_request(file, function(response) {
+				upload(file, response.signed_request, response.url, function() {
+					
+	       		$scope.$apply(function() {
+	          $scope.addimagedetails(file.name,response.url);
+	          
+	        })
+	      });
+
+		});
+	};
+	
+	var xhr = new XMLHttpRequest();
+	
+	
+	$scope.abortupload =function() {
+		abortfileupload();
+	};
+	
+	function abortfileupload()
+	{
+		xhr.abort();
+	}
+	
+	 function upload(file, signed_request, url, done) {
+	  
+
+		xhr.upload.onloadstart = function(e)
+		{
+				$('.progress-bar').css('width', '0%')
+                      .attr('aria-valuenow', 0)
+                        .addClass('progress-bar-success')
+                      .removeClass('progress-bar-danger');
+                      $("#progresstext").text('0%');
+		     	$('.progress').show();   
+			$('#progressrow').show();
+		};      
+    	xhr.upload.onprogress = function(e) {
+		    if (e.lengthComputable) {
+		    	
+		        	var percentComplete = Math.floor((e.loaded / e.total) * 100);
+		        	$('.progress-bar').css('width', percentComplete+'%')
+                      .attr('aria-valuenow', percentComplete);
+                      $("#progresstext").text(percentComplete +'%');
+		        	
+		        };
+		 };
+		 
+		 xhr.upload.onloadend = function(e) {
+		 	$(".progress-bar").animate({
+					    width: "100%"
+					}, 3000, function() {
+					    $(this).closest('.progress').fadeOut();
+					});
+			$('#progressrow').hide();
+		 };
+		 
+		 
+		xhr.upload.onerror = function(e) {
+		
+			$('.progress-bar').css('width', '100%')
+                      .attr('aria-valuenow', 100);
+		
+		};
+		
+		xhr.upload.onabort = function(e) {
+		
+   			$('#progressrow').hide();
+		
+		};
+      
+         
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          done()
+        }
+      }
+      
+      xhr.open("PUT", signed_request);
+      xhr.setRequestHeader('x-amz-acl', 'public-read');
+  
+      xhr.send(file)
+    };
+
+    function sign_request(file, done) {
+      var xhr = new XMLHttpRequest()
+      xhr.open("GET", "/sign?file_name=" + file.name + "&file_type=" + file.type)
+
+      xhr.onreadystatechange = function() {
+        if(xhr.readyState === 4 && xhr.status === 200) {
+          var response = JSON.parse(xhr.responseText)
+          done(response)
+        }
+      }
+
+      xhr.send()
+    };
+
+	
+	
+	
+	
 	
 	
  var categoryPromise = kidosSharedProperties.getCategoryPromise();

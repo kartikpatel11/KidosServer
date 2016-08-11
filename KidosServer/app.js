@@ -50,6 +50,8 @@ app.get('/kidoswebgui/test', function(req,res){
 var webapi = require('./controllers/webapi.js');
 app.get('/sendactivationtext', webapi.sendactivationtext);
 app.post('/generateOTP', webapi.generateOTP);
+app.post('/generatePasswordResetOTP',webapi.generatePasswordResetOTP);
+app.post('/resetpassword',webapi.resetpassword);
 app.post('/authenticateuser', webapi.authenticateuser);
 app.post('/registeractivity', webapi.registeractivity);
 app.post('/loginservice', webapi.loginservice);

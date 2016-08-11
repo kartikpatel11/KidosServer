@@ -26,11 +26,174 @@ var ACTIVITY_MSG ='Welcome to Kidos, the one place to find near by activities fo
 var LOW_RANDOM_LIMIT=1001;
 var HIGH_RANDOM_LIMIT=9999;
 
+//standard error messages
+var STD_ERR_MSG ='Ohh! Some internal error. Please try again';
+
 
 //send activation text
 exports.sendactivationtext = (function(req,res){
-	var phno;
-	//sendsms(phno,ACTIVITY_MSG);
+	var phno=req.body.txtmobno;
+	var output=sendsms(phno,ACTIVITY_MSG);
+	if(output==0)
+	{
+		res.status(500).send({msg: STD_ERR_MSG});
+	}
+	else
+	{
+		res.status(201).send("Success");
+	}
+});
+
+
+// reset password
+exports.resetpassword = (function(req,res){
+	
+	//Get mobile no and otp
+	var mobno= req.body.txtmobno;
+	var otpno = req.body.txtotp;
+	var email = req.body.txtemailid;
+	var pass = req.body.txtpass;
+	
+	
+	console.log("in reset password :"+JSON.stringify(req.body));
+	console.log("mobno="+mobno+",otpno="+otpno+",email="+email+",pass="+pass);
+	
+	user.update(
+			{
+				$and: [
+				      	{"emailid":email},
+				      	{"OTP":otpno}
+				      ]
+			},
+			{$set:{"password":pass}},
+			function(err,result) {
+				if(!err && result.nModified==1)
+				{
+				
+					console.log("result="+JSON.stringify(result));
+					console.log("password reset successfully for "+mobno);
+		    		res.status(201).send({msg: "Password reset successfully. Please log in using new password."});
+	    		
+				}
+				else
+				{
+					console.log("Error updating password for "+mobno);
+					res.status(500).send({msg:"Error updating password. Please ensure emailID, mobile number and OTP is correct"});
+				}
+			}
+	);
+	
+});
+
+
+
+
+//generate password reset OTP
+exports.generatePasswordResetOTP = (function(req, res){
+	//Check if phone is registered or emailid is registered
+	var mobno= req.body.txtmobno;
+	var email= req.body.txtemailid;
+	
+	if(mobno!=null && mobno!='')
+	{
+		console.log("in generatePasswordResetOTP: trying to find mobno "+mobno);
+	
+		//check if any activity is linked to given phno
+		activities.find(
+			{
+				   	   $or: [
+				    	         { 'contacts.phno': mobno }, 
+				    	         { 'contacts.altphno': mobno },
+				    	         { 'contacts.mobno': mobno }
+				    	        ]
+			}
+			, function (err, docs) {
+			    if(!err)
+			    {
+			    	//If activity is found. get userid
+			    	
+			    	
+			    	if(docs.length>0)
+			    	{
+			    		var otp=randomIntInc(LOW_RANDOM_LIMIT,HIGH_RANDOM_LIMIT);
+			    		var smsbody="Hi,Reset your Kidos password by clicking on http://www.kidos.co.in/passwordreset. One Time Password is "+otp;
+			    		
+			    		console.log("Updating otp for "+docs[0].userid+", otp="+otp);
+			    		
+			    		var returnval=updateUserOTP(docs[0].userid, otp, function(returnval){
+				    		
+				    		if(returnval)
+				    		{
+				    			
+				    			//sendsms(mobno, smsbody);
+					    		console.log("password reset otp is sent successfully to "+mobno);
+					    		res.status(201).send({msg: "One Time Password is successfully sent to given registered mobile number"});
+					    		
+				    		}
+				    		else
+				    		{
+				    			
+				    			console.log("issue in userid OTP updation.");
+				    			res.status(500).send({msg:STD_ERR_MSG});
+				    		}
+			    		});
+			    	}
+			    	else
+			    	{
+			    		
+			    		console.log("Could not find registered mobile no "+mobno);
+			    		res.status(500).send({msg: "Oops!! Looks like the given mobile number is not registered with Kidos. Please try other number"});
+			    	}
+			    }
+			    else
+			    {
+					console.log("Error while seraching mobileno "+mobno+" in  generatePasswordResetOTP. " +err);
+					res.status(500).send({msg: STD_ERR_MSG});
+			    }
+			});
+	}
+	else if (email!=null && email!="")
+	{
+		
+		console.log("in generatePasswordResetOTP: trying to find emailid "+email);
+		 user.find({ emailid: email}).exec(function (err, docs) {
+		
+			 if(!err)
+			 {
+				 if(docs!=null && docs.length >0)
+				 {
+					 //TODO:send email about OTP to the given emaild
+					 var returnval=updateUserOTP(docs[0].userid, otp, function(returnval){
+				     if(returnval)
+				     {
+				    	
+						 //sendemail
+						 console.log("password reset otp is sent successfully to "+email);
+						 res.status(201).send({msg:"One Time Password is successfully sent to given registered Email id"});
+			    	 }
+					 else
+					 {
+						 console.log("Error in updating OTP for emailid="+emai);
+						 res.status(500).send({msg:STD_ERR_MSG});
+					 }
+					});
+				 }
+				 else
+				 {
+					 console.log("Could not find registered emailid "+email);
+			    	res.status(500).send({msg: "Oops!! Looks like the given emailid is not registered with Kidos. Please try other email"});
+			    	
+				 }
+			 }
+			 else
+			 {
+				 console.log(err);
+				 res.status(500).send({msg: STD_ERR_MSG});
+			 }
+		 });
+				 
+	}
+	
 });
 
 
@@ -74,11 +237,22 @@ exports.generateOTP = (function(req,res){
 	    	    	    		//send otp msg
 	    	    	    		var otpmsg= OTP_MSG+" "+otp;
 	    	    	    		console.log("in generateOTP: found mobno , sending OTP");
-	    	    	    	//sendsms(mobno,otpmsg);
+	    	    	    		
+	    	    	    		/*var output=sendsms(mobno,otpmsg);
+	    	    	    		if(output==0)
+	    	    	    		{
+	    	    	    			res.status(500).send({msg: STD_ERR_MSG});
+	    	    	    		}
+	    	    	    		else*/
+	    	    	    		{
+	    	    	    			res.status(201).send("Success");
+	    	    	    		}
+
 	    	    			}
 	    	    	    	else
 	    	    	    	{
-	    	    	    	 console.log("err="+err);	
+	    	    	    		console.log("err="+err);	
+	    	    	    		res.status(500).send({msg: STD_ERR_MSG});
 	    	    	    	}
 	    	    	});
 	    	    	res.status(201)        
@@ -87,7 +261,7 @@ exports.generateOTP = (function(req,res){
 	    		else // active activity
 	    		{
 	    			console.log( err);
-	    			res.status(500).send("Activity is already verified. Please login using registered emailID/password");
+	    			res.status(500).send({msg: "Wow!! It seems you are already verified. Please login using registered emailID/password"});
 	    		}
 	    	}
 	    	else //no activity with linked to this phone number, need to add dummy activity with phone number, OTP and activity status=0
@@ -107,15 +281,17 @@ exports.generateOTP = (function(req,res){
 					loc: {
 						type: "Point",
 						coordinates: [0,0]
-					}
+					},
+					images: [],
+					batches:[]
 	    		});
 			
 	    		console.log("about to store activity="+activity);
 			
 	    		activity.save(function (err, activity) {
 	    			if (err) { 
-	    				console.log( err); 
-	    				res.status(500).send('Error saving dummy activity');
+	    				console.log('Error saving dummy activity' + err); 
+	    				res.status(500).send({msg: STD_ERR_MSG});
 	    			}
 			    
 	    			console.log("success");
@@ -130,8 +306,8 @@ exports.generateOTP = (function(req,res){
 	    }
 	    else
 	    {
-	    	console.log(err);
-	    	res.status(500).send('Error querying activity linked to phone number');
+	    	console.log('Error querying activity linked to phone number'+err);
+	    	res.status(500).send({msg: STD_ERR_MSG});
 	    }
 	});
 });
@@ -147,6 +323,7 @@ exports.authenticateuser = (function(req,res){
 	var otpno = req.body.txtotp;
 	var email = req.body.txtemailid;
 	var pass = req.body.txtpass;
+	var nick = req.body.txtnick;
 	
 	//Find record in DB with otp, phno and activityStatus=0
 	activities.find(
@@ -170,6 +347,7 @@ exports.authenticateuser = (function(req,res){
 			, function (err, docs) {
 				if(!err)
 				{
+					
 					if(docs.length>0) //if one or more activities found
 					{
 						//First insert emailid and password to user table so user can login next time
@@ -177,16 +355,16 @@ exports.authenticateuser = (function(req,res){
 						
 						var users= new user({
 							emailid: email,
-						    password: pass
+						    password: pass,
+						    OTP:1,
+						    nickname: nick
 						});
-						
 						users.save(function (err, users) {
 						    if (err) { 
-						    	console.log( err); return;
-						    	res.status(500).send('Error inserting emailid and password');
+						    	console.log('Error inserting emailid and password'+ err); 
+						    	res.status(500).send({msg: STD_ERR_MSG});
 						    }
 						
-							
 							
 							//Update activitystatus=1, OTP=1 and userid to user
 							console.log("updating OTP in DB to 1 and activitystatus=1 and userid="+users.userid+": "+docs[0]._id);
@@ -207,25 +385,58 @@ exports.authenticateuser = (function(req,res){
 								else
 								{
 									console.log("error while updating db activitystatus to 1 :"+err);
-									res.status(500)        // HTTP status 404: NotFound
-									   .send('error while updating db activitystatus to 1');
+									res.status(500).send({msg: STD_ERR_MSG});
 								}
-							
 							});
 						});
+					}
+					else
+					{
+						console.log("error: No activity found activityStatus and OTP not found.");
+						res.status(500).send({msg: "Ouch!! Either activity is already activated or wrong OTP entered."});
 					}
 				}
 				else
 				{
-					console.log("error: No activity found activityStatus and OTP not found.");
-					res.status(404)        // HTTP status 404: NotFound
-					   .send('Not found');
+					console.log("error: activity find "+error);
+					res.status(500).send({msg:STD_ERR_MSG});
 				}
 				
 			}
+			
 		);
 	});
 
+
+
+
+function updateUserOTP(users,otp, fn)
+{
+	
+	user.findAndModify(
+			{"userid":users},
+			[],
+			{$set:{"OTP":otp}},
+			{
+				"new" :true,
+				"upsert":false
+			},
+			function(err,result) {
+				if(!err)
+				{
+					
+					console.log("success in OTP update");
+					fn(true);
+				}
+				else
+				{
+					console.log("error="+err);
+					fn(false);
+				}
+			}
+	);
+
+}
 
 //generate random number
 function randomIntInc (low, high) {
@@ -247,9 +458,12 @@ function sendsms (phno,smsbody){
 	        console.log(message.sid);
 	        console.log('Message sent on:');
 	        console.log(message.dateCreated);
+	        return 1;
 	    } 
 	   else {
 	        console.log('Oops! There was an error.'+ error);
+	        return 0;
+	        
 	    }
 	});
 	
@@ -267,19 +481,25 @@ exports.loginservice = (function(req,res){
 	
 	 user.find({ emailid: email, password: pass }).exec(function (err, docs) {
 		 console.log("in loginservice-params: first query output"+JSON.stringify(docs));
-		 if(docs!=null)
+		 if(docs!=null && docs.length >0)
 		 {
 			 
 			 var user=docs[0].toObject().userid;
-			 console.log("userid="+user);
-			 activities.find({ userid: user }, function (err, docs) {
-				    res.json(docs[0]);
+			 var nick=docs[0].toObject().nickname;
+			 console.log("userid="+user+",nickname="+nick);
+			 activities.find({ userid: user }, function (err, results) {
+				 results.forEach(function (instance, index, array) {
+				        array[index] = instance.toObject();
+				        array[index].nickname = nick;
+				     });   
+				 
+				 res.json(results[0]);
 			 });
 			 
 	     }
 		 else
 		 {
-			 res.status(500).json({ error: "Invalid Email ID/Password" }); 
+			 res.status(500).json({ msg: "Invalid Email ID/Password" }); 
 		 }
         // res.json(docs);
      });
@@ -301,7 +521,8 @@ exports.registeractivity = (function(req,res){
 		firstname: req.body.firstname,
 	    lastname: req.body.lastname,
 	    emailid: req.body.emailid,
-	    password: req.body.password
+	    password: req.body.password,
+	    nickname: req.body.nickname
 	});
 	
 	users.save(function (err, users) {

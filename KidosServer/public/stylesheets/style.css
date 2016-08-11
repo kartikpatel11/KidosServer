@@ -796,3 +796,40 @@ body.modal-open div.modal-backdrop {
     background-color: transparent;
     text-align: center;
 }
+
+.btn-round {
+    width: 40px;
+    height: 40px;
+    
+    border-radius: 50%!important;
+}
+
+.btn-round.btn-lg {
+    width: 48px;
+    height: 48px;
+}
+
+.btn-round.btn-sm {
+    width: 34px;
+    height: 34px;
+}
+
+.btn-round.btn-xs {
+    width: 24px;
+    height: 24px;
+}
+
+.btn-round.btn-margin {
+	margin-left: -15px;
+	margin-top: -5px;
+}
+
+
+
+.special-img 
+{
+    position: relative;
+    top: -5px;
+    float: left;
+    left: -5px;
+}

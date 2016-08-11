@@ -4,6 +4,7 @@
 	<!-- script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.4.4.min.js"></script>
     <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
     <script src="js/formvalidation.js"></script-->
+
 </head>
 
 <body>
@@ -14,8 +15,11 @@
 			<div class="modal-body">
 				
             		<span>You are just few steps away from activating your registered class</span>
+            			<input type="hidden" ng-model="authform.txtresetind" ng-value="{{resetind}}" />
             			
             			<input class="modal-input" id="txtmobno"  ng-model="authform.txtmobno" type="text" placeholder="Registered Mobile No" required/>
+            			<br/>
+            			<input class="modal-input" id="txtnick" ng-model="authform.txtnick" type="text" placeholder="Nick Name" ng-required="!activatebtndisabled"/>
             			<br/>
             			<input class="modal-input" id="txtemail" ng-model="authform.txtemailid" type="email" placeholder="Email Address" ng-required="!activatebtndisabled"/>
             			<br/>
@@ -32,8 +36,8 @@
 			</div>
 	        <div class="modal-footer">
 	        	
-	    	    <button type="submit" id="btn-generateotp" class="btn btn-success"  ng-disabled="authstarted" ng-class="{'btn-success': otppending, 'btn-warning': !otppending}" ng-click="authform.$valid && generateOTP()">{{generateOTPtxt}}</button>
-	        	<button type="submit" id="btn-activate" class="btn btn-success"  ng-disabled="activatebtndisabled || authstarted" ng-click="authform.$valid && authenticateUser()">Activate Account</button>
+	    	    <button type="submit" ng-show="!(!!resetind)" id="btn-generateotp" class="btn btn-success"  ng-disabled="authstarted" ng-class="{'btn-success': otppending, 'btn-warning': !otppending}" ng-click="authform.$valid && generateOTP()">{{generateOTPtxt}}</button>
+	        	<button type="submit" id="btn-activate" class="btn btn-success"  ng-disabled="activatebtndisabled || authstarted " ng-click="authform.$valid && authenticateUser()">{{activatebtntext}}</button>
             </div>
             </form>	
 </body>
