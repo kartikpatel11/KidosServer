@@ -95,7 +95,7 @@
 			                <ul class="dropdown-menu">
 			                    <li><a ui-sref="welcome"><i class="fa fa-bookmark-o"></i> Activity</a></li>
 			                    <li class="divider"></li>
-			                    <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
+			                    <li><a ui-sref="myprofile"><i class="fa fa-user"></i> Profile</a></li>
 			                    <li class="divider"></li>
 			                    <li><a ui-sref="signout"><i class="fa fa-sign-out"></i> Sign-out</a></li>
 			                </ul>
@@ -107,7 +107,7 @@
 			</div>
 		</div> 
 	</nav>
-	
+	<script>$('#menu2').hide();</script>
 	<div ui-view=""></div>
 
 </body>

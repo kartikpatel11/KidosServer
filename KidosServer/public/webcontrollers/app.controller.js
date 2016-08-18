@@ -111,6 +111,15 @@ var kidosApp = angular.module('kidosApp',['ui.bootstrap','ui.router','xeditable'
             templateUrl: 'kidoshome.html',
             controller: 'KidosAppCtrl'
         })   
+        
+        //kidos myprofile page
+          $stateProvider.state('myprofile', {
+            url: '/myprofile',
+            templateUrl: 'kidoshome.html',
+            controller: 'KidosAppCtrl'
+        }) 
+        
+        
 
         //KidosRegistration Links Starts
         .state('signup', {
@@ -374,16 +383,38 @@ kidosApp.controller('KidosAppCtrl', function($scope,$http,$location,$modal,$stat
 	{
 	
 		kidosSharedProperties.clearWelcomeForm();
-		$modal.open({
+		var mysignoffmodal=$modal.open({
     		 		templateUrl: '../kidossignout.html',
 					windowClass: 'center-modal',
 					scope: $scope
 				});
-		$('#menu1").show();
-		$('#menu2").hide();
+				
+		mysignoffmodal.result.catch(function() {
+    			$state.go('/');
+		});			
+		$('#menu2').hide();
+      	$('#menu1').show();
+      	
 	}	
 	
 
+//open my profile modal window
+	$scope.openMyProfileModalWindow = function()
+	{
+	
+		kidosSharedProperties.clearWelcomeForm();
+		var mysignoffmodal=$modal.open({
+    		 		templateUrl: '../kidosmyprofile.html',
+					windowClass: 'center-modal',
+					scope: $scope
+				});
+				
+		mysignoffmodal.result.catch(function() {
+    			$state.go('/');
+		});			
+      	
+	}	
+	
 
     if($location.path().indexOf('auth') > -1) {
     			$scope.openAuthModalWindow();
@@ -395,9 +426,13 @@ kidosApp.controller('KidosAppCtrl', function($scope,$http,$location,$modal,$stat
 	if($location.path().indexOf('passwordreset') > -1) {
 				$scope.openAuthModalWindow(1);
 	};
-		if($location.path().indexOf('signout') > -1) {
+	if($location.path().indexOf('signout') > -1) {
 				$scope.openSignoutModalWindow();
 	};
+	if($location.path().indexOf('myprofile') > -1) {
+				$scope.openMyProfileModalWindow();
+	};
+	
   
 
 });
