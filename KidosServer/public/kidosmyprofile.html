@@ -1,0 +1,65 @@
+ <html>
+	<body>
+			<div class="container">
+					<div class="user-details">
+			            <div class="user-image">
+			                <img src="http://www.gravatar.com/avatar/2ab7b2009d27ec37bffee791819a090c?s=100&d=mm&r=g" alt="Kartik Patel" title="Kartik Patel" class="img-circle">
+			               <br/>
+			                <label id="editprofilepic">
+    							<i class="fa fa-camera" style="color:#1C83C1;font-size:14px;" aria-hidden="true"></i><input type="file" style="display: none;" onchange="alert('hi');">
+							</label>
+			            </div>
+			            <div class="user-info-block">
+			                <div class="user-heading">
+			                    <h3>Kartik Patel</h3>
+			                    <span class="help-block">Mumbai, India</span>
+			                </div>
+			                <ul class="navigation">
+			               
+			                </ul>
+			                <div class="user-body">
+			                   <div class="row">
+			                    <div class="col-md-2"> &nbsp;</div>
+						   		<div class="col-md-3">
+							   		<label for="me().name">NickName</label>
+							   	</div>
+							   	 <div class="col-md-2"> &nbsp;</div>
+							   	<div class="col-md-4">
+									<a href="#" editable-text="me().nickname">{{ me().nickname|| "No Value"}}</a>
+								</div>
+			                </div>
+			                  <div class="row">
+			                    <div class="col-md-2"> &nbsp;</div>
+						   		<div class="col-md-3">
+							   		<label for="me().name">EmailID</label>
+							   	</div>
+							   	 <div class="col-md-2"> &nbsp;</div>
+							   	<div class="col-md-4">
+									<a href="#" editable-text="me().emailid">{{ me().emailid|| "No Value"}}</a>
+								</div>
+			                </div>
+			                <div class="row">
+			                    <div class="col-md-2"> &nbsp;</div>
+						   		<div class="col-md-3">
+							   		<label for="me().password">Password</label>
+							   	</div>
+							   	 <div class="col-md-2"> &nbsp;</div>
+							   	<div class="col-md-4">
+									<a href="#" editable-text="me().password">{{ me().password|| "No Value"}}</a>
+								</div>
+			                </div>
+			                
+			                
+			                
+			                 <div class="modal-footer">
+	        	
+	    	    <button type="submit"  class="btn btn-success" >Save</button>
+	        	<button type="submit" id="btn-activate" class="btn btn-danger">Cancel</button>
+            </div>
+			            </div>
+			        </div>
+			        
+				</div>
+			</div>
+	</body>
+</html>

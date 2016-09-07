@@ -25,6 +25,13 @@ exports.categoryById = (function(req,res){
 	 }
 	});
 
+//'getactivityareas/'
+exports.getactivityareas = (function(req,res){
+	activities.find().distinct('area', function(error, docs) {
+	   res.json(docs);
+	});
+	
+});
 
 //'/download/:file(*)'
 exports.downloadFile = (function(req,res){

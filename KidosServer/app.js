@@ -42,6 +42,7 @@ app.get('/findnearbyactivitiesbycategory/:longitude/:latitude/:id', api.findnear
 app.get('/findnearbyactivities/:longitude/:latitude', api.findnearbyactivities);
 app.get('/findnearbyactivitiestype/:longitude/:latitude', api.findnearbyactivitiestype);
 app.get('/getactivitydetails/:activityid', api.getactivitydetails);
+app.get('/getactivityareas',api.getactivityareas);
 app.get('/kidoswebgui/test', function(req,res){
 	res.send("hi, this is my first angularjs response");
 });
