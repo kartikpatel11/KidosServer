@@ -38,11 +38,19 @@ app.get('/users', user.list);
 app.get('/listcategories', api.listCategories);
 app.get('/listcategories/:catId', api.categoryById);
 app.get('/download/:file(*)', api.downloadFile);
+
 app.get('/findnearbyactivitiesbycategory/:longitude/:latitude/:id', api.findnearbyactivitiesbycategory);
+app.get('/findnearbyactivitiesbyareaandcategory/:area/:id',api.findnearbyactivitiesbyareaandcategory);
+
 app.get('/findnearbyactivities/:longitude/:latitude', api.findnearbyactivities);
+app.get('/findnearbyactivitiesbyarea/:area', api.findnearbyactivitiesbyarea);
+
 app.get('/findnearbyactivitiestype/:longitude/:latitude', api.findnearbyactivitiestype);
+app.get('/findnearbyactivitiestypebyarea/:area', api.findnearbyactivitiestypebyarea);
+
 app.get('/getactivitydetails/:activityid', api.getactivitydetails);
 app.get('/getactivityareas',api.getactivityareas);
+
 app.get('/kidoswebgui/test', function(req,res){
 	res.send("hi, this is my first angularjs response");
 });

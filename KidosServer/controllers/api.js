@@ -82,6 +82,29 @@ exports.findnearbyactivitiesbycategory = (function(req,res) {
 	    
 });
 
+
+//'/findnearbyactivitiesbyareaandcategory'
+exports.findnearbyactivitiesbyareaandcategory = (function(req,res) {
+	    
+	    
+	    
+	    var areainp = req.params.area;
+	    var input_id = req.params.id;
+	    
+	     activities.find({
+		    	"type._id": input_id,
+		    	"area": areainp
+		    }).limit(limit).select('activityId name image rating area').exec(function(err, activitydoc) {
+		      if (err) {
+		        return res.json(500, err);
+		      }
+
+		      res.json(200, activitydoc);
+		    })
+	    
+});
+
+
 //'/findnearbyactivities'
 exports.findnearbyactivities = (function(req,res) {
 	    
@@ -97,6 +120,23 @@ exports.findnearbyactivities = (function(req,res) {
 	        		$geometry: { type: 'Point', coordinates: coords }
 	        	}
 	      }
+	    }).limit(limit).exec(function(err, activitydoc) {
+	      if (err) {
+	        return res.json(500, err);
+	      }
+
+	      res.json(200, activitydoc);
+	    });
+	
+});
+
+//'/findnearbyactivitiesbyarea'
+exports.findnearbyactivitiesbyarea = (function(req,res) {
+	    
+	    
+	var areainp = req.params.area;
+	activities.find({
+	    area:areainp
 	    }).limit(limit).exec(function(err, activitydoc) {
 	      if (err) {
 	        return res.json(500, err);
@@ -258,5 +298,50 @@ exports.findnearbyactivitiestype = (function(req,res) {
 	
 });
 
+
+exports.findnearbyactivitiestypebyarea = (function(req,res) {
+	
+	
+	    
+    
+    var areainp=req.params.area;
+   
+    activities.aggregate([
+    	{ $match : { area : areainp } },
+    	{ 
+    		$group: 
+    		{
+    			_id: 
+    			{
+    				"_id":"$type._id",
+    				"catId":"$type.catId",
+    				"catName": "$type.catName",
+    				"catImg": "$type.catImg"
+    			},
+    			total: { $sum: 1  }
+    		}
+    	},
+    	{ 
+    		$project: 
+    		{ 
+    			_id:"$_id._id",
+    			catId: "$_id.catId",
+    			catName: "$_id.catName",
+    			catImg: "$_id.catImg",
+    			total: 1
+    		} 
+    	}
+    	
+    	
+      
+    ]).limit(limit).exec(function(err, activitydoc) {
+      if (err) {
+        return res.json(500, err);
+      }
+      res.json(activitydoc);
+    }
+);
+
+});
 
 
