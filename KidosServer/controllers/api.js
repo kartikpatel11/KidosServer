@@ -72,7 +72,7 @@ exports.findnearbyactivitiesbycategory = (function(req,res) {
 		        		$geometry: { type: 'Point', coordinates: coords }
 		        	}
 		      }
-		    }).limit(limit).select('activityId name image rating area').exec(function(err, activitydoc) {
+		    }).limit(limit).select('activityId name images rating area').exec(function(err, activitydoc) {
 		      if (err) {
 		        return res.json(500, err);
 		      }
@@ -94,7 +94,7 @@ exports.findnearbyactivitiesbyareaandcategory = (function(req,res) {
 	     activities.find({
 		    	"type._id": input_id,
 		    	"area": areainp
-		    }).limit(limit).select('activityId name image rating area').exec(function(err, activitydoc) {
+		    }).limit(limit).select('activityId name images rating area').exec(function(err, activitydoc) {
 		      if (err) {
 		        return res.json(500, err);
 		      }
