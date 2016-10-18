@@ -8,7 +8,8 @@ var categorymasterSchema = new Schema({
   //  thread: ObjectId,
     catId: Number,
     catName: String,
-    catImg: String
+    catImg: String,
+    catbackground: String
 });
 
 module.exports = mongoose.model('categorymaster', categorymasterSchema);
