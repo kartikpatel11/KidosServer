@@ -20,10 +20,14 @@ var activitiesSchema= new Schema({
 	     "coordinates": [Number]
 	},
 	//phone: [String],
-	contacts: {
+	contacts: 
+	{
 		phno: {"type": String},
 		altphno: {"type": String},
-		mobno: {"type": String}
+		mobno: {"type": String},
+		website: {"type": String},
+		twitter: {"type": String},
+		facebook: {"type": String}
 	},
 	description: {type: String},
 	addressline1: {type: String},
