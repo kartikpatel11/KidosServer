@@ -10,12 +10,10 @@ var user = require('../models/user.js');
 
 
 //AWS
-//var AWS_ACCESS_KEY = 'AKIAIU5OIVUAWPDG5LOA';
-//var AWS_SECRET_KEY = '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';
 var S3_BUCKET = 'kidosbucket';
 
-var AWS_ACCESS_KEY = 'AKIAJLH2Q2UWKLXTS2EA';
-var AWS_SECRET_KEY = '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';
+var AWS_ACCESS_KEY = '';
+var AWS_SECRET_KEY = '';
 
 //TWILIO
 var TWILIO_ACCOUNT_SID = 'ACf738201ca3763f7ffe0a4ce01a55cdfd';
