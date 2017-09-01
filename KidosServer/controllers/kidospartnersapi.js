@@ -34,7 +34,7 @@ exports.getclassdetailsbyactivityid=(function(req,res){
 exports.saveclassdetailsbyactivityid=(function(req,res){
 	console.log("in saveclassdetailsbyactivityid-params: ");
 
-	var activityID= req.body.activityid;
+	var activityID= req.body.activityId;
 	var name=req.body.name;
 	var area=req.body.area;
 	var addressline1=req.body.addressline1;
@@ -46,17 +46,17 @@ exports.saveclassdetailsbyactivityid=(function(req,res){
 
 	activities.update(
 		{
-			"activityId":activityID
+			activityId:req.body.activityId
 		}, 
 		{
 			$set:
 			{
-				"name": name,
-				"addressline1": addressline1,
-				"area": area,
-				"city": city,
-				"state": state,
-				"pincode": pincode
+				name: req.body.name,
+				addressline1: req.body.addressline1,
+				area: req.body.area,
+				city: req.body.city,
+				state: req.body.state,
+				pincode: req.body.pincode
 
 			}
 		}, 
