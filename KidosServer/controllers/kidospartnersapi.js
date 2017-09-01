@@ -42,6 +42,8 @@ exports.saveclassdetailsbyactivityid=(function(req,res){
 	var city=req.body.city;
 	var pincode=req.body.pincode;
 
+	console.log("activityid="+activityID+",name="+name+",area="+area+",addressline1="+addressline1+",state="+state+",city="+city+",pincode="+pincode);
+
 	activities.update(
 		{
 			"activityId":activityID
@@ -62,7 +64,10 @@ exports.saveclassdetailsbyactivityid=(function(req,res){
 		function(err, result) 
 		{
 			if (!err)
-				res.status(201).send("Changes saved successfully");
+			{
+				console.log(result);
+				res.status(201).send({msg:"Changes saved successfully"});
+			}
 			else // active activity
 	    	{
 	    		console.log( err);
