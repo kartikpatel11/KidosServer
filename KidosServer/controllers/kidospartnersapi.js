@@ -36,7 +36,7 @@ exports.saveclassdetailsbyactivityid=(function(req,res){
 
 	var activityID= req.body.activityid;
 	var name=req.body.name;
-	var area-req.body.area;
+	var area=req.body.area;
 	var addressline1=req.body.addressline1;
 	var state=req.body.state;
 	var city=req.body.city;
