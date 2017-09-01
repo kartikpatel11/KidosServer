@@ -18,8 +18,6 @@ var user = require('../models/user.js');
 exports.getactivitysummarybyuserid=(function(req,res){
 	console.log("in getactivitysummarybyuserid-params: "+req.params.userid);
 	activities.find({ userid: req.params.userid },'activityId name area', function (err, docs) {
-		docs.requestUrl= "getactivitysummarybyuserid";
-
 		res.json(200,docs);
 	});
 });
@@ -28,8 +26,6 @@ exports.getactivitysummarybyuserid=(function(req,res){
 exports.getclassdetailsbyactivityid=(function(req,res){
 	console.log("in getclassdetailsbyactivityid-params: "+req.params.activityid);
 	activities.findOne({ activityId: req.params.activityid },'activityId name addressline1 area city state pincode', function (err, docs) {
-		docs.requestUrl= "getclassdetailsbyactivityid";
-
 		res.json(200,docs);
 	});
 });
