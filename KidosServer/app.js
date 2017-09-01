@@ -69,6 +69,7 @@ app.get('/sign', webapi.sign);
 //used by kidospartners
 var partnersapi = require('./controllers/kidospartnersapi.js');
 app.get('/getactivitysummarybyuserid/:userid',partnersapi.getactivitysummarybyuserid);
+app.get('/getclassdetailsbyactivityid/:activityid',partnersapi.getclassdetailsbyactivityid);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

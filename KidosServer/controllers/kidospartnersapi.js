@@ -10,14 +10,27 @@ var user = require('../models/user.js');
 
 
 //AWS
-var AWS_ACCESS_KEY = 'AKIAIU5OIVUAWPDG5LOA';
-var AWS_SECRET_KEY = '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';
-var S3_BUCKET = 'kidosbucket';
+//var AWS_ACCESS_KEY = 'AKIAIU5OIVUAWPDG5LOA';
+//var AWS_SECRET_KEY = '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';
+//var S3_BUCKET = 'kidosbucket';
 
 //getactivitysummarybyuserid
 exports.getactivitysummarybyuserid=(function(req,res){
 	console.log("in getactivitysummarybyuserid-params: "+req.params.userid);
 	activities.find({ userid: req.params.userid },'activityId name area', function (err, docs) {
+		docs.requestUrl= "getactivitysummarybyuserid";
+
+		res.json(200,docs);
+	});
+});
+
+//getactivityclassdetailsbyactivityid
+exports.getclassdetailsbyactivityid=(function(req,res){
+	console.log("in getactivityclassdetailsbyactivityid-params: "+req.params.activityid);
+	activities.find({ activityid: req.params.activityid },'activityId name addressline1 area city state pincode', function (err, docs) {
+		docs.metadata={}
+		docs.metadata.requestUrl= "getactivityclassdetailsbyactivityid";
+
 		res.json(200,docs);
 	});
 });
