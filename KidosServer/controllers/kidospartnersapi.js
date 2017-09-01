@@ -24,12 +24,11 @@ exports.getactivitysummarybyuserid=(function(req,res){
 	});
 });
 
-//getactivityclassdetailsbyactivityid
+//getclassdetailsbyactivityid
 exports.getclassdetailsbyactivityid=(function(req,res){
-	console.log("in getactivityclassdetailsbyactivityid-params: "+req.params.activityid);
-	activities.find({ activityid: req.params.activityid },'activityId name addressline1 area city state pincode', function (err, docs) {
-		docs.metadata={}
-		docs.metadata.requestUrl= "getactivityclassdetailsbyactivityid";
+	console.log("in getclassdetailsbyactivityid-params: "+req.params.activityid);
+	activities.findOne({ activityId: req.params.activityid },'activityId name addressline1 area city state pincode', function (err, docs) {
+		docs.requestUrl= "getclassdetailsbyactivityid";
 
 		res.json(200,docs);
 	});
