@@ -29,3 +29,45 @@ exports.getclassdetailsbyactivityid=(function(req,res){
 		res.json(200,docs);
 	});
 });
+
+//saveclassdetailsbyactivityid
+exports.saveclassdetailsbyactivityid=(function(req,res){
+	console.log("in saveclassdetailsbyactivityid-params: ");
+
+	var activityID= req.body.activityid;
+	var name=req.body.name;
+	var area-req.body.area;
+	var addressline1=req.body.addressline1;
+	var state=req.body.state;
+	var city=req.body.city;
+	var pincode=req.body.pincode;
+
+	activities.update(
+		{
+			"activityId":activityID
+		}, 
+		{
+			$set:
+			{
+				"name": name,
+				"addressline1": addressline1,
+				"area": area,
+				"city": city,
+				"state": state,
+				"pincode": pincode
+
+			}
+		}, 
+	 
+		function(err, result) 
+		{
+			if (!err)
+				res.status(201).send("Changes saved successfully");
+			else // active activity
+	    	{
+	    		console.log( err);
+	    		res.status(500).send({msg: "Something went wrong. Try again."});
+	    	}
+		});
+
+});
