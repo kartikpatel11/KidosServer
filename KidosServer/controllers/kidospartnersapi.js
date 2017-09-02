@@ -97,14 +97,44 @@ exports.getcontactdetailsbyactivityid=(function(req,res){
         	],function (err, docs) {
                 res.json(200,docs);
         });
-
-//      activities.findOne({ activityId: req.params.activityid },'activityId contacts.phno', function (err, docs) {
-//              res.json(200,docs);
-//      });
 });
 
 //savecontactdetailsbyactivityid
 exports.savecontactdetailsbyactivityid=(function(req,res){
 	console.log("in savecontactdetailsbyactivityid-params: ");
+
+	console.log("activityid="+req.body.activityId+",phno="+req.body.phno+",altphno="+req.body.altphno+",mobno="+req.body.mobno+",twitter="+req.body.twitter+",website="+req.body.website+",facebook="+req.body.facebook);
+
+	activities.update(
+		{
+			activityId:req.body.activityId
+		}, 
+		{
+			$set:
+			{
+				contacts.phno: req.body.phno,
+				contacts.altphno: req.body.altphno,
+				contacts.mobno: req.body.mobno,
+				contacts.twitter: req.body.twitter,
+				contacts.facebook: req.body.facebook,
+				contacts.website: req.body.website
+
+			}
+		}, 
+	 
+		function(err, result) 
+		{
+			if (!err)
+			{
+				console.log(result);
+				res.status(201).send({msg:"Changes saved successfully"});
+			}
+			else // active activity
+	    	{
+	    		console.log( err);
+	    		res.status(500).send({msg: "Something went wrong. Try again."});
+	    	}
 		});
+
+});
 
