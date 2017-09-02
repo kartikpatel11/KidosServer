@@ -77,3 +77,9 @@ exports.getcontactdetailsbyactivityid=(function(req,res){
 		res.json(200,docs);
 	});
 });
+
+/savecontactdetailsbyactivityid
+exports.savecontactdetailsbyactivityid=(function(req,res){
+	console.log("in savecontactdetailsbyactivityid-params: ");
+		});
+

@@ -72,6 +72,8 @@ app.get('/getactivitysummarybyuserid/:userid',partnersapi.getactivitysummarybyus
 app.get('/getclassdetailsbyactivityid/:activityid',partnersapi.getclassdetailsbyactivityid);
 app.post('/saveclassdetailsbyactivityid',partnersapi.saveclassdetailsbyactivityid);
 app.get('/getcontactdetailsbyactivityid/:activityid',partnersapi.getcontactdetailsbyactivityid);
+app.post('/savecontactdetailsbyactivityid',partnersapi.savecontactdetailsbyactivityid);
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
