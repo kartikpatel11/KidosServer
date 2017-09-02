@@ -34,15 +34,7 @@ exports.getclassdetailsbyactivityid=(function(req,res){
 exports.saveclassdetailsbyactivityid=(function(req,res){
 	console.log("in saveclassdetailsbyactivityid-params: ");
 
-	var activityID= req.body.activityId;
-	var name=req.body.name;
-	var area=req.body.area;
-	var addressline1=req.body.addressline1;
-	var state=req.body.state;
-	var city=req.body.city;
-	var pincode=req.body.pincode;
-
-	console.log("activityid="+activityID+",name="+name+",area="+area+",addressline1="+addressline1+",state="+state+",city="+city+",pincode="+pincode);
+	console.log("activityid="+req.body.activityId+",name="+req.body.name+",area="+req.body.area+",addressline1="+req.body.addressline1+",state="+req.body.state+",city="+req.body.city+",pincode="+req.body.pincode);
 
 	activities.update(
 		{
@@ -75,4 +67,13 @@ exports.saveclassdetailsbyactivityid=(function(req,res){
 	    	}
 		});
 
+});
+
+
+//getcontactdetailsbyactivityid
+exports.getcontactdetailsbyactivityid=(function(req,res){
+	console.log("in getcontactdetailsbyactivityid-params: "+req.params.activityid);
+	activities.findOne({ activityId: req.params.activityid },'activityId contacts', function (err, docs) {
+		res.json(200,docs);
+	});
 });
