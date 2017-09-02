@@ -72,13 +72,38 @@ exports.saveclassdetailsbyactivityid=(function(req,res){
 
 //getcontactdetailsbyactivityid
 exports.getcontactdetailsbyactivityid=(function(req,res){
-	console.log("in getcontactdetailsbyactivityid-params: "+req.params.activityid);
-	activities.findOne({ activityId: req.params.activityid },'activityId contacts', function (err, docs) {
-		res.json(200,docs);
-	});
+    console.log("in getcontactdetailsbyactivityid-params: "+req.params.activityid);
+    
+        activities.aggregate(
+        	[
+        		{
+        			$match: 
+        			{ 
+        					activityId: parseInt(req.params.activityid) 
+        			}
+        		},
+        		{
+        			"$project": 
+        			{
+        				activityId:"$activityId",
+        				phno:"$contacts.phno",
+        				mobno:"$contacts.mobno",
+        				altphno:"$contacts.altphno",
+        				website:"$contacts.website",
+        				twitter:"$contacts.twitter",
+        				facebook:"$contacts.facebook"
+        			}
+        		}
+        	],function (err, docs) {
+                res.json(200,docs);
+        });
+
+//      activities.findOne({ activityId: req.params.activityid },'activityId contacts.phno', function (err, docs) {
+//              res.json(200,docs);
+//      });
 });
 
-/savecontactdetailsbyactivityid
+//savecontactdetailsbyactivityid
 exports.savecontactdetailsbyactivityid=(function(req,res){
 	console.log("in savecontactdetailsbyactivityid-params: ");
 		});
