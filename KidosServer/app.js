@@ -73,6 +73,9 @@ app.get('/getclassdetailsbyactivityid/:activityid',partnersapi.getclassdetailsby
 app.post('/saveclassdetailsbyactivityid',partnersapi.saveclassdetailsbyactivityid);
 app.get('/getcontactdetailsbyactivityid/:activityid',partnersapi.getcontactdetailsbyactivityid);
 app.post('/savecontactdetailsbyactivityid',partnersapi.savecontactdetailsbyactivityid);
+app.get('/getactivitydetailsbyactivityid/:activityid',partnersapi.getactivitydetailsbyactivityid);
+app.post('/saveactivitydetailsbyactivityid',partnersapi.saveactivitydetailsbyactivityid);
+
 
 
 http.createServer(app).listen(app.get('port'), function(){

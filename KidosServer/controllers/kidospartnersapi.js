@@ -138,3 +138,16 @@ exports.savecontactdetailsbyactivityid=(function(req,res){
 
 });
 
+//getactivitydetailsbyactivityid
+exports.getactivitydetailsbyactivityid=(function(req,res){
+	console.log("in getactivitydetailsbyactivityid-params: "+req.params.activityid);
+	activities.findOne({ activityId: req.params.activityid },'activityId description fees age', function (err, docs) {
+		res.json(200,docs);
+	});
+});
+
+//saveactivitydetailsbyactivityid
+exports.saveactivitydetailsbyactivityid=(function(req,res){
+	console.log("in saveactivitydetailsbyactivityid-params: ");
+
+});
