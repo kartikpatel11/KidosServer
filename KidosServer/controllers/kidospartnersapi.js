@@ -95,7 +95,7 @@ exports.getcontactdetailsbyactivityid=(function(req,res){
         			}
         		}
         	],function (err, docs) {
-                res.json(200,docs);
+                res.json(200,docs[0]);
         });
 });
 
