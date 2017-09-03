@@ -112,12 +112,12 @@ exports.savecontactdetailsbyactivityid=(function(req,res){
 		{
 			$set:
 			{
-				contacts.phno: req.body.phno,
-				contacts.altphno: req.body.altphno,
-				contacts.mobno: req.body.mobno,
-				contacts.twitter: req.body.twitter,
-				contacts.facebook: req.body.facebook,
-				contacts.website: req.body.website
+				'contacts.phno': req.body.phno,
+				'contacts.altphno': req.body.altphno,
+				'contacts.mobno': req.body.mobno,
+				'contacts.twitter': req.body.twitter,
+				'contacts.facebook': req.body.facebook,
+				'contacts.website': req.body.website
 
 			}
 		}, 
