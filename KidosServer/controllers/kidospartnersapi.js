@@ -159,10 +159,10 @@ exports.saveactivitydetailsbyactivityid=(function(req,res){
 		{
 			$set:
 			{
-				description:req.body.description,
-				fees:req.body.fees,
-				age:req.body.age,
-				batches:req.body.batches
+				"description":req.body.description,
+				"fees":req.body.fees,
+				"age":req.body.age,
+				"batches.$":req.body.batches
 			}
 		}, 
 	 
