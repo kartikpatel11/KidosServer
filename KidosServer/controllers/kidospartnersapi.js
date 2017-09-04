@@ -159,10 +159,10 @@ exports.saveactivitydetailsbyactivityid=(function(req,res){
 		{
 			$set:
 			{
-				'description':req.body.description,
-				'fees':req.body.fees,
-				'age':req.body.age,
-				'batches':req.body.batches
+				description:req.body.description,
+			//	fees:req.body.fees,
+			//	age:req.body.age,
+			//	batches:req.body.batches
 			}
 		}, 
 	 
@@ -179,7 +179,7 @@ exports.saveactivitydetailsbyactivityid=(function(req,res){
 	    		res.status(500).send({msg: "Something went wrong. Try again."});
 	    	}
 		});
-	
+
 
 
 });
