@@ -152,4 +152,34 @@ exports.saveactivitydetailsbyactivityid=(function(req,res){
 
 	console.log("activityID="+req.body.activityId+",description="+req.body.description+",fees="+req.body.fees+",age="+req.body.age+",batches="+req.body.batches);
 
+	activities.update(
+		{
+			activityId:req.body.activityId
+		}, 
+		{
+			$set:
+			{
+				'description':req.body.description,
+				'fees':req.body.fees,
+				'age':req.body.age,
+				'batches':req.body.batches
+			}
+		}, 
+	 
+		function(err, result) 
+		{
+			if (!err)
+			{
+				console.log(result);
+				res.status(201).send({msg:"Changes saved successfully"});
+			}
+			else // active activity
+	    	{
+	    		console.log( err);
+	    		res.status(500).send({msg: "Something went wrong. Try again."});
+	    	}
+		});
+	
+
+
 });
