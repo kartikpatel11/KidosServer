@@ -7,6 +7,7 @@ var twilio = require('twilio');
 var cat = require('../models/categorymaster.js');
 var activities = require('../models/activities.js');
 var user = require('../models/user.js');
+var age = require('../models/age.js');
 
 
 //AWS
@@ -150,7 +151,9 @@ exports.getactivitydetailsbyactivityid=(function(req,res){
 exports.saveactivitydetailsbyactivityid=(function(req,res){
 	console.log("in saveactivitydetailsbyactivityid-params: ");
 
-	console.log("activityID="+req.body.activityId+",description="+req.body.description+",fees="+req.body.fees+",age="+req.body.age+",batches="+req.body.batches);
+	console.log("activityID="+req.body.activityId+",description="+req.body.description+",fees="+req.body.fees+",age="+req.body.age.from+",batches="+req.body.batches[0]);
+
+	var agedata= new age(req.body.age);
 
 	activities.update(
 		{
@@ -161,8 +164,8 @@ exports.saveactivitydetailsbyactivityid=(function(req,res){
 			{
 				"description":req.body.description,
 				"fees":req.body.fees,
-				"age":req.body.age,
-				"batches.$":req.body.batches
+				"age": agedata
+				//"batches":req.body.batches
 			}
 		}, 
 	 
