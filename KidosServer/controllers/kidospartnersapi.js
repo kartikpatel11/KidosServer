@@ -7,7 +7,7 @@ var twilio = require('twilio');
 var cat = require('../models/categorymaster.js');
 var activities = require('../models/activities.js');
 var user = require('../models/user.js');
-var batch = require('../models/batches.js');
+
 
 //AWS
 //var AWS_ACCESS_KEY = 'AKIAIU5OIVUAWPDG5LOA';
@@ -152,8 +152,7 @@ exports.saveactivitydetailsbyactivityid=(function(req,res){
 
 	console.log("activityID="+req.body.activityId+",description="+req.body.description+",fees="+req.body.fees+",age="+req.body.age.from+",batches="+req.body.batches[0]);
 
-	var batchdata= new batch(req.body.batches);
-
+	
 	activities.update(
 		{
 			activityId:req.body.activityId
@@ -163,7 +162,7 @@ exports.saveactivitydetailsbyactivityid=(function(req,res){
 			{
 				"description":req.body.description,
 				"fees":req.body.fees,
-				"batches": batchdata
+				//"batches": batchdata
 				//"age.from": agedata.from,
 				//"age.to": agedata.to	
 				//"batches":req.body.batches
