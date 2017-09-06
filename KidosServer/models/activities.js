@@ -2,7 +2,7 @@ var mongoose=require('mongoose'),
 Schema=mongoose.Schema;
 var cat = require('./categorymaster.js');
 var activitycounter = require('../models/activitycounter.js');
-var age = require('./age.js');
+var batch = require('./batches.js');
 
 
 var activitiesSchema= new Schema({
@@ -40,16 +40,16 @@ var activitiesSchema= new Schema({
 	state: {type: String},
 	fees: {type: Number},
 	unit: {type: String},
-	//age: {
-//		from: {type: Number},
-//		to: {type:Number}
-//	},
-	age: {type: age},
-	batches: [{ 
+	age: {
+		from: {type: Number},
+		to: {type:Number}
+	},
+	/*batches: [{ 
 			days: [String], 
 			starttime: {type: String},
 			endtime: {type: String}
-	}],
+	}],*/
+	batches: batch,
 		
 	//type: { type: Schema.Types.String, ref: 'categorymaster'}
 	type: {
