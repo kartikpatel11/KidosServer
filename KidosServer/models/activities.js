@@ -5,6 +5,7 @@ var activitycounter = require('../models/activitycounter.js');
 
 
 
+
 var activitiesSchema= new Schema({
 	activityId: {type:Number},
 	name: {type:String},
