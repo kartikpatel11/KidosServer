@@ -164,7 +164,8 @@ exports.saveactivitydetailsbyactivityid=(function(req,res){
 			{
 				"description":req.body.description,
 				"fees":req.body.fees,
-				"age": agedata
+				"age.from": agedata.from,
+				"age.to": agedata.to	
 				//"batches":req.body.batches
 			}
 		}, 
