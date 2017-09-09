@@ -150,7 +150,7 @@ exports.getactivitydetailsbyactivityid=(function(req,res){
 exports.saveactivitydetailsbyactivityid=(function(req,res){
 	console.log("in saveactivitydetailsbyactivityid-params: ");
 
-	console.log("activityID="+req.body.activityId+",description="+req.body.description+",fees="+req.body.fees+",age="+req.body.age.from+",batches="+req.body.batches[0]);
+	console.log("activityID="+req.body.activityId+",description="+req.body.description+",fees="+req.body.fees+",age="+req.body.age.from+",batches="+req.body.batches);
 
 	
 	activities.update(
@@ -162,7 +162,13 @@ exports.saveactivitydetailsbyactivityid=(function(req,res){
 			{
 				"description":req.body.description,
 				"fees":req.body.fees,
-				//"batches": batchdata
+				"batches": [
+								{
+									"days":[Tue, Wed, Thu, Fri], 
+									"endtime":"17:00", 
+									"starttime":"16:00"
+								}
+							]
 				//"age.from": agedata.from,
 				//"age.to": agedata.to	
 				//"batches":req.body.batches
