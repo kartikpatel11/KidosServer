@@ -162,13 +162,14 @@ exports.saveactivitydetailsbyactivityid=(function(req,res){
 			{
 				"description":req.body.description,
 				"fees":req.body.fees,
-				"batches": [
+				"batches": req.body.batches
+				/*"batches": [
 								{
-									"days":[Tue, Wed, Thu, Fri], 
+									"days":["Tue", "Wed", "Thu", "Fri"], 
 									"endtime":"17:00", 
 									"starttime":"16:00"
 								}
-							]
+							]*/
 				//"age.from": agedata.from,
 				//"age.to": agedata.to	
 				//"batches":req.body.batches
