@@ -163,8 +163,8 @@ exports.saveactivitydetailsbyactivityid=(function(req,res){
 				"description":req.body.description,
 				"fees":req.body.fees,
 				"batches": req.body.batches,
-				"age.from": agedata.from,
-				"age.to": agedata.to	
+				"age": req.body.age
+				
 				
 			}
 		}, 
