@@ -150,8 +150,8 @@ exports.getactivitydetailsbyactivityid=(function(req,res){
 exports.saveactivitydetailsbyactivityid=(function(req,res){
 	console.log("in saveactivitydetailsbyactivityid-params: ");
 
-	console.log("activityID="+req.body.activityId+",description="+req.body.description+",fees="+req.body.fees+",age="+req.body.age+",batches="+req.body.batches);
-
+	//console.log("activityID="+req.body.activityId+",description="+req.body.description+",fees="+req.body.fees+",age="+req.body.age+",batches="+req.body.batches);
+	console.log(req.body);
 	
 	activities.update(
 		{
