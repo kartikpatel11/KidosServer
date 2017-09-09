@@ -8,7 +8,7 @@ var express = require('express')
   , user = require('./routes/user')
   , http = require('http')
   , path = require('path')
-  , mongoose = require('mongoose')
+  , mongoose = require('mongoose').set('debug', true);
   , bodyParser = require('body-parser');
 
 var app = express();
