@@ -77,6 +77,10 @@ app.get('/getcontactdetailsbyactivityid/:activityid',partnersapi.getcontactdetai
 app.post('/savecontactdetailsbyactivityid',partnersapi.savecontactdetailsbyactivityid);
 app.get('/getactivitydetailsbyactivityid/:activityid',partnersapi.getactivitydetailsbyactivityid);
 app.post('/saveactivitydetailsbyactivityid',partnersapi.saveactivitydetailsbyactivityid);
+app.get('/getactivitylocationbyactivityid/:activityid',partnersapi.getactivitylocationbyactivityid);
+app.post('/saveactivitylocationbyactivityid',partnersapi.saveactivitylocationbyactivityid);
+
+
 
 
 

@@ -191,3 +191,9 @@ exports.getactivitylocationbyactivityid=(function(req,res){
 		res.json(200,docs);
 	});
 });
+
+//saveactivitylocationbyactivityid
+exports.saveactivitylocationbyactivityid=(function(req,res){
+	console.log("in saveactivitylocationbyactivityid-params: ");
+});
+
