@@ -182,7 +182,12 @@ exports.saveactivitydetailsbyactivityid=(function(req,res){
 	    		res.status(500).send({msg: "Something went wrong. Try again."});
 	    	}
 		});
+});
 
-
-
+//getactivitylocationbyactivityid
+exports.getactivitylocationbyactivityid=(function(req,res){
+	console.log("in getactivitylocationbyactivityid-params: "+req.params.activityid);
+	activities.findOne({ activityId: req.params.activityid },'activityId loc', function (err, docs) {
+		res.json(200,docs);
+	});
 });
