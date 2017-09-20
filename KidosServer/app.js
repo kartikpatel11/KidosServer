@@ -71,14 +71,21 @@ app.get('/sign', webapi.sign);
 //used by kidospartners
 var partnersapi = require('./controllers/kidospartnersapi.js');
 app.get('/getactivitysummarybyuserid/:userid',partnersapi.getactivitysummarybyuserid);
+
 app.get('/getclassdetailsbyactivityid/:activityid',partnersapi.getclassdetailsbyactivityid);
 app.post('/saveclassdetailsbyactivityid',partnersapi.saveclassdetailsbyactivityid);
+
 app.get('/getcontactdetailsbyactivityid/:activityid',partnersapi.getcontactdetailsbyactivityid);
 app.post('/savecontactdetailsbyactivityid',partnersapi.savecontactdetailsbyactivityid);
+
 app.get('/getactivitydetailsbyactivityid/:activityid',partnersapi.getactivitydetailsbyactivityid);
 app.post('/saveactivitydetailsbyactivityid',partnersapi.saveactivitydetailsbyactivityid);
+
 app.get('/getactivitylocationbyactivityid/:activityid',partnersapi.getactivitylocationbyactivityid);
 app.post('/saveactivitylocationbyactivityid',partnersapi.saveactivitylocationbyactivityid);
+
+app.get('/getactivityimagesbyactivityid/:activityid',partnersapi.getactivityimagesbyactivityid);
+app.post('/saveactivityimagesbyactivityid',partnersapi.saveactivityimagesbyactivityid);
 
 
 

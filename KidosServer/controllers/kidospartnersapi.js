@@ -247,3 +247,20 @@ exports.saveactivitylocationbyactivityid=(function(req,res){
 		});	
 });
 
+
+//getactivityimagesbyactivityid
+exports.getactivityimagesbyactivityid=(function(req,res){
+	console.log("in getactivityimagesbyactivityid-params: "+req.params.activityid);
+	activities.findOne({ activityId: req.params.activityid },'activityId images', function (err, docs) {
+		res.json(200,docs);
+	});
+});
+
+//saveactivityimagesbyactivityid
+exports.saveactivityimagesbyactivityid=(function(req,res){
+	console.log("in saveactivityimagesbyactivityid-params: ");
+
+	//console.log("activityID="+req.body.activityId+",description="+req.body.description+",fees="+req.body.fees+",age="+req.body.age+",batches="+req.body.batches);
+	console.log(req.body);
+});
+
