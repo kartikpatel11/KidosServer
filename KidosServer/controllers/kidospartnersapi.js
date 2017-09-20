@@ -195,5 +195,17 @@ exports.getactivitylocationbyactivityid=(function(req,res){
 //saveactivitylocationbyactivityid
 exports.saveactivitylocationbyactivityid=(function(req,res){
 	console.log("in saveactivitylocationbyactivityid-params: ");
+	console.log(req.body);
+	activities.update(
+		{
+			activityId:req.body.activityId
+		}, 
+		{
+			$set:
+			{	
+				type: "Point",
+				coordinates: req.body.latlong
+			}
+		})	
 });
 
