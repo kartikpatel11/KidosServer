@@ -225,8 +225,10 @@ exports.saveactivitylocationbyactivityid=(function(req,res){
 		{
 			$set:
 			{	
-				type: "Point",
-				coordinates: req.body.coordinates
+				"loc": {
+						type: "Point",
+						coordinates: req.body.coordinates
+					}
 			}
 		})	
 });
