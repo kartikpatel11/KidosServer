@@ -187,9 +187,31 @@ exports.saveactivitydetailsbyactivityid=(function(req,res){
 //getactivitylocationbyactivityid
 exports.getactivitylocationbyactivityid=(function(req,res){
 	console.log("in getactivitylocationbyactivityid-params: "+req.params.activityid);
-	activities.findOne({ activityId: req.params.activityid },'activityId loc', function (err, docs) {
-		res.json(200,docs);
-	});
+
+
+	activities.aggregate(
+        	[
+        		{
+        			$match: 
+        			{ 
+        					activityId: parseInt(req.params.activityid) 
+        			}
+        		},
+        		{
+        			"$project": 
+        			{
+        				activityId:"$activityId",
+        				coordinates:"$loc.coordinates",
+        			}
+        		}
+        	],function (err, docs) {
+                res.json(200,docs[0]);
+        });
+
+
+	//activities.findOne({ activityId: req.params.activityid },'activityId loc', function (err, docs) {
+	//	res.json(200,docs);
+	//});
 });
 
 //saveactivitylocationbyactivityid
