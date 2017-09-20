@@ -230,6 +230,20 @@ exports.saveactivitylocationbyactivityid=(function(req,res){
 						coordinates: req.body.coordinates
 					}
 			}
-		})	
+		}, 
+	 
+		function(err, result) 
+		{
+			if (!err)
+			{
+				console.log(result);
+				res.status(201).send({msg:"Changes saved successfully"});
+			}
+			else // active activity
+	    	{
+	    		console.log( err);
+	    		res.status(500).send({msg: "Something went wrong. Try again."});
+	    	}
+		});	
 });
 
