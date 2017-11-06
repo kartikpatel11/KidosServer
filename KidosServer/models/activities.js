@@ -11,7 +11,7 @@ var activitiesSchema= new Schema({
 	OTP: {type:Number},
 	activityStatus: {type: Number, required:true},
 	images: [{
-		primaryimg: {type:String},
+		name: {type:String},
 		imgurl: {type:String}
 	}],
 	userid: {type: Number},
