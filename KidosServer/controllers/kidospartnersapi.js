@@ -273,7 +273,7 @@ exports.saveactivityimagesbyactivityid=(function(req,res){
 				"images": req.body.images
 
 			}
-			}
+			
 		}, 
 	 
 		function(err, result) 
