@@ -14,6 +14,43 @@ var user = require('../models/user.js');
 //var AWS_SECRET_KEY = '8m747gYj3he6BQJZT1mPXYPMKLgyrhQ3DYANfNzD';
 //var S3_BUCKET = 'kidosbucket';
 
+
+//registeruser
+exports.registeruser = (function(req,res){
+
+	console.log("in registeruser-params: "+req.body);
+	user.find({$or:[{mobile: req.body.mobile},{emailid:req.body.emailid}]}, function (err, docs) {
+
+		if(docs.length > 0)
+		{
+			console.log( docs);
+	    		res.status(500).send({msg: "Mobile or emailID is already registered."});
+	    	
+		}
+		else
+		{
+			var newuser = new user(req.body);
+			newuser.save(function (err, userdetail) {
+				if (err) 
+				{ 
+				   	console.log('Error inserting user: '+ err); 
+			    	res.status(500).send({msg: "Something went wrong. Try again."});
+			    }
+			    else
+			    {
+			    	console.log("user created successfully!!");
+			    	res.status(201).json(userdetail);
+			    }
+
+			});
+
+		}
+
+	});
+
+});
+
+
 //getactivitysummarybyuserid
 exports.getactivitysummarybyuserid=(function(req,res){
 	console.log("in getactivitysummarybyuserid-params: "+req.params.userid);

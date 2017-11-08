@@ -87,6 +87,7 @@ app.post('/saveactivitylocationbyactivityid',partnersapi.saveactivitylocationbya
 app.get('/getactivityimagesbyactivityid/:activityid',partnersapi.getactivityimagesbyactivityid);
 app.post('/saveactivityimagesbyactivityid',partnersapi.saveactivityimagesbyactivityid);
 
+app.post('/registeruser',partnersapi.registeruser);
 
 
 
