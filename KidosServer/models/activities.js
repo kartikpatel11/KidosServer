@@ -18,7 +18,7 @@ var activitiesSchema= new Schema({
 	rating: {type: Number},
 	loc: {
 		 "type": {"type": String},           
-	     "coordinates": {type: [Number], default: [0,0]}
+	     "coordinates": [Number]
 	},
 	//phone: [String],
 	contacts: 
@@ -69,6 +69,7 @@ activitiesSchema.pre('save', function(next) {
             return next(error);
         console.log("in pre save, counter is "+activitycounter.seq);
         doc.activityId = activitycounter.seq;
+        doc.loc = undefined;
         next();
     })
 });
