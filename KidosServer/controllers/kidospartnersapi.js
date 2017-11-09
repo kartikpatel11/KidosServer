@@ -69,41 +69,61 @@ exports.getclassdetailsbyactivityid=(function(req,res){
 
 //saveclassdetailsbyactivityid
 exports.saveclassdetailsbyactivityid=(function(req,res){
-	console.log("in saveclassdetailsbyactivityid-params: ");
+	console.log("in saveclassdetailsbyactivityid-params: " + req.body);
 
-	console.log("activityid="+req.body.activityId+",name="+req.body.name+",area="+req.body.area+",addressline1="+req.body.addressline1+",state="+req.body.state+",city="+req.body.city+",pincode="+req.body.pincode);
+	if(req.body.activityId!=null || req.body.activityId!='')
+	{
+	//console.log("activityid="+req.body.activityId+",name="+req.body.name+",area="+req.body.area+",addressline1="+req.body.addressline1+",state="+req.body.state+",city="+req.body.city+",pincode="+req.body.pincode);
 
-	activities.update(
-		{
-			activityId:req.body.activityId
-		}, 
-		{
-			$set:
+		activities.update(
 			{
-				name: req.body.name,
-				addressline1: req.body.addressline1,
-				area: req.body.area,
-				city: req.body.city,
-				state: req.body.state,
-				pincode: req.body.pincode
-
-			}
-		}, 
-	 
-		function(err, result) 
-		{
-			if (!err)
+				activityId:req.body.activityId
+			}, 
 			{
-				console.log(result);
-				res.status(201).send({msg:"Changes saved successfully"});
-			}
-			else // active activity
-	    	{
-	    		console.log( err);
-	    		res.status(500).send({msg: "Something went wrong. Try again."});
-	    	}
-		});
+				$set:
+				{
+					name: req.body.name,
+					addressline1: req.body.addressline1,
+					area: req.body.area,
+					city: req.body.city,
+					state: req.body.state,
+					pincode: req.body.pincode
 
+				}
+			}, 
+		 
+			function(err, result) 
+			{
+				if (!err)
+				{
+					console.log(result);
+					res.status(201).send({msg:"Changes saved successfully"});
+				}
+				else // active activity
+		    	{
+		    		console.log( err);
+		    		res.status(300).send({errmsg: "Something went wrong. Try again."});
+		    	}
+			});
+	}
+	else
+	{
+		var newactivity = new activities(req.body);
+
+		newactivity.save(function (err, userdetail) {
+				if (err) 
+				{ 
+				   	console.log('Error adding activity: '+ err); 
+			    	res.status(300).send({errmsg: "Something went wrong. Try again."});
+			    }
+			    else
+			    {
+			    	console.log("user created successfully!!");
+			    	res.status(201).send({msg:"Changes saved successfully"});
+			    }
+
+			});
+	}
 });
 
 
