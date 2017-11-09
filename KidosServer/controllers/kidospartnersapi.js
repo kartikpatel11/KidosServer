@@ -62,19 +62,20 @@ exports.getactivitysummarybyuserid=(function(req,res){
 //getclassdetailsbyactivityid
 exports.getclassdetailsbyactivityid=(function(req,res){
 	console.log("in getclassdetailsbyactivityid-params: "+req.params.activityid);
-	activities.findOne({ activityId: req.params.activityid },'activityId name addressline1 area city state pincode', function (err, docs) {
+	activities.findOne({ activityId: req.params.activityid },'activityId name addressline1 area city state pincode userid type', function (err, docs) {
 		res.json(200,docs);
 	});
 });
 
 //saveclassdetailsbyactivityid
 exports.saveclassdetailsbyactivityid=(function(req,res){
-	console.log("in saveclassdetailsbyactivityid-params: " + req.body);
+	console.log("in saveclassdetailsbyactivityid-params: " );
+console.log("activityid="+req.body.activityId+",name="+req.body.name+",area="+req.body.area+",addressline1="+req.body.addressline1+",state="+req.body.state+",city="+req.body.city+",pincode="+req.body.pincode);
 
-	if(req.body.activityId!=null || req.body.activityId!='')
+
+	if(req.body.activityId!=null || req.body.activityId!='' || req.body.activityId!=0.0 || req.body.activityId!='0.0')
 	{
-	//console.log("activityid="+req.body.activityId+",name="+req.body.name+",area="+req.body.area+",addressline1="+req.body.addressline1+",state="+req.body.state+",city="+req.body.city+",pincode="+req.body.pincode);
-
+	
 		activities.update(
 			{
 				activityId:req.body.activityId
@@ -118,8 +119,8 @@ exports.saveclassdetailsbyactivityid=(function(req,res){
 			    }
 			    else
 			    {
-			    	console.log("user created successfully!!");
-			    	res.status(201).send({msg:"Changes saved successfully"});
+			    	console.log("activity created successfully!!");
+			    	res.status(201).send({msg:"Changes saved successfully",activityId: newactivity.activityId});
 			    }
 
 			});
