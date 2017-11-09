@@ -24,7 +24,7 @@ exports.registeruser = (function(req,res){
 		if(docs.length > 0)
 		{
 			console.log( docs);
-	    		res.status(500).send({msg: "Mobile or emailID is already registered."});
+	    		res.status(300).send({errmsg: "Mobile or emailID is already registered."});
 	    	
 		}
 		else
@@ -34,7 +34,7 @@ exports.registeruser = (function(req,res){
 				if (err) 
 				{ 
 				   	console.log('Error inserting user: '+ err); 
-			    	res.status(500).send({msg: "Something went wrong. Try again."});
+			    	res.status(300).send({errmsg: "Something went wrong. Try again."});
 			    }
 			    else
 			    {
