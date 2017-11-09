@@ -73,7 +73,7 @@ exports.saveclassdetailsbyactivityid=(function(req,res){
 console.log("activityid="+req.body.activityId+",name="+req.body.name+",area="+req.body.area+",addressline1="+req.body.addressline1+",state="+req.body.state+",city="+req.body.city+",pincode="+req.body.pincode);
 
 
-	if(req.body.activityId!=null || req.body.activityId!='' || req.body.activityId!=0.0 || req.body.activityId!='0.0')
+	if(req.body.activityId!=null && req.body.activityId!='' && req.body.activityId!=0.0 && req.body.activityId!='0.0')
 	{
 	
 		activities.update(
