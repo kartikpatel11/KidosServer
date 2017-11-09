@@ -18,7 +18,7 @@ var activitiesSchema= new Schema({
 	rating: {type: Number},
 	loc: {
 		 "type": {"type": String},           
-	     "coordinates": [Number]
+	     "coordinates": {type: [Number], default: [0,0]}
 	},
 	//phone: [String],
 	contacts: 
