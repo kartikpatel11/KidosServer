@@ -88,6 +88,7 @@ app.get('/getactivityimagesbyactivityid/:activityid',partnersapi.getactivityimag
 app.post('/saveactivityimagesbyactivityid',partnersapi.saveactivityimagesbyactivityid);
 
 app.post('/registeruser',partnersapi.registeruser);
+app.post('/kidospartnerslogin',partnersapi.kidospartnerslogin);
 
 
 
