@@ -54,7 +54,7 @@ exports.registeruser = (function(req,res){
 //kidospartnerslogin
 exports.kidospartnerslogin=(function(req,res){
 	console.log("in kidospartnerslogin-params: mobile="+req.body.mobile+",pass="+req.body.pass);
-	user.find({ mobile:req.body.mobile, password:req.body.pass}).exec(function (err, docs) {
+	user.findOne({ mobile:req.body.mobile, password:req.body.pass}).exec(function (err, docs) {
 		 if(!err)
 		 {
 		 	console.log("in loginservice-params: query output"+JSON.stringify(docs));
