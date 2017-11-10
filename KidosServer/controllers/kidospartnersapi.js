@@ -58,7 +58,7 @@ exports.kidospartnerslogin=(function(req,res){
 		 if(!err)
 		 {
 		 	console.log("in loginservice-params: query output"+JSON.stringify(docs));
-		 	req.json(200,docs);
+		 	res.json(200,docs);
 		 }
 		 else
 		 {
