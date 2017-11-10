@@ -10,6 +10,7 @@ var userSchema = new Schema({
     firstname: String,
     lastname: String,
     emailid: String,
+    mobile: String,
     password: String,
     OTP: Number,
     nickname: String
