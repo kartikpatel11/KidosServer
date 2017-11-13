@@ -46,7 +46,10 @@ exports.registeruser = (function(req,res){
 			    else
 			    {
 			    	console.log("user created successfully!!");
+
 					res.status(201).json(userdetail);
+
+					sendmsg91sms(userdetail.mobile);
 			    	
 			    }
 
@@ -59,11 +62,12 @@ exports.registeruser = (function(req,res){
 });
 
 
-function sendmsg91sms() { 
+function sendmsg91sms(mobileNo) { 
  
-	var mobileNo = "9820742767";
+	//var mobileNo = "9820742767";
 
-	msg91.send(mobileNo, "MESSAGE", function(err, response){
+	var message = 'Thank you for listing your activity on KidosPartners-An app to find activity classes for kids. Please login to KidosPartners app and update your activity. /n Login:'+mobileNo+'/nPassword: kidos';
+	msg91.send(mobileNo, message, function(err, response){
     	console.log(err);
     	console.log(response);
 	});
@@ -78,7 +82,7 @@ exports.kidospartnerslogin=(function(req,res){
 		 if(!err)
 		 {
 		 	console.log("in loginservice-params: query output"+JSON.stringify(docs));
-		 	sendmsg91sms();
+		 	
 		 	res.json(200,docs);
 		 }
 		 else
