@@ -7,7 +7,7 @@ var twilio = require('twilio');
 var cat = require('../models/categorymaster.js');
 var activities = require('../models/activities.js');
 var user = require('../models/user.js');
-var http = require("http");
+var msg91http = require("http");
 
 
 
@@ -46,23 +46,24 @@ exports.registeruser = (function(req,res){
 			    else
 			    {
 			    	console.log("user created successfully!!");
-
+					res.status(201).json(userdetail);
+			    	
 			    	//send successful registration SMS
 
-			    	var req = http.request(options, function (res) {
+			    	var msg91req = msg91http.request(msg91options, function (msg91res) {
 					var chunks = [];
 
-					res.on("data", function (chunk) {
+					msg91res.on("data", function (chunk) {
 					    chunks.push(chunk);
 					  });
 
-					res.on("end", function () {
+					msg91res.on("end", function () {
 					    var body = Buffer.concat(chunks);
 					    console.log(body.toString());
 					  });
 					});
 
-					req.write(JSON.stringify({ sender: 'KIDOSP',
+					msg91req.write(JSON.stringify({ sender: 'KIDOSP',
 					  route: '4',
 					  country: '91',
 					  sms: 
@@ -72,9 +73,9 @@ exports.registeruser = (function(req,res){
 					   		}
 					   ] 
 					}));
-					req.end();
+					msg91req.end();
 
-			    	res.status(201).json(userdetail);
+			    	
 			    }
 
 			});
