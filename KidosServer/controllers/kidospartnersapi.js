@@ -7,13 +7,20 @@ var twilio = require('twilio');
 var cat = require('../models/categorymaster.js');
 var activities = require('../models/activities.js');
 var user = require('../models/user.js');
+var http = require("http");
 
 
-//AWS
-//var AWS_ACCESS_KEY = 'AKIAIU5OIVUAWPDG5LOA';
-//var AWS_SECRET_KEY = '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';
-//var S3_BUCKET = 'kidosbucket';
 
+var msg91options = {
+  "method": "POST",
+  "hostname": "api.msg91.com",
+  "port": null,
+  "path": "/api/v2/sendsms",
+  "headers": {
+    "content-type": "application/json",
+    "authkey": ""
+  }
+};
 
 //registeruser
 exports.registeruser = (function(req,res){
@@ -39,6 +46,34 @@ exports.registeruser = (function(req,res){
 			    else
 			    {
 			    	console.log("user created successfully!!");
+
+			    	//send successful registration SMS
+
+			    	var req = http.request(options, function (res) {
+					var chunks = [];
+
+					res.on("data", function (chunk) {
+					    chunks.push(chunk);
+					  });
+
+					res.on("end", function () {
+					    var body = Buffer.concat(chunks);
+					    console.log(body.toString());
+					  });
+					});
+
+					req.write(JSON.stringify({ sender: 'KIDOSP',
+					  route: '4',
+					  country: '91',
+					  sms: 
+					   [ 
+					   		{ 
+					   			message: 'Thank you for listing your activity on KidosPartners-An app to find activity classes for kids. Please login to KidosPartners app and update your activity. /n Login:'+newuser.mobile+'/nPassword: kidos', to: [ newuser.mobile ] 
+					   		}
+					   ] 
+					}));
+					req.end();
+
 			    	res.status(201).json(userdetail);
 			    }
 
