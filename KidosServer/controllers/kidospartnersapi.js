@@ -7,7 +7,7 @@ var twilio = require('twilio');
 var cat = require('../models/categorymaster.js');
 var activities = require('../models/activities.js');
 var user = require('../models/user.js');
-var msg91http = require("http");
+var msg91 = require("msg91")("183523AdC2LWvMW5a09d44b", "KIDOSP", "4" );
 
 
 
@@ -48,34 +48,6 @@ exports.registeruser = (function(req,res){
 			    	console.log("user created successfully!!");
 					res.status(201).json(userdetail);
 			    	
-			    	//send successful registration SMS
-
-			    	var msg91req = msg91http.request(msg91options, function (msg91res) {
-					var chunks = [];
-
-					msg91res.on("data", function (chunk) {
-					    chunks.push(chunk);
-					  });
-
-					msg91res.on("end", function () {
-					    var body = Buffer.concat(chunks);
-					    console.log(body.toString());
-					  });
-					});
-
-					msg91req.write(JSON.stringify({ sender: 'KIDOSP',
-					  route: '4',
-					  country: '91',
-					  sms: 
-					   [ 
-					   		{ 
-					   			message: 'Thank you for listing your activity on KidosPartners-An app to find activity classes for kids. Please login to KidosPartners app and update your activity. /n Login:'+newuser.mobile+'/nPassword: kidos', to: [ newuser.mobile ] 
-					   		}
-					   ] 
-					}));
-					msg91req.end();
-
-			    	
 			    }
 
 			});
@@ -87,6 +59,18 @@ exports.registeruser = (function(req,res){
 });
 
 
+function sendmsg91sms() { 
+ 
+	var mobileNo = "9820742767";
+
+	msg91.send(mobileNo, "MESSAGE", function(err, response){
+    	console.log(err);
+    	console.log(response);
+	});
+
+};
+
+
 //kidospartnerslogin
 exports.kidospartnerslogin=(function(req,res){
 	console.log("in kidospartnerslogin-params: mobile="+req.body.mobile+",pass="+req.body.pass);
@@ -94,6 +78,7 @@ exports.kidospartnerslogin=(function(req,res){
 		 if(!err)
 		 {
 		 	console.log("in loginservice-params: query output"+JSON.stringify(docs));
+		 	sendmsg91sms();
 		 	res.json(200,docs);
 		 }
 		 else
