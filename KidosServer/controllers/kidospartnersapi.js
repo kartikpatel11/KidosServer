@@ -105,7 +105,7 @@ exports.getactivitysummarybyuserid=(function(req,res){
 //getclassdetailsbyactivityid
 exports.getclassdetailsbyactivityid=(function(req,res){
 	console.log("in getclassdetailsbyactivityid-params: "+req.params.activityid);
-	activities.findOne({ activityId: req.params.activityid },'activityId name addressline1 area city state pincode userid type', function (err, docs) {
+	activities.findOne({ activityId: req.params.activityid },'activityId name addressline1 area city state pincode userid', function (err, docs) {
 		res.json(200,docs);
 	});
 });
