@@ -401,12 +401,21 @@ console.log("in forgotpassword-params: "+req.body.phnoemail);
 	activities.findOne({$or:[{mobile: req.body.phnoemail},{emailid:req.body.phnoemail}]}, function (err, docs) {
 		if (!err)
 			{
-				console.log(result);
+				console.log("no error:" +docs);
 
-				res.status(201).send({msg:"Changes saved successfully"});
+				if(docs.length > 0)
+				{
+					res.status(201).send({msg:"Account found"});
 
-				var message = "Your login password is "+docs.password;
-				sendmsg91sms(docs.mobile,message);
+					var message = "Your login password is "+docs.password;
+					sendmsg91sms(docs.mobile,message);
+				}
+				else
+				{
+					//account not found
+					console.log("No account found for phone or mobile no: "+req.body.phnoemail);
+					res.status(300);
+				}
 
 			}
 			else // active activity
