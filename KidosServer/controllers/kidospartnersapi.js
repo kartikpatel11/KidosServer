@@ -403,7 +403,7 @@ console.log("in forgotpassword-params: "+req.body.phnoemail+".");
 			{
 				console.log("no error:" +docs);
 
-				if(docs!=null && docs.length > 0)
+				if(docs!=null)
 				{
 					res.status(201).send({msg:"Account found"});
 
