@@ -37,6 +37,7 @@ exports.registeruser = (function(req,res){
 		else
 		{
 			var newuser = new user(req.body);
+
 			newuser.save(function (err, userdetail) {
 				if (err) 
 				{ 
@@ -46,10 +47,11 @@ exports.registeruser = (function(req,res){
 			    else
 			    {
 			    	console.log("user created successfully!!");
-
+			    	var message = 'Thank you for listing your activity on KidosPartners-An app to find activity classes for kids. Please login to KidosPartners app and update your activity. /n Login:'+userdetail.mobile+'/nPassword: kidos';
+	
 					res.status(201).json(userdetail);
 
-					sendmsg91sms(userdetail.mobile);
+					sendmsg91sms(userdetail.mobile,message);
 			    	
 			    }
 
@@ -62,11 +64,10 @@ exports.registeruser = (function(req,res){
 });
 
 
-function sendmsg91sms(mobileNo) { 
+function sendmsg91sms(mobileNo,message) { 
  
 	//var mobileNo = "9820742767";
 
-	var message = 'Thank you for listing your activity on KidosPartners-An app to find activity classes for kids. Please login to KidosPartners app and update your activity. /n Login:'+mobileNo+'/nPassword: kidos';
 	msg91.send(mobileNo, message, function(err, response){
     	console.log(err);
     	console.log(response);
@@ -390,5 +391,30 @@ exports.saveactivityimagesbyactivityid=(function(req,res){
 	    		res.status(500).send({msg: "Something went wrong. Try again."});
 	    	}
 		});
+});
+
+// forgotpassword
+exports.forgotpassword = (function(req, res){
+
+console.log("in forgotpassword-params: "+req.body.phnoemail);
+
+	activities.findOne({$or:[{mobile: req.body.phnoemail},{emailid:req.body.phnoemail}]}, function (err, docs) {
+		if (!err)
+			{
+				console.log(result);
+
+				res.status(201).send({msg:"Changes saved successfully"});
+
+				var message = "Your login password is "+docs.password;
+				sendmsg91sms(docs.mobile,message);
+
+			}
+			else // active activity
+	    	{
+	    		console.log( err);
+	    		res.status(500).send({msg: "Something went wrong. Try again."});
+	    	}
+	});
+
 });
 

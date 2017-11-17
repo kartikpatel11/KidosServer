@@ -89,6 +89,7 @@ app.post('/saveactivityimagesbyactivityid',partnersapi.saveactivityimagesbyactiv
 
 app.post('/registeruser',partnersapi.registeruser);
 app.post('/kidospartnerslogin',partnersapi.kidospartnerslogin);
+app.post('/forgotpassword',partnersapi.forgotpassword);
 
 
 
