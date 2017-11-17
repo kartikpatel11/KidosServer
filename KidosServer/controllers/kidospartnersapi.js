@@ -396,14 +396,14 @@ exports.saveactivityimagesbyactivityid=(function(req,res){
 // forgotpassword
 exports.forgotpassword = (function(req, res){
 
-console.log("in forgotpassword-params: "+req.body.phnoemail);
+console.log("in forgotpassword-params: "+req.body.phnoemail+".");
 
-	activities.findOne({$or:[{mobile: req.body.phnoemail},{emailid:req.body.phnoemail}]}, function (err, docs) {
+	user.findOne({$or:[{mobile: req.body.phnoemail},{emailid:req.body.phnoemail}]}, function (err, docs) {
 		if (!err)
 			{
 				console.log("no error:" +docs);
 
-				if(docs.length > 0)
+				if(docs!=null && docs.length > 0)
 				{
 					res.status(201).send({msg:"Account found"});
 
@@ -413,7 +413,7 @@ console.log("in forgotpassword-params: "+req.body.phnoemail);
 				else
 				{
 					//account not found
-					console.log("No account found for phone or mobile no: "+req.body.phnoemail);
+					console.log("No account found for phone or mobile no: "+req.body.phnoemail+'.');
 					res.status(300);
 				}
 
