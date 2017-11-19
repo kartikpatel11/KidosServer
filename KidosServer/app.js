@@ -90,6 +90,7 @@ app.post('/saveactivityimagesbyactivityid',partnersapi.saveactivityimagesbyactiv
 app.post('/registeruser',partnersapi.registeruser);
 app.post('/kidospartnerslogin',partnersapi.kidospartnerslogin);
 app.post('/forgotpassword',partnersapi.forgotpassword);
+app.post('/updateactivitystate',partnersapi.updateactivitystate);
 app.get('/checkactivitystatebeforepublish/:activityId',partnersapi.checkactivitystatebeforepublish);
 
 

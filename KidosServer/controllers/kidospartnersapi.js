@@ -442,4 +442,33 @@ exports.checkactivitystatebeforepublish = (function(req, res){
 
 });
 
+//updateactivitystate
+exports.updateactivitystate = (function(req,res){
+	console.log("in updateactivitystate-params: "+req.body);
+	activities.update(
+		{
+			activityId:req.body.activityId
+		}, 
+		{
+			$set:
+			{
+				"published": req.body.published
+			}
+		}, 
+	 
+		function(err, result) 
+		{
+			if (!err)
+			{
+				console.log(result);
+				res.status(201).send({msg:"Changes saved successfully"});
+			}
+			else // active activity
+	    	{
+	    		console.log( err);
+	    		res.status(500).send({msg: "Something went wrong. Try again."});
+	    	}
+		});
+});
+
 
