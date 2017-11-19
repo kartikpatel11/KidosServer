@@ -132,7 +132,8 @@ console.log("activityid="+req.body.activityId+",name="+req.body.name+",area="+re
 					area: req.body.area,
 					city: req.body.city,
 					state: req.body.state,
-					pincode: req.body.pincode
+					pincode: req.body.pincode,
+					
 
 				}
 			}, 
@@ -219,7 +220,8 @@ exports.savecontactdetailsbyactivityid=(function(req,res){
 				'contacts.mobno': req.body.mobno,
 				'contacts.twitter': req.body.twitter,
 				'contacts.facebook': req.body.facebook,
-				'contacts.website': req.body.website
+				'contacts.website': req.body.website,
+				contactdetails: true
 
 			}
 		}, 
@@ -266,7 +268,7 @@ exports.saveactivitydetailsbyactivityid=(function(req,res){
 				"fees":req.body.fees,
 				"batches": req.body.batches,
 				"age": req.body.age
-				
+				activitydetails: true
 				
 			}
 		}, 
@@ -330,7 +332,8 @@ exports.saveactivitylocationbyactivityid=(function(req,res){
 				"loc": {
 						type: "Point",
 						coordinates: req.body.coordinates
-					}
+					},
+				locationdetails: true
 			}
 		}, 
 	 
@@ -372,7 +375,8 @@ exports.saveactivityimagesbyactivityid=(function(req,res){
 		{
 			$set:
 			{	
-				"images": req.body.images
+				"images": req.body.images,
+				imagesdetails: true
 
 			}
 			
@@ -426,4 +430,16 @@ console.log("in forgotpassword-params: "+req.body.phnoemail+".");
 	});
 
 });
+
+// forgotpassword
+exports.checkactivitystatebeforepublish = (function(req, res){
+	console.log("in checkactivitystatebeforepublish-params: "+req.params.activityId);
+
+	activities.findOne({ activityId: req.params.activityId },'activityId contactdetails activitydetails locationdetails imagesdetails', function (err, docs) {
+		res.json(200,docs);
+	});
+
+
+});
+
 

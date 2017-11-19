@@ -40,6 +40,15 @@ var activitiesSchema= new Schema({
 	state: {type: String},
 	fees: {type: Number},
 	unit: {type: String},
+	
+	//state management starts
+	published: {type: Boolean, default: false},
+	//classdetails: {type: Boolean, default: false},
+	contactdetails: {type: Boolean, default: false},
+	activitydetails: {type: Boolean, default: false},
+	locationdetails: {type: Boolean, default: false},
+	imagesdetails: {type: Boolean, default: false},
+	//state management ends
 	age: {
 		from: {type: Number},
 		to: {type: Number}
