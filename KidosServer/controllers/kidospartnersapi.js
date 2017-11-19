@@ -267,7 +267,7 @@ exports.saveactivitydetailsbyactivityid=(function(req,res){
 				"description":req.body.description,
 				"fees":req.body.fees,
 				"batches": req.body.batches,
-				"age": req.body.age
+				"age": req.body.age,
 				activitydetails: true
 				
 			}
