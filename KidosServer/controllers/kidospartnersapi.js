@@ -428,19 +428,11 @@ console.log("in forgotpassword-params: "+req.body.phnoemail+".");
 					{
 						if (!err)
 						{
-							if(result!=null)
-							{	
-								console.log(result);
-								var message = "One Time Password to reset password for KidosPartners is "+result.OTP;
-								sendmsg91sms(result.mobile,message);
-								res.status(201).send({msg:"Account found"});
+							console.log(result);
+							var message = "One Time Password to reset password for KidosPartners is "+otpno;
+							sendmsg91sms(docs.mobile,message);
+							res.status(201).send({msg:"Account found"});
 
-							}
-							else
-							{
-								console.log("result="+result);
-								res.status(300).send()
-							}
 						}
 						else
 						{
