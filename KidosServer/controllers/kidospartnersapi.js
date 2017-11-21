@@ -9,6 +9,9 @@ var activities = require('../models/activities.js');
 var user = require('../models/user.js');
 var msg91 = require("msg91")("183523AdC2LWvMW5a09d44b", "KIDOSP", "4" );
 
+//random number
+var LOW_RANDOM_LIMIT=1001;
+var HIGH_RANDOM_LIMIT=9999;
 
 
 var msg91options = {
@@ -409,16 +412,53 @@ console.log("in forgotpassword-params: "+req.body.phnoemail+".");
 
 				if(docs!=null)
 				{
-					res.status(201).send({msg:"Account found"});
+					var otpno=randomIntInc(LOW_RANDOM_LIMIT,HIGH_RANDOM_LIMIT);
 
-					var message = "Your login password is "+docs.password;
-					sendmsg91sms(docs.mobile,message);
+					user.update(
+					{
+						userid:docs.userid
+					},
+					{
+						$set:
+						{
+							OTP: otpno
+						}
+					},
+					function(err, result) 
+					{
+						if (!err)
+						{
+							if(result!=null)
+							{	
+								console.log(result);
+								var message = "One Time Password to reset password for KidosPartners is "+result.OTP;
+								sendmsg91sms(result.mobile,message);
+								res.status(201).send({msg:"Account found"});
+
+							}
+							else
+							{
+								console.log("result="+result);
+								res.status(300).send()
+							}
+						}
+						else
+						{
+
+	    					console.log(err);
+	    					res.status(500).send({msg: "Something went wrong. Try again."});
+						}
+
+					});
+
+					
+					
 				}
 				else
 				{
 					//account not found
 					console.log("No account found for phone or mobile no: "+req.body.phnoemail+'.');
-					res.status(300);
+					res.status(300).send();
 				}
 
 			}
@@ -470,5 +510,12 @@ exports.updateactivitystate = (function(req,res){
 	    	}
 		});
 });
+
+
+
+//generate random number
+function randomIntInc (low, high) {
+    return Math.floor(Math.random() * (high - low + 1) + low);
+}
 
 
