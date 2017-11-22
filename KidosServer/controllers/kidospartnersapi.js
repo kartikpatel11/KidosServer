@@ -463,7 +463,54 @@ console.log("in forgotpassword-params: "+req.body.phnoemail+".");
 
 });
 
-// forgotpassword
+
+//resetkidospartnerspassword
+exports.resetkidospartnerspassword = (function(req,res){
+	console.log("in resetkidospartnerspassword-params: "+req.body);
+
+	user.update(
+		{
+			$or:
+			[
+				{
+					mobile: req.body.phNoEmail
+				},
+				{
+					emailid:req.body.phNoEmail
+				}
+			],
+			OTP: req.body.otp
+		}, 
+		{
+			$set:
+			{
+				"password": req.body.pass
+			}
+		},
+		function(err, result) 
+		{
+			if (!err)
+			{
+				console.log(result);
+				if(result.nModified == 1)
+				{
+					res.status(201).send({msg:"Changes saved successfully"});
+				}
+				else
+				{
+					res.status(300).send();
+				}
+			}
+			else // active activity
+	    	{
+	    		console.log( err);
+	    		res.status(500).send({msg: "Something went wrong. Try again."});
+	    	}
+		}); 
+
+});
+
+// checkactivitystatebeforepublish
 exports.checkactivitystatebeforepublish = (function(req, res){
 	console.log("in checkactivitystatebeforepublish-params: "+req.params.activityId);
 
