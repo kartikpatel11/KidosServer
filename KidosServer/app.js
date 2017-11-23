@@ -92,6 +92,8 @@ app.post('/kidospartnerslogin',partnersapi.kidospartnerslogin);
 app.post('/forgotpassword',partnersapi.forgotpassword);
 app.post('/updateactivitystate',partnersapi.updateactivitystate);
 app.post('/resetkidospartnerspassword',partnersapi.resetkidospartnerspassword);
+
+app.get('/listindiancities',partnersapi.listindiancities);
 app.get('/checkactivitystatebeforepublish/:activityId',partnersapi.checkactivitystatebeforepublish);
 
 

@@ -7,6 +7,7 @@ var twilio = require('twilio');
 var cat = require('../models/categorymaster.js');
 var activities = require('../models/activities.js');
 var user = require('../models/user.js');
+var indiancities = require('../models/indiancities.js');
 var msg91 = require("msg91")("183523AdC2LWvMW5a09d44b", "KIDOSP", "4" );
 
 //random number
@@ -550,7 +551,13 @@ exports.updateactivitystate = (function(req,res){
 		});
 });
 
-
+//listindiancities
+exports.listindiancities = (function(req,res) {
+	console.log("in listindiancities-params:");
+	indiancities.find(function (err, docs) {
+        res.send(docs);
+    });)
+});
 
 //generate random number
 function randomIntInc (low, high) {
