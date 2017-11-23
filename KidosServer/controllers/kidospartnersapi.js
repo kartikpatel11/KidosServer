@@ -556,7 +556,7 @@ exports.listindiancities = (function(req,res) {
 	console.log("in listindiancities-params:");
 	indiancities.find(function (err, docs) {
         res.send(docs);
-    });)
+    });
 });
 
 //generate random number
