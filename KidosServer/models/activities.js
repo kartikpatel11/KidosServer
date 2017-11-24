@@ -66,8 +66,8 @@ var activitiesSchema= new Schema({
 		catName: {type: String},
 		catImg: {type: String},
 		catbackground: {type:String}
-	}
-	});*/
+	}*/
+	});
 
 activitiesSchema.index({loc: '2dsphere' });
 
