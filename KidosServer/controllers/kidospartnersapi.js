@@ -102,7 +102,7 @@ exports.kidospartnerslogin=(function(req,res){
 //getactivitysummarybyuserid
 exports.getactivitysummarybyuserid=(function(req,res){
 	console.log("in getactivitysummarybyuserid-params: "+req.params.userid);
-	activities.find({ userid: req.params.userid },'activityId name area published contactdetails activitydetails locationdetails imagesdetails', function (err, docs) {
+	activities.find({ userid: req.params.userid },'activityId name area published contactdetails activitydetails locationdetails imagesdetails type.catImg', function (err, docs) {
 		res.json(200,docs);
 	});
 });
