@@ -13,7 +13,8 @@ var userSchema = new Schema({
     mobile: String,
     password: String,
     OTP: Number,
-    nickname: String
+    nickname: String,
+    salesid: String
 });
 
 userSchema.pre('save', function(next) {
