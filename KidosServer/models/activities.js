@@ -64,7 +64,8 @@ var activitiesSchema= new Schema({
 		_id: {type: String},
 		catId: {type: Number},
 		catName: {type: String},
-		catImg: {type: String}
+		catImg: {type: String},
+		catbackground: {type:String}
 	}
 	});
 
