@@ -59,15 +59,15 @@ var activitiesSchema= new Schema({
 			endtime: {type: String}
 	}],
 		
-	//type: { type: Schema.Types.String, ref: 'categorymaster'}
-	type: {
+	type: { type: Schema.Types.String, ref: 'categorymaster'}
+	/*type: {
 		_id: {type: String},
 		catId: {type: Number},
 		catName: {type: String},
 		catImg: {type: String},
 		catbackground: {type:String}
 	}
-	});
+	});*/
 
 activitiesSchema.index({loc: '2dsphere' });
 

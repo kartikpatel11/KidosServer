@@ -118,7 +118,7 @@ exports.getclassdetailsbyactivityid=(function(req,res){
 //saveclassdetailsbyactivityid
 exports.saveclassdetailsbyactivityid=(function(req,res){
 	console.log("in saveclassdetailsbyactivityid-params: " );
-console.log("activityid="+req.body.activityId+",name="+req.body.name+",area="+req.body.area+",addressline1="+req.body.addressline1+",state="+req.body.state+",city="+req.body.city+",pincode="+req.body.pincode);
+console.log("activityid="+req.body.activityId+",name="+req.body.name+",area="+req.body.area+",addressline1="+req.body.addressline1+",state="+req.body.state+",city="+req.body.city+",pincode="+req.body.pincode+",type="+req.body.type);
 
 
 	if(req.body.activityId!=null && req.body.activityId!='' && req.body.activityId!=0.0 && req.body.activityId!='0.0')
