@@ -575,6 +575,7 @@ exports.sign = (function(req,res) {
  	};
 
 	s3.headBucket(params, function(err, data) {
+		console.log("In the headBucket check: "+err+","+data);
    		if (err) console.log(err, err.stack); // an error occurred
    		else     console.log(data);           // successful response
  	});
