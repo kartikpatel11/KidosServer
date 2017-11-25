@@ -570,12 +570,14 @@ exports.sign = (function(req,res) {
 
     var s3 = new aws.S3();
 
-	s3.isBucketExist(bucketName,config,function(data){
-	 if(data.status==false){
-	  console.log("error in isBucketExist:"+data.error);
-	 }else{
-	  console.log("Bucket exist:"+data.isExist);
-	 }
+    var params = {
+  		Bucket: S3_BUCKET
+ 	};
+
+	s3.headBucket(params, function(err, data) {
+   		if (err) console.log(err, err.stack); // an error occurred
+   		else     console.log(data);           // successful response
+ 	});
 
 
     var options = {
