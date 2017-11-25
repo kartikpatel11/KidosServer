@@ -569,6 +569,15 @@ exports.sign = (function(req,res) {
 	aws.config.update({accessKeyId: AWS_ACCESS_KEY, secretAccessKey: AWS_SECRET_KEY});
 
     var s3 = new aws.S3();
+
+	s3.isBucketExist(bucketName,config,function(data){
+	 if(data.status==false){
+	  console.log("error in isBucketExist:"+data.error);
+	 }else{
+	  console.log("Bucket exist:"+data.isExist);
+	 }
+
+
     var options = {
       Bucket: S3_BUCKET,
       Key: req.query.file_name,
