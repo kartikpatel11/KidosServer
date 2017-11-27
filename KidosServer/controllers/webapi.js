@@ -563,7 +563,7 @@ exports.registeractivity = (function(req,res){
 		});
 	});
 
-exports.sign = (function(req,res) {
+/*exports.sign = (function(req,res) {
 	
 	
 	aws.config.update({accessKeyId: AWS_ACCESS_KEY, secretAccessKey: AWS_SECRET_KEY});
@@ -595,6 +595,63 @@ exports.sign = (function(req,res) {
         res.json({
           signed_request: data,
           url: 'https://s3-us-west-2.amazonaws.com/' + S3_BUCKET + '/' + req.query.file_name
+        })
+      })
+
+});*/
+
+
+exports.sign = (function(req,res) {
+
+
+        aws.config.update({accessKeyId: AWS_ACCESS_KEY, secretAccessKey: AWS_SECRET_KEY});
+
+    var bucketname = "kdpr"+req.query.activityId;
+
+    console.log("In sign method:"+ bucketname);
+    
+    var s3 = new aws.S3();
+
+    var params = {
+                Bucket: bucketname,
+                ACL: "public-read-write"
+        };
+
+        s3.headBucket(params, function(err, data) {
+                console.log("In the headBucket check: "+err+","+data);
+                if (!err) {
+                        console.log("Bucket already exist");
+                }
+                else
+                {
+                    console.log("Bucket does not exist, creating one");
+                    // successful response
+                    s3.createBucket(params, function(err, data) {
+                            if (err){
+                                     console.log("failed:"+err, err.stack); // an error occurred
+                            }
+                            else {
+                                 console.log("created:"+data);           // successful response
+                            }
+                    });
+                }
+        });
+
+
+    var options = {
+      Bucket: bucketname,
+      Key: req.query.file_name,
+      Expires: 60,
+      ContentType: req.query.file_type,
+      ACL: 'public-read'
+    }
+
+    s3.getSignedUrl('putObject', options, function(err, data){
+        if(err) return res.send('Error with S3')
+
+        res.json({
+          signed_request: data,
+          url: 'https://s3.amazonaws.com/' + bucketname +'/' + req.query.file_name
         })
       })
 
