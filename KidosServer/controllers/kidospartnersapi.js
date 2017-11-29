@@ -51,7 +51,7 @@ exports.registeruser = (function(req,res){
 			    else
 			    {
 			    	console.log("user created successfully!!");
-			    	var message = 'Thank you for listing your activity on KidosPartners-An app to find activity classes for kids. Please login to KidosPartners app and update your activity. /n Login:'+userdetail.mobile+'/nPassword: kidos';
+			    	var message = 'Thank you for listing your activity on KidosPartners-An app to find activity classes for kids. Please login to KidosPartners app and update your activity. /n Login:'+userdetail.mobile;
 	
 					res.status(201).json(userdetail);
 
