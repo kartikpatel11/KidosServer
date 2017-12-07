@@ -257,6 +257,7 @@ exports.findnearbyactivitiestype = (function(req,res) {
 	    coords[1] = parseFloat(req.params.latitude);
 
 	    activities.aggregate([
+	    	{ "$match": { published: true } },
 	    	{
 	    		$geoNear: 
 	        	{
@@ -265,7 +266,7 @@ exports.findnearbyactivitiestype = (function(req,res) {
 	    			distanceField: "distance",
 	    			spherical: true
 	        	},
-	        	published: true	
+	        		
 	    	},
         	{ 
         		$group: 
