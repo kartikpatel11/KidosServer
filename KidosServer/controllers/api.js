@@ -264,7 +264,8 @@ exports.findnearbyactivitiestype = (function(req,res) {
 	        		near:  coords,
 	    			distanceField: "distance",
 	    			spherical: true
-	        	}
+	        	},
+	        	published: true	
 	    	},
         	{ 
         		$group: 
