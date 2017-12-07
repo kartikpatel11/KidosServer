@@ -70,7 +70,8 @@ exports.findnearbyactivitiesbycategory = (function(req,res) {
 		        	{
 		        		$maxDistance: maxDistance,
 		        		$geometry: { type: 'Point', coordinates: coords }
-		        	}
+		        	},
+		        published: true	
 		      }
 		    }).limit(limit).select('activityId name images rating area').exec(function(err, activitydoc) {
 		      if (err) {
@@ -93,7 +94,8 @@ exports.findnearbyactivitiesbyareaandcategory = (function(req,res) {
 	    
 	     activities.find({
 		    	"type._id": input_id,
-		    	"area": areainp
+		    	"area": areainp,
+		    	"published": true
 		    }).limit(limit).select('activityId name images rating area').exec(function(err, activitydoc) {
 		      if (err) {
 		        return res.json(500, err);
@@ -119,7 +121,8 @@ exports.findnearbyactivities = (function(req,res) {
 	        		$maxDistance: maxDistance,
 	        		$geometry: { type: 'Point', coordinates: coords }
 	        	}
-	      }
+	      },
+	      published: true
 	    }).limit(limit).exec(function(err, activitydoc) {
 	      if (err) {
 	        return res.json(500, err);
@@ -137,6 +140,7 @@ exports.findnearbyactivitiesbyarea = (function(req,res) {
 	var areainp = req.params.area;
 	activities.find({
 	    area:areainp
+	    ,published: true
 	    }).limit(limit).exec(function(err, activitydoc) {
 	      if (err) {
 	        return res.json(500, err);
