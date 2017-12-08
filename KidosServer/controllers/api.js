@@ -65,14 +65,14 @@ exports.findnearbyactivitiesbycategory = (function(req,res) {
 	    
 	     activities.find({
 		    	"type._id": input_id,
+		    	"published": true ,
 		    	loc: {
 		    		$near: 
 		        	{
 		        		$maxDistance: maxDistance,
 		        		$geometry: { type: 'Point', coordinates: coords }
-		        	},
-		        published: true	
-		      }
+		        	}
+		       }
 		    }).limit(limit).select('activityId name images rating area').exec(function(err, activitydoc) {
 		      if (err) {
 		        return res.json(500, err);
@@ -115,14 +115,14 @@ exports.findnearbyactivities = (function(req,res) {
 	    coords[0] = req.params.longitude;
 	    coords[1] = req.params.latitude;
 	    activities.find({
+	    "published": true ,	
 	    loc: {
 	        $near: 
 	        	{
 	        		$maxDistance: maxDistance,
 	        		$geometry: { type: 'Point', coordinates: coords }
 	        	}
-	      },
-	      published: true
+	      }
 	    }).limit(limit).exec(function(err, activitydoc) {
 	      if (err) {
 	        return res.json(500, err);
