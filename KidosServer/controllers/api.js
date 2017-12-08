@@ -5,6 +5,7 @@ var mime=require('mime');
 var cat = require('../models/categorymaster.js');
 var activities = require('../models/activities.js');
 
+
 var maxDistance = 5000000;
 var limit = 100;
 
@@ -313,7 +314,10 @@ exports.findnearbyactivitiestypebyarea = (function(req,res) {
     var areainp=req.params.area;
    
     activities.aggregate([
-    	{ $match : { area : areainp } },
+    	{ $match : { 
+    		area : areainp,
+    		published: true } 
+    	},
     	{ 
     		$group: 
     		{
