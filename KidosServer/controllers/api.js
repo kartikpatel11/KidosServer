@@ -4,10 +4,23 @@ var fs = require('fs');
 var mime=require('mime');
 var cat = require('../models/categorymaster.js');
 var activities = require('../models/activities.js');
+var msg91 = require("msg91")("183523AdC2LWvMW5a09d44b", "KIDOSP", "4" );
 
 
 var maxDistance = 5000000;
 var limit = 100;
+
+
+var msg91options = {
+  "method": "POST",
+  "hostname": "api.msg91.com",
+  "port": null,
+  "path": "/api/v2/sendsms",
+  "headers": {
+    "content-type": "application/json",
+    "authkey": ""
+  }
+};
 
 //'/listcategories'
 exports.listCategories = (function(req, res) {
@@ -162,92 +175,79 @@ exports.getactivitydetails = (function(req,res) {
 });
 
 
-//'/findnearbyactivitiestype'
-/*
+exports.registerclient = (function(req,res){
 
-exports.findnearbyactivitiestype = (function(req,res) {
+	console.log("in registerclient-params: "+req.body);
+	req.body.usertype="C";
 	
-	cat.find(function (err, docs) {
-    
-	
-	
-	
-	 var limit = req.query.limit || 10;
-	    var maxDistance = req.query.distance || 15000;
+	user.find({$or:[{mobile: req.body.mobile},{emailid:req.body.emailid}]}, function (err, docs) {
 
-	   // maxDistance /= 6371;
-	    
-	    var coords = [];
-	    coords[0] = req.params.longitude;
-	    coords[1] = req.params.latitude;
+		if(docs.length > 0)
+		{
+			console.log( docs);
+	    		res.status(300).send({errmsg: "Mobile or emailID is already registered."});
+	    	
+		}
+		else
+		{
+			var newuser = new user(req.body);
 
-	    activities.find({
-	      loc: {
-	        $near: 
-	        	{
-	        		$maxDistance: maxDistance,
-	        		$geometry: { type: 'Point', coordinates: coords }
-	        	}
-	      }
-	    },{'_id': 0}).limit(limit).select('type').populate('type','_id').exec(function(err, activitydoc) {
-	      if (err) {
-	        return res.json(500, err);
-	      }
-
-	      	if(activitydoc!=null)
-	      	{
-	      		var answer = activitydoc.reduce(function (result, o) {
-	      		    if (!(o.type._id in result)) {
-	      		    	result.arr.push(result[o.type._id]= {
-	      		    		_id:o.type._id,
-	      		    		total : 1
-	      		    	})	
-	      		    ;
-	      		    } else {
-	      		    	result[o.type._id].total += 1;
-	      		    }
-	      		   return result;
-	      		  
-	      		}, { arr: [] }).arr;
-	      	
-	      		
-	      		var finalobj=[];
+			newuser.save(function (err, userdetail) {
+				if (err) 
+				{ 
+				   	console.log('Error inserting user: '+ err); 
+			    	res.status(300).send({errmsg: "Something went wrong. Try again."});
+			    }
+			    else
+			    {
+			    	console.log("user created successfully!!");
+			    	var message = 'Thank you for listing your activity on KidosPartners-An app to find activity classes for kids. Please login to KidosPartners app and update your activity. /n Login:'+userdetail.mobile;
 	
-	      		for (var _obj in docs)
-	      		{
-	      			var key=docs[_obj]._id;
-	      			var found=false;
-	      			for(var _obj2 in answer)
-	      		    {
-	      		    	if(answer[_obj2]._id.toString()===key.toString())
-	      		    	{
-	      		    		found=true;
-	      		    		finalobj.push({
-	      		      		    	
-	    	      		    		_id:docs[_obj]._id,
-	    	      		    		catId:docs[_obj].catId,
-	    	      		    		catName:docs[_obj].catName,
-	    	      		    		catImg:docs[_obj].catImg,
-	    	      		    		total : answer[_obj2].total
-	    	      		    	});	
-	      		    		break;
-	      		    	}
-	      		    }
-	      			
-	      		    if(found==false)
-	      		    {
-	      		    	finalobj[_obj]=docs[_obj];
-	      		    }
-	      		}
-	      		console.log(JSON.stringify(finalobj));
-	      		res.json(200, finalobj);
-	      	}
-	     });
-	 });
-		    
-	    
-	    
-}); */
+					res.status(201).json(userdetail);
+
+					sendmsg91sms(userdetail.mobile,message);
+			    	
+			    }
+
+			});
+
+		}
+
+	});
+
+});
+
+
+//kidoslogin
+exports.kidoslogin=(function(req,res){
+	console.log("in kidoslogin-params: mobile="+req.body.mobile+",pass="+req.body.pass);
+	user.findOne({ mobile:req.body.mobile, password:req.body.pass, usertype:"C"}).exec(function (err, docs) {
+		 if(!err)
+		 {
+		 	console.log("in loginservice-params: query output"+JSON.stringify(docs));
+		 	
+		 	res.json(200,docs);
+		 }
+		 else
+		 {
+		 	console.log("error="+err);
+		 }
+
+	});
+
+});
+
+
+function sendmsg91sms(mobileNo,message) { 
+ 
+	//var mobileNo = "9820742767";
+
+	msg91.send(mobileNo, message, function(err, response){
+    	console.log(err);
+    	console.log(response);
+	});
+
+};
 
 exports.findnearbyactivitiestype = (function(req,res) {
 	

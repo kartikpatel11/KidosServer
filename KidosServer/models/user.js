@@ -7,6 +7,7 @@ var usercounter = require('../models/usercounter.js');
 var userSchema = new Schema({
   //  thread: ObjectId,
     userid: Number,
+    usertype: String,
     firstname: String,
     lastname: String,
     emailid: String,

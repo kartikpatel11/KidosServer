@@ -30,6 +30,8 @@ var msg91options = {
 exports.registeruser = (function(req,res){
 
 	console.log("in registeruser-params: "+req.body);
+	req.body.usertype="P";
+
 	user.find({$or:[{mobile: req.body.mobile},{emailid:req.body.emailid}]}, function (err, docs) {
 
 		if(docs.length > 0)
@@ -83,7 +85,7 @@ function sendmsg91sms(mobileNo,message) {
 //kidospartnerslogin
 exports.kidospartnerslogin=(function(req,res){
 	console.log("in kidospartnerslogin-params: mobile="+req.body.mobile+",pass="+req.body.pass);
-	user.findOne({ mobile:req.body.mobile, password:req.body.pass}).exec(function (err, docs) {
+	user.findOne({ mobile:req.body.mobile, password:req.body.pass, usertype:"P"}).exec(function (err, docs) {
 		 if(!err)
 		 {
 		 	console.log("in loginservice-params: query output"+JSON.stringify(docs));
@@ -406,7 +408,11 @@ exports.forgotpassword = (function(req, res){
 
 console.log("in forgotpassword-params: "+req.body.phnoemail+".");
 
-	user.findOne({$or:[{mobile: req.body.phnoemail},{emailid:req.body.phnoemail}]}, function (err, docs) {
+	user.findOne({
+		$and:[
+			{usertype:"P"},
+			{$or:[{mobile: req.body.phnoemail},{emailid:req.body.phnoemail}]}
+			]}, function (err, docs) {
 		if (!err)
 			{
 				console.log("no error:" +docs);

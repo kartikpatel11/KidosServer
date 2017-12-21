@@ -52,6 +52,8 @@ app.get('/findnearbyactivitiestypebyarea/:area', api.findnearbyactivitiestypebya
 
 app.get('/getactivitydetails/:activityid', api.getactivitydetails);
 app.get('/getactivityareas',api.getactivityareas);
+app.get('/registerclient',api.registerclient);
+app.get('/kidoslogin',api.kidoslogin);
 
 app.get('/kidoswebgui/test', function(req,res){
 	res.send("hi, this is my first angularjs response");
